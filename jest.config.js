@@ -13,6 +13,9 @@ module.exports = {
                 "ts-jest": {
                     tsConfig: "tsconfig.jest.json"
                 }
+            },
+            moduleNameMapper: {
+                "^.+\\.(css|less|scss)$": "identity-obj-proxy"
             }
         },
         {

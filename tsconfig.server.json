@@ -5,7 +5,8 @@
         "noEmit": false,
         "allowJs": true,
         "esModuleInterop": true,
-        "baseUrl": "server"
+        "baseUrl": "server",
+        "downlevelIteration": true
     },
     "include": ["server"],
     "exclude": [

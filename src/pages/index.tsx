@@ -1,10 +1,15 @@
-import Counter from "@/components/Counter";
+import Head from "next/head";
+
+import Navbar from "@/components/Navbar";
 
 function IndexPage() {
     return (
         <div>
-            <h1>Holi!</h1>
-            <Counter/>
+            <Head>
+                <title>TypeScript Ecommerce - Home</title>
+            </Head>
+            
+            <Navbar/>
         </div>
     );
 }
