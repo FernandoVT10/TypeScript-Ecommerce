@@ -10,7 +10,7 @@ function Navbar() {
     const toggleButtonClass = isActive ? "fa-times" : "fa-bars";
 
     return (
-        <nav className={`${styles.navbar} ${navbarClass}`}>
+        <nav className={`${styles.navbar} ${navbarClass}`} data-testid="navbar">
             <div className={styles.leftContainer}>
                 <Link href="/">
                     <a className={styles.logo}>
@@ -59,8 +59,9 @@ function Navbar() {
                     
                     <li>
                         <a
-                        onClick={() => setIsActive(!isActive)}
-                        className={`${styles.item} ${styles.toggleButton} ${styles.active}`}>
+                        className={`${styles.item} ${styles.toggleButton} ${styles.active}`}
+                        data-testid="navbar-toggle-button"
+                        onClick={() => setIsActive(!isActive)}>
                             <i className={`fas ${toggleButtonClass}`} aria-hidden="true"></i>
                         </a>
                     </li>

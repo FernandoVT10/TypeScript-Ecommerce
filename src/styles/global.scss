@@ -2,8 +2,13 @@
 
 :root {
     --black: #191a1c;
+    --black-semiTransparent: rgb(25, 26, 28, .9);
     --light: #d2dbe2;
     --gray: rgba(210, 218, 226, .6);
+    --blue: #4BCFFA;
+    --green: #20DB77;
+
+    --background: #262A2B;
 }
 
 * {
@@ -15,4 +20,31 @@
 body {
     margin: 0;
     padding: 0;
+    background: var(--background);
+}
+
+.container {
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 25px;
+    color: var(--light);
+    font-weight: bold;
+}
+
+@media screen and (max-width: 1200px) {
+    .subtitle {
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .subtitle {
+        font-size: 18px;
+    }
 }

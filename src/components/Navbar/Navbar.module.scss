@@ -110,6 +110,7 @@
     }
 
     & .mobileMenu {
+        z-index: 1000;
         position: absolute;
         top: 70px;
         left: -100%;

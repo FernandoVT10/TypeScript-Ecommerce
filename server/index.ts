@@ -1,5 +1,12 @@
+import mongoose from "mongoose";
 import next from "next";
 import app from "./app";
+
+mongoose.connect("mongodb://localhost:27017/TypeScriptEcommerce", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
 
 const dev = process.env.NODE_ENV !== "production";
 const nextApp = next({ dev });

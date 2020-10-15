@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
     projects: [
         {
@@ -15,8 +17,10 @@ module.exports = {
                 }
             },
             moduleNameMapper: {
-                "^.+\\.(css|less|scss)$": "identity-obj-proxy"
-            }
+                "^.+\\.(css|less|scss)$": "identity-obj-proxy",
+                "^@/(.*)$": path.join(__dirname, "src/$1"),
+            },
+            setupFilesAfterEnv: ["./src/setupJest.ts"],
         },
         {
             roots: ["<rootDir>/server"],

@@ -1,0 +1,53 @@
+.container {
+    & .subtitle {
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    & .promoCardsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 40px;
+
+        & .promoCard {
+            width: 50%;
+            margin-top: 40px;
+
+            &:nth-child(1), &:nth-child(2) {
+                margin: 0;
+            }
+
+            &:nth-child(1n) {
+                padding-right: 10px;
+            }
+    
+            &:nth-child(2n) {
+                padding-left: 10px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        & .promoCardsContainer {
+            flex-direction: column;
+
+            & .promoCard {
+                width: 100%;
+                padding: 0;
+                margin-top: 40px;
+    
+                &:nth-child(1n), &:nth-child(2n) {
+                    padding: 0;
+                }
+    
+                &:nth-child(1) {
+                    margin: 0;
+                }
+
+                &:nth-child(2) {
+                    margin-top: 40px;
+                }
+            }
+        }
+    }
+}

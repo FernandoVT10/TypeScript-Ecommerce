@@ -1,0 +1,60 @@
+.promoCard {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background: var(--black);
+
+    & .imageContainer {
+        & img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+        }
+    }
+
+    & .detailsContainer {
+        padding-left: 20px;
+
+        & .title {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 25px;
+            font-weight: bold;
+            color: var(--light);
+        }
+
+        & .link {
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: .3s;
+
+            &:hover {
+                color: var(--light);
+            }
+
+            & i {
+                font-size: 16px;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+        & .imageContainer {
+            & img {
+                width: 100%;
+            }
+        }
+
+        & .detailsContainer {
+            padding: 0;
+            margin-top: 20px;
+        }
+    }
+}
