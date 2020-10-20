@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Utils Paginate should get 7 pages with the 'hasPrevPage' and 'hasNextPage' active 1`] = `
+Object {
+  "hasNextPage": true,
+  "hasPrevPage": true,
+  "nextPage": 73,
+  "pages": Array [
+    Object {
+      "active": false,
+      "pageNumber": 69,
+    },
+    Object {
+      "active": false,
+      "pageNumber": 70,
+    },
+    Object {
+      "active": false,
+      "pageNumber": 71,
+    },
+    Object {
+      "active": true,
+      "pageNumber": 72,
+    },
+    Object {
+      "active": false,
+      "pageNumber": 73,
+    },
+    Object {
+      "active": false,
+      "pageNumber": 74,
+    },
+    Object {
+      "active": false,
+      "pageNumber": 75,
+    },
+  ],
+  "prevPage": 71,
+}
+`;

@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { ICategory } from "./Category";
 
 export interface IProduct extends Document {
     title: string,
@@ -8,7 +9,8 @@ export interface IProduct extends Document {
     inStock: number,
     arrivesIn: string,
     warranty: string,
-    description: string
+    description: string,
+    categories: ICategory["_id"]
 }
 
 const productSchema = new Schema({
@@ -44,7 +46,11 @@ const productSchema = new Schema({
         type: String,
         maxlength: 1000,
         required: true
-    }
+    },
+    categories: [{
+        type: Schema.Types.ObjectId,
+        ref: "categories"
+    }]
 }, { timestamps: true });
 
 export default mongoose.model<IProduct>("products", productSchema);

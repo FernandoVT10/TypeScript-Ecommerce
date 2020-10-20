@@ -1,0 +1,144 @@
+.searchDetails {
+    padding: 20px;
+    background: var(--black);
+
+    & .search {
+        margin: 0;
+        font-size: 25px;
+        color: var(--light);
+    }
+
+    & .searchInput {
+        display: none;
+        margin-bottom: 10px;
+    }
+
+    & .results {
+        margin: 0;
+        font-size: 14px;
+        color: var(--light);
+    }
+
+    & .filterButton {
+        display: none;
+        float: right;
+        color: var(--light);
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: .3s;
+
+        & i {
+            margin-left: 5px;
+        }
+
+        &:hover {
+            color: var(--blue);
+        }
+    }
+
+    & .filter {
+        & .filterBy {
+            display: none;
+            color: var(--light);
+            font-size: 18px;
+            margin: 0;
+        }
+
+        & .closeFilter {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--light);
+            font-size: 20px;
+            text-decoration: none;
+            transition: .3s;
+
+            &:hover {
+                color: var(--blue);
+            }
+        }
+
+        & .categories {
+            margin-top: 20px;
+    
+            & .title {
+                margin: 0;
+                font-weight: bold;
+                font-size: 18px;
+                color: var(--light);
+            }
+
+            & .notFound {
+                color: var(--light);
+                font-size: 14px;
+            }
+    
+            & .category {
+                display: block;
+                text-decoration: none;
+                margin: 0;
+                margin-top: 10px;
+                font-size: 14px;
+                color: var(--light);
+                transition: .3s;
+    
+                &:hover,
+                &.active {
+                    color: var(--blue);
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        & .search {
+            display: none;
+        }
+
+        & .results {
+            display: inline-block;
+        }
+
+        & .filterButton {
+            display: inline-block;
+        }
+
+        & .filter {
+            z-index: 10;
+            position: fixed;
+            opacity: 0;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 20px;
+            background: var(--black);
+            overflow: auto;
+            transition: .5s;
+
+            &.active {
+                opacity: 1;
+                top: 0;
+            }
+
+            & .filterBy,
+            & .closeFilter {
+                display: block;
+            }
+
+            & .categories {
+                margin-top: 40px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        & .searchInput {
+            display: block;
+        }
+    }
+}

@@ -1,3 +1,5 @@
+import { InferGetServerSidePropsType } from "next";
+
 import Head from "next/head";
 
 import ApiController from "@/services/ApiController";
@@ -7,29 +9,6 @@ import { CarouselProps } from "@/domain/Home/Carousel";
 import { PromoCardProps } from "@/domain/Home/PromoCard";
 
 import { ProductCardProps } from "@/components/ProductCard";
-
-interface IndexProps {
-    carouselData: CarouselProps[],
-    promotions: PromoCardProps[],
-    recentProducts: ProductCardProps[],
-    discountProducts: ProductCardProps[]
-}
-
-function IndexPage({ carouselData, promotions, recentProducts, discountProducts }: IndexProps) {
-    return (
-        <div>
-            <Head>
-                <title>TypeScript Ecommerce - Home</title>
-            </Head>
-            
-            <Home
-            carouselData={carouselData}
-            promotions={promotions}
-            recentProducts={recentProducts}
-            discountProducts={discountProducts}/>
-        </div>
-    );
-}
 
 export async function getServerSideProps() {
     try {
@@ -67,6 +46,27 @@ export async function getServerSideProps() {
             }
         }
     }
+}
+
+function IndexPage({
+    carouselData,
+    promotions,
+    recentProducts,
+    discountProducts
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    return (
+        <div>
+            <Head>
+                <title>TypeScript Ecommerce - Home</title>
+            </Head>
+            
+            <Home
+            carouselData={carouselData}
+            promotions={promotions}
+            recentProducts={recentProducts}
+            discountProducts={discountProducts}/>
+        </div>
+    );
 }
 
 export default IndexPage;

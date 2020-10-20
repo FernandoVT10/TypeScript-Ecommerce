@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 import Link from "next/link";
 
 import styles from "./Navbar.module.scss";
 
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
+
+    const router = useRouter();
+
+    const toggleNavbar = () => {
+        if(!isActive) {
+            window.scroll(0, 0);
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        setIsActive(!isActive);
+    }
 
     const navbarClass = isActive ? styles.navbarActive : "";
     const toggleButtonClass = isActive ? "fa-times" : "fa-bars";
@@ -19,12 +34,13 @@ function Navbar() {
                     </a>
                 </Link>
 
-                <div className={styles.searchProduct}>
+                <div className={`${styles.searchProduct} search-input`}>
                     <form action="/products/">
                         <input
                         type="search"
                         name="search"
                         placeholder="Search a product"
+                        defaultValue={router.query.search}
                         autoComplete="search"/>
 
                         <button type="submit">
@@ -61,7 +77,7 @@ function Navbar() {
                         <a
                         className={`${styles.item} ${styles.toggleButton} ${styles.active}`}
                         data-testid="navbar-toggle-button"
-                        onClick={() => setIsActive(!isActive)}>
+                        onClick={toggleNavbar}>
                             <i className={`fas ${toggleButtonClass}`} aria-hidden="true"></i>
                         </a>
                     </li>
@@ -73,12 +89,13 @@ function Navbar() {
             <div className={styles.mobileMenu}>
                 <ul className={styles.items}>
                     <li>
-                        <div className={styles.searchProduct}>
+                        <div className={`${styles.searchProduct} search-input`}>
                             <form action="/products/">
                                 <input
                                 type="search"
                                 name="search"
                                 placeholder="Search a product"
+                                defaultValue={router.query.search}
                                 autoComplete="search"/>
 
                                 <button type="submit">
