@@ -8,24 +8,28 @@ export interface CarouselProps {
     link: string
 }
 
-function Carousel({ carouselData }: { carouselData: CarouselProps[] }) {
+function Carousel({ carouselItems }: { carouselItems: CarouselProps[] }) {
     const [itemActive, setItemActive] = useState(0);
     const carouselDirection = useRef("left");
 
-    const handleControl = (num: number) => {
-        if(itemActive + num < 0) {
-            setItemActive(carouselData.length - 1);
-        } else if(itemActive + num > carouselData.length - 1) {
-            setItemActive(0);
+    const handleLeftControl = () => {
+        if(itemActive > 0) {
+            setItemActive(itemActive - 1);
         } else {
-            setItemActive(itemActive + num);
+            setItemActive(carouselItems.length - 1);
         }
 
-        if(num > 0) {
-            carouselDirection.current = "right";
+        carouselDirection.current = "left";
+    }
+
+    const handleRightControl = () => {
+        if(itemActive === carouselItems.length - 1) {
+            setItemActive(0);
         } else {
-            carouselDirection.current = "left";
+            setItemActive(itemActive + 1);
         }
+
+        carouselDirection.current = "right";
     }
 
     const handleIndicator = itemIndex => {
@@ -38,10 +42,14 @@ function Carousel({ carouselData }: { carouselData: CarouselProps[] }) {
         setItemActive(itemIndex);
     }
 
+    if(!carouselItems.length) {
+        return null;
+    }
+
     return (
         <div className={styles.carousel}>
             <div className={styles.items}>
-                {carouselData.map((item, index) => {
+                {carouselItems.map((item, index) => {
                     const itemClass = itemActive === index ? styles.active : "";
                     const itemDirection = carouselDirection.current === "left" ? "" : styles.right;
 
@@ -63,18 +71,18 @@ function Carousel({ carouselData }: { carouselData: CarouselProps[] }) {
             <button
             className={styles.control}
             data-testid="carousel-button"
-            onClick={() => handleControl(-1)}>
+            onClick={handleLeftControl}>
                 <i className="fas fa-chevron-left" aria-hidden="true"></i>
             </button>
             <button
             className={`${styles.control} ${styles.rightControl}`}
             data-testid="carousel-button"
-            onClick={() => handleControl(1)}>
+            onClick={handleRightControl}>
                 <i className="fas fa-chevron-right" aria-hidden="true"></i>
             </button>
 
             <div className={styles.indicators}>
-                {carouselData.map((_, index) => {
+                {carouselItems.map((_, index) => {
                     const indicatorClass = itemActive === index ? styles.active : "";
 
                     return (

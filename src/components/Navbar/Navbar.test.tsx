@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useRouter } from "next/router";
 import { mocked } from "ts-jest/utils";
 
 import { render, fireEvent } from "@testing-library/react";
@@ -11,7 +10,6 @@ window.scroll = jest.fn();
 
 describe("Navbar Component", () => {
     const mockedWindowScroll = mocked(window.scroll);
-    const mockedUseRouter = mocked(useRouter);
 
     beforeEach(() => {
         mockedWindowScroll.mockReset();
@@ -22,11 +20,11 @@ describe("Navbar Component", () => {
     });
 
     it("should set the defaultValue in search inputs", async () => {
-        const testRouter = useRouter();
-        
-        testRouter.query.search = "test search";
-
-        mockedUseRouter.mockImplementation(() => testRouter);
+        changeRouterProperties({
+            query: {
+                search: "test search"
+            }
+        });
 
         const { queryAllByDisplayValue } = render(<Navbar/>);
 
@@ -57,7 +55,7 @@ describe("Navbar Component", () => {
         expect(mockedWindowScroll).toHaveBeenCalledWith(0, 0);
     });
 
-    it("should change the body overflow style when activate or desactivate the navbar", async () => {
+    it("should add hidden style to body overflow when we activate the navbar", async () => {
         const { findByTestId } = render(<Navbar/>);
 
         const toggleButton = await findByTestId("navbar-toggle-button");
@@ -65,13 +63,16 @@ describe("Navbar Component", () => {
         fireEvent.click(toggleButton);
 
         expect(document.body.style.overflow).toBe("hidden");
+    });
 
+    it("should add auto style to body overflow when we activate the navbar", async () => {
+        const { findByTestId } = render(<Navbar/>);
+
+        const toggleButton = await findByTestId("navbar-toggle-button");
+
+        fireEvent.click(toggleButton);
         fireEvent.click(toggleButton);
 
         expect(document.body.style.overflow).toBe("auto");
-
-        fireEvent.click(toggleButton);
-
-        expect(document.body.style.overflow).toBe("hidden");
     });
 });

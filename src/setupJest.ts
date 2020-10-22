@@ -1,5 +1,8 @@
 import fetchMock from "jest-fetch-mock";
 
+import { useRouter } from "next/router";
+import { mocked } from "ts-jest/utils";
+
 import "@testing-library/jest-dom";
 
 jest.mock("next/router", () => ({
@@ -11,4 +14,16 @@ jest.mock("next/router", () => ({
     })
 }));
 
+const mockedUseRouter = mocked(useRouter);
+
+function changeRouterProperties(options = {}) {
+    const testRouter = useRouter();
+
+    Object.assign(testRouter, options);
+    
+    mockedUseRouter.mockImplementation(() => testRouter);
+}
+
 fetchMock.enableMocks();
+
+global.changeRouterProperties = changeRouterProperties;

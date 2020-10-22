@@ -5,7 +5,7 @@ import { render } from "@testing-library/react";
 import Home from "./Home";
 
 const HOME_PROPS_MOCK = {
-    carouselData: [
+    carouselItems: [
         {
             _id: "test-id",
             image: "carousel-test-1.jpg",

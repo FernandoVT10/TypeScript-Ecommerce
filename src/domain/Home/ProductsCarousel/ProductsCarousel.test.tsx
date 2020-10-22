@@ -23,6 +23,8 @@ const PRODUCTS_MOCK = [
     }
 ];
 
+jest.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockImplementation(() => 1920);
+
 describe("Domain Home Products Carousel", () => {
     it("should render correctly", () => {
         const { getAllByText } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
@@ -31,8 +33,6 @@ describe("Domain Home Products Carousel", () => {
     });
 
     it("should activate the right control", async () => {
-        jest.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockImplementation(() => 1920);
-
         const { findByTestId } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
 
         const leftControl = await findByTestId("products-carousel-left-control");
@@ -42,7 +42,7 @@ describe("Domain Home Products Carousel", () => {
         expect(rightControl.classList.contains("inactive")).toBeFalsy();
     });
 
-    it("should scroll the products container with the carousel buttons", async () => {
+    it("should scroll to left", async () => {
         const scrollMock = jest.fn();
 
         const { findByTestId } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
@@ -50,15 +50,7 @@ describe("Domain Home Products Carousel", () => {
         const productsContainer = await findByTestId("products-carousel-products-container");
         productsContainer.scroll = scrollMock;
 
-        const rightControl = await findByTestId("products-carousel-right-control");
         const leftControl = await findByTestId("products-carousel-left-control");
-
-        fireEvent.click(rightControl);
-
-        expect(scrollMock).toHaveBeenCalledWith({
-            left: 1220,
-            behavior: "smooth"
-        });
 
         fireEvent.click(leftControl);
 
@@ -68,23 +60,51 @@ describe("Domain Home Products Carousel", () => {
         });
     });
 
-    it("should activate and desactivate the carousel buttons", async () => {
+    it("should scroll to right", async () => {
+        const scrollMock = jest.fn();
+
+        const { findByTestId } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
+
+        const productsContainer = await findByTestId("products-carousel-products-container");
+        productsContainer.scroll = scrollMock;
+
+        const rightControl = await findByTestId("products-carousel-right-control");
+
+        fireEvent.click(rightControl);
+
+        expect(scrollMock).toHaveBeenCalledWith({
+            left: 1220,
+            behavior: "smooth"
+        });
+    });
+
+    it("should add inactive class to left button and delete the class in right button", async () => {
         const { findByTestId } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
 
         const productsContainer = await findByTestId("products-carousel-products-container");
         productsContainer.scroll = () => {};
 
-        const rightControl = await findByTestId("products-carousel-right-control");
         const leftControl = await findByTestId("products-carousel-left-control");
-
-        fireEvent.click(rightControl);
-
-        expect(leftControl.classList.contains("inactive")).toBeFalsy();
-        expect(rightControl.classList.contains("inactive")).toBeTruthy();
+        const rightControl = await findByTestId("products-carousel-right-control");
 
         fireEvent.click(leftControl);
 
         expect(leftControl.classList.contains("inactive")).toBeTruthy();
         expect(rightControl.classList.contains("inactive")).toBeFalsy();
+    });
+
+    it("should add inactive class to right button and delete the class in left button", async () => {
+        const { findByTestId } = render(<ProductsCarousel products={PRODUCTS_MOCK}/>);
+
+        const productsContainer = await findByTestId("products-carousel-products-container");
+        productsContainer.scroll = () => {};
+
+        const leftControl = await findByTestId("products-carousel-left-control");
+        const rightControl = await findByTestId("products-carousel-right-control");
+
+        fireEvent.click(rightControl);
+
+        expect(leftControl.classList.contains("inactive")).toBeFalsy();
+        expect(rightControl.classList.contains("inactive")).toBeTruthy();
     });
 });

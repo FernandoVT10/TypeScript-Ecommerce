@@ -66,7 +66,7 @@ function Navbar() {
 
                     <li>
                         <Link href="/cart/">
-                            <a className={`${styles.item} ${styles.shoppingCart} ${styles.active}`}>
+                            <a className={`${styles.item} ${styles.shoppingCart}`}>
                                 <i className="fas fa-shopping-cart" aria-hidden="true"></i>
                                 <span>9</span>
                             </a>
@@ -75,7 +75,7 @@ function Navbar() {
                     
                     <li>
                         <a
-                        className={`${styles.item} ${styles.toggleButton} ${styles.active}`}
+                        className={`${styles.item} ${styles.toggleButton}`}
                         data-testid="navbar-toggle-button"
                         onClick={toggleNavbar}>
                             <i className={`fas ${toggleButtonClass}`} aria-hidden="true"></i>

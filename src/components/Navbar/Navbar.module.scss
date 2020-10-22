@@ -127,10 +127,10 @@
             & .items {
                 & .item {
                     display: none;
-    
-                    &.active {
-                        display: inline-block;
-                    }
+                }
+
+                & .shoppingCart {
+                    display: block;
                 }
 
                 & .toggleButton {

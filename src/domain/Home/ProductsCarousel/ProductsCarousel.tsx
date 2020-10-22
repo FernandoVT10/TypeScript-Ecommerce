@@ -4,6 +4,8 @@ import ProductCard, { ProductCardProps } from "@/components/ProductCard";
 
 import styles from "./ProductsCarousel.module.scss";
 
+const SCROLL_WIDTH = 1220;
+
 function ProductsCarousel({ products }: { products: ProductCardProps[] }) {
     const [leftControlIsActive, setLeftControlIsActive] = useState(false);
     const [rightControlIsActive, setRightControlIsActive] = useState(false);
@@ -11,36 +13,58 @@ function ProductsCarousel({ products }: { products: ProductCardProps[] }) {
 
     useEffect(() => {
         if(productsContainer.current) {
-            if(productsContainer.current.scrollWidth > 1200) {
+            if(productsContainer.current.scrollWidth > SCROLL_WIDTH) {
                 setRightControlIsActive(true);
             }
         }
     }, [productsContainer]);
 
-    const handleCarouselScroll = (direction: number) => {
+    const scrollToLeft = () => {
         const container = productsContainer.current;
-        const scrollPosition = container.scrollLeft + 1220 * direction;
+        const currentScrollPosition = container.scrollLeft - SCROLL_WIDTH;
 
-        if(scrollPosition > 0) {
+        if(currentScrollPosition > 0) {
             setLeftControlIsActive(true);
         } else {
             setLeftControlIsActive(false);
         }
 
-        if(scrollPosition + 1200 < container.scrollWidth) {
+        setRightControlIsActive(true);
+
+        container.scroll({
+            left: currentScrollPosition,
+            behavior: "smooth"
+        });
+    }
+
+    const scrollToRight = () => {
+        const container = productsContainer.current;
+        const currentScrollPosition = container.scrollLeft + SCROLL_WIDTH;
+
+        if(currentScrollPosition + SCROLL_WIDTH < container.scrollWidth) {
             setRightControlIsActive(true);
         } else {
             setRightControlIsActive(false);
         }
 
+        setLeftControlIsActive(true);
+
         container.scroll({
-            left: scrollPosition,
+            left: currentScrollPosition,
             behavior: "smooth"
         });
     }
 
     const leftControlClass = leftControlIsActive ? "" : styles.inactive;
     const rightControlClass = rightControlIsActive ? "" : styles.inactive;
+
+    if(!products.length) {
+        return (
+            <div className={styles.notFound}>
+                <h3>Products not available</h3>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.productsCarousel}>
@@ -60,14 +84,14 @@ function ProductsCarousel({ products }: { products: ProductCardProps[] }) {
             <button
             className={`${styles.control} ${leftControlClass}`}
             data-testid="products-carousel-left-control"
-            onClick={() => handleCarouselScroll(-1)}>
+            onClick={scrollToLeft}>
                 <i className="fas fa-chevron-left" aria-hidden="true"></i>
             </button>
 
             <button
             className={`${styles.control} ${styles.rightControl} ${rightControlClass}`}
             data-testid="products-carousel-right-control"
-            onClick={() => handleCarouselScroll(1)}>
+            onClick={scrollToRight}>
                 <i className="fas fa-chevron-right" aria-hidden="true"></i>
             </button>
         </div>

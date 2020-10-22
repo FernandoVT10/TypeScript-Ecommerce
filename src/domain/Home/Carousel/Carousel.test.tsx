@@ -24,7 +24,7 @@ const CAROUSEL_DATA_MOCK = [
 
 describe("Domain Home Carousel", () => {
     it("should render correctly", async () => {
-        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselData={CAROUSEL_DATA_MOCK}/>);
+        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselItems={CAROUSEL_DATA_MOCK}/>);
 
         const images = await findAllByAltText("Carousel Image");
         const indicators = await findAllByTestId("carousel-indicator");
@@ -34,8 +34,21 @@ describe("Domain Home Carousel", () => {
         expect(indicators.length).toBe(3);
     });
 
-    it("should change the active image and direction with the carousel controls", async () => {
-        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselData={CAROUSEL_DATA_MOCK}/>);
+    it("should activate the third image and set the carousel direction in left", async () => {
+        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselItems={CAROUSEL_DATA_MOCK}/>);
+
+        const images = await findAllByAltText("Carousel Image");
+        const controls = await findAllByTestId("carousel-button");
+
+        fireEvent.click(controls[0]);
+
+        expect(images[0].classList.contains("active")).toBeFalsy();
+        expect(images[2].classList.contains("active")).toBeTruthy();
+        expect(images[2].classList.contains("right")).toBeFalsy();
+    });
+
+    it("should activate the second image and set the carousel direction in right", async () => {
+        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselItems={CAROUSEL_DATA_MOCK}/>);
 
         const images = await findAllByAltText("Carousel Image");
         const controls = await findAllByTestId("carousel-button");
@@ -45,16 +58,10 @@ describe("Domain Home Carousel", () => {
         expect(images[0].classList.contains("active")).toBeFalsy();
         expect(images[1].classList.contains("active")).toBeTruthy();
         expect(images[1].classList.contains("right")).toBeTruthy();
-
-        fireEvent.click(controls[0]);
-
-        expect(images[1].classList.contains("active")).toBeFalsy();
-        expect(images[0].classList.contains("active")).toBeTruthy();
-        expect(images[0].classList.contains("right")).toBeFalsy();
     });
 
     it("should change the active image and direction with the carousel indicators", async () => {
-        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselData={CAROUSEL_DATA_MOCK}/>);
+        const { findAllByTestId, findAllByAltText } = render(<Carousel carouselItems={CAROUSEL_DATA_MOCK}/>);
 
         const images = await findAllByAltText("Carousel Image");
         const indicators = await findAllByTestId("carousel-indicator");

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import numberWithSpaces from "@/services/numberWithSpaces";
+import AddSpacesToNumber from "@/services/AddSpacesToNumber";
 
 import styles from "./ProductCard.module.scss";
 
@@ -46,7 +46,7 @@ function ProductCard({ product }: { product: ProductCardProps }) {
                             { product.title.slice(0, 12) }
                         </span>
                         <span className={styles.price}>
-                            $ { numberWithSpaces(product.price) }
+                            $ { AddSpacesToNumber(product.price) }
                         </span>
                     </div>
                 </a>
