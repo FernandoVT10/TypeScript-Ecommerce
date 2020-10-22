@@ -2,56 +2,51 @@ import { Router } from "express";
 import Category from "../models/Category";
 
 import Product from "../models/Product";
-import paginate, { IPagination } from "../utils/paginate";
+
+const PAGINATE_CUSTOM_LABELS = {
+    totalDocs: "totalProducts",
+    docs: "products"
+}
+
+const PRODUCTS_PER_PAGE = 6;
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-    const { search, category } = req.query;
-    const discountsOnly = req.query.discountsOnly || "false";
-    const limit = req.query.limit ? parseInt(req.query.limit.toString()) || 6 : 6;
-    const page = req.query.page ? parseInt(req.query.page.toString()) || 1 : 1;
+    const { search, category, discountsOnly } = req.query;
 
-    const offset = limit * (page - 1);
+    const limit = parseInt(req.query.limit as string) || PRODUCTS_PER_PAGE;
+    const page = parseInt(req.query.page as string) || 1;
 
     try {
-        const find: object = {};
-        let sort:object = { createdAt: "desc" };
+        const query = {};
+        const options = {
+            page,
+            limit,
+            sort: { createdAt: "desc" },
+            customLabels: PAGINATE_CUSTOM_LABELS
+        };
 
         if(search) {
-            Object.assign(find, { title: { $regex: `.*(?i)${search}.*` } });
+            Object.assign(query, { title: { $regex: `.*(?i)${search}.*` } });
         }
 
         if(category) {
             const categoryDocument = await Category.find({ name: category.toString() });
 
-            Object.assign(find, { categories: { $in: categoryDocument } });
+            Object.assign(query, { categories: { $in: categoryDocument } });
         }
 
         if(discountsOnly === "true") {
-            sort = { discount: "desc" }
-            
-            Object.assign(find, { discount: { $gt: 0 } });
+            Object.assign(options, { sort: { discount: "desc" } });
+            Object.assign(query, { discount: { $gt: 0 } });
         }
 
-        const products = await Product.find(find)
-            .sort(sort)
-            .skip(offset)
-            .limit(limit);
+        const products = await Product.paginate(query, options);
 
-        const totalResults = await Product.find(find)
-            .sort(sort)
-            .countDocuments();
-
-        const totalPages = Math.ceil(totalResults / limit);
-
-        const pagination: IPagination = paginate(totalPages, page);
-
-        res.json({ data: { products, totalResults, pagination } });
+        res.json({ data: products });
     } catch {
-        res.json({
-            data: { products: [] }
-        });
+        res.json({ data: { products: [] } });
     }
 });
 

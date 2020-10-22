@@ -2,7 +2,6 @@ import app from "../../app";
 import supertest from "supertest";
 import Product, { IProduct } from "../../models/Product";
 import Category from "../../models/Category";
-import { IPagination } from "../../utils/paginate";
 
 const request = supertest(app);
 
@@ -74,18 +73,7 @@ describe("Products API", () => {
     });
 
     describe("GET", () => {
-        it("should get the pagination correctly", async () => {
-            const res = await request.get("/api/products?limit=1");
-
-            const pagination: IPagination = res.body.data.pagination;
-
-            expect(pagination.pages.length).toBe(4);
-            expect(pagination.hasNextPage).toBe(true);
-            expect(pagination.nextPage).toBe(2);
-            expect(pagination.hasPrevPage).toBe(false);
-        });
-
-        it("should get 3 product only", async () => {
+        it("should get 3 products only", async () => {
             const res = await request.get("/api/products?limit=3");
 
             const products: IProduct[] = res.body.data.products;

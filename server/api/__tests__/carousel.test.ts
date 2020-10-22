@@ -24,7 +24,7 @@ describe("Carousel API", () => {
 
     describe("GET", () => {
         it("should get all carousel items", async () => {
-            const res = await request.get("/api/carousel");
+            const res = await request.get("/api/carousel/getAllItems");
 
             const carouselItems: ICarousel[] = res.body.data.carousel;
 

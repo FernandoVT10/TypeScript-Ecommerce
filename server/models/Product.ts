@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 import { ICategory } from "./Category";
 
 export interface IProduct extends Document {
@@ -11,6 +12,10 @@ export interface IProduct extends Document {
     warranty: string,
     description: string,
     categories: ICategory["_id"]
+}
+
+interface IProductModel extends Model<IProduct> {
+    paginate(query?: object, options?: object): Promise<any>;
 }
 
 const productSchema = new Schema({
@@ -53,4 +58,6 @@ const productSchema = new Schema({
     }]
 }, { timestamps: true });
 
-export default mongoose.model<IProduct>("products", productSchema);
+productSchema.plugin(mongoosePaginate);
+
+export default mongoose.model<IProduct, IProductModel>("products", productSchema);
