@@ -1,4 +1,4 @@
-export type { Category } from "./Products";
+export type { ProductsProps } from "./Products";
 
 import Products from "./Products";
 

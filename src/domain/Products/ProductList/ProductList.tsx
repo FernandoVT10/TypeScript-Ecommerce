@@ -5,12 +5,13 @@ import Pagination, { PaginationProps } from "@/components/Pagination";
 
 import styles from "./ProductList.module.scss";
 
-interface ProductListProps {
-    products: ProductCardProps[],
-    pagination: PaginationProps
+export interface ProductListProps extends PaginationProps {
+    products: ProductCardProps[]
 }
 
-function ProductList({ products, pagination }: ProductListProps) {
+function ProductList({ productsResponse }: { productsResponse: ProductListProps }) {
+    const { products } = productsResponse;
+
     if(!products.length) {
         return (
             <h3 className={styles.notFound}>Results not found</h3>
@@ -29,7 +30,7 @@ function ProductList({ products, pagination }: ProductListProps) {
                 })}
             </div>
 
-            <Pagination pagination={pagination}/>
+            <Pagination pagination={productsResponse}/>
         </div>
     );
 }

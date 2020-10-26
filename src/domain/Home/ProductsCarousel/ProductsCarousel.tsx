@@ -6,7 +6,11 @@ import styles from "./ProductsCarousel.module.scss";
 
 const SCROLL_WIDTH = 1220;
 
-function ProductsCarousel({ products }: { products: ProductCardProps[] }) {
+export interface ProductsCarouselProps {
+    products: ProductCardProps[]
+}
+
+function ProductsCarousel({ products }: ProductsCarouselProps) {
     const [leftControlIsActive, setLeftControlIsActive] = useState(false);
     const [rightControlIsActive, setRightControlIsActive] = useState(false);
     const productsContainer = useRef<HTMLDivElement>(null);

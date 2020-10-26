@@ -2,22 +2,20 @@ import React from "react";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { PaginationProps } from "@/components/Pagination";
-import { ProductCardProps } from "@/components/ProductCard";
 
-import ProductList from "./ProductList";
-import SearchDetails, { Category } from "./SearchDetails";
+import ProductList, { ProductListProps } from "./ProductList";
+import SearchDetails, { SearchDetailsProps } from "./SearchDetails";
 
 import styles from "./Products.module.scss";
 
-interface ProductsProps {
-    products: ProductCardProps[],
-    totalResults: number,
-    pagination: PaginationProps,
-    categories: Category[]
+export interface ProductsProps {
+    productsResponse: ProductListProps & {
+        totalProducts: SearchDetailsProps["totalProducts"]
+    },
+    categories: SearchDetailsProps["categories"]
 }
 
-function Products({ products, totalResults, pagination, categories }: ProductsProps) {
+function Products({ productsResponse, categories }: ProductsProps) {
     return (
         <div>
             <Navbar/>
@@ -25,11 +23,13 @@ function Products({ products, totalResults, pagination, categories }: ProductsPr
             <div className="wrapper">
                 <div className={`container ${styles.container}`}>
                     <div className={styles.searchDetailsContainer}>
-                        <SearchDetails totalResults={totalResults} categories={categories}/>
+                        <SearchDetails
+                        totalProducts={productsResponse.totalProducts}
+                        categories={categories}/>
                     </div>
 
                     <div className={styles.productsWrapper}>
-                        <ProductList products={products} pagination={pagination}/>
+                        <ProductList productsResponse={productsResponse}/>
                     </div>
                 </div>
             </div>

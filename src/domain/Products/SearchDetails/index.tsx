@@ -1,4 +1,4 @@
-export type { Category } from "./SearchDetails";
+export type { SearchDetailsProps } from "./SearchDetails";
 
 import SearchDetails from "./SearchDetails";
 

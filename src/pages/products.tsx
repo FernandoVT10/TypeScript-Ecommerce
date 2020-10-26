@@ -4,41 +4,43 @@ import Head from "next/head";
 
 import ApiController from "@/services/ApiController";
 
-import { ProductCardProps } from "@/components/ProductCard";
-import { PaginationProps } from "@/components/Pagination";
-
-import Products from "@/domain/Products";
-import { Category } from "@/domain/Products/SearchDetails";
+import Products, { ProductsProps } from "@/domain/Products";
 
 export async function getServerSideProps(context: GetServerSidePropsContext)  {
-    const search = context.query.search ? context.query.search.toString() : "";
-    const category = context.query.category ? context.query.category.toString() : "";
-    const page = context.query.page ? context.query.page.toString() : "";
+    const search = context.query.search || "";
+    const category = context.query.category || "";
+    const page = context.query.page || "";
 
     try {
-        const productsResponse = await ApiController.get<{
-            products: ProductCardProps[],
-            totalResults: number,
-            pagination: PaginationProps
-        }>(`products?search=${search}&category=${category}&page=${page}`);
+        const productsResponse = await ApiController.get<
+            ProductsProps["productsResponse"]
+        >(`products?search=${search}&category=${category}&page=${page}`);
 
         const categoriesResponse = await ApiController.get<{
-            categories: Category[]
+            categories: ProductsProps["categories"]
         }>("categories");
 
         return {
             props: {
-                products: productsResponse.data.products,
-                totalResults: productsResponse.data.totalResults,
-                pagination: productsResponse.data.pagination,
+                productsResponse: productsResponse.data,
                 categories: categoriesResponse.data.categories
             }
         }
     } catch {
+        const productsResponse: ProductsProps["productsResponse"] = {
+            hasPrevPage: false,
+            prevPage: null,
+            hasNextPage: false,
+            nextPage: null,
+            page: 0,
+            totalPages: 0,
+            totalProducts: 0,
+            products: []
+        }
+        
         return {
             props: {
-                products: [],
-                totalResults: 0,
+                productsResponse,
                 categories: []
             }
         }
@@ -46,9 +48,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
 }
 
 function ProductsPage({
-    products,
-    totalResults,
-    pagination,
+    productsResponse,
     categories
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
@@ -58,9 +58,7 @@ function ProductsPage({
             </Head>
 
             <Products
-            products={products}
-            totalResults={totalResults}
-            pagination={pagination}
+            productsResponse={productsResponse}
             categories={categories}/>
         </div>
     );

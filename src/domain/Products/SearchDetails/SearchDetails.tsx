@@ -1,22 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/router";
 
 import styles from "./SearchDetails.module.scss";
 
-export interface Category {
-    _id: string,
-    name: string
+export interface SearchDetailsProps {
+    totalProducts: number,
+    categories: {
+        _id: string,
+        name: string
+    }[]
 }
 
-interface SearchDetailsProps {
-    totalResults: number,
-    categories: Category[]
-}
-
-function SearchDetails({ totalResults, categories }: SearchDetailsProps) {
+function SearchDetails({ totalProducts, categories }: SearchDetailsProps) {
     const [filterIsActive, setFilterIsActive] = useState(false);
     const router = useRouter();
 
@@ -62,9 +59,9 @@ function SearchDetails({ totalResults, categories }: SearchDetailsProps) {
             </div>
 
             <p className={styles.results}>
-                {totalResults > 1
-                ? `${totalResults} products`
-                : `${totalResults} product`}
+                {totalProducts > 1
+                ? `${totalProducts} products`
+                : `${totalProducts} product`}
             </p>
 
             <a

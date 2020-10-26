@@ -1,13 +1,12 @@
 import React from "react";
 
-import { useRouter } from "next/router";
-import { mocked } from "ts-jest/utils";
-
 import { render, fireEvent } from "@testing-library/react";
 
-import SearchDetails, { Category } from "./SearchDetails";
+import SearchDetails from "./SearchDetails";
 
-const CATEGORIES_MOCK: Category[] = [
+jest.mock("next/link", () => ({ children }) => children);
+
+const CATEGORIES_MOCK = [
     {
         _id: "test-category-1",
         name: "Gamer"
@@ -19,19 +18,13 @@ const CATEGORIES_MOCK: Category[] = [
 ];
 
 describe("Domain Products Search Details", () => {
-    const mockedUseRouter = mocked(useRouter);
-
-    beforeEach(() => {
-        mockedUseRouter.mockClear();
-    });
-
     it("should render correctly", () => {
-        const testRouter = useRouter();
-        testRouter.query.search = "Smartphones";
-        mockedUseRouter.mockImplementation(() => testRouter);
+        changeRouterProperties({
+            query: { search: "Smartphones" }
+        });
 
         const { queryByText, queryByDisplayValue } = render(
-            <SearchDetails totalResults={10} categories={CATEGORIES_MOCK}/>
+            <SearchDetails totalProducts={10} categories={CATEGORIES_MOCK}/>
         );
 
         expect(queryByDisplayValue("Smartphones")).toBeInTheDocument();
@@ -41,23 +34,45 @@ describe("Domain Products Search Details", () => {
         expect(queryByText("Accesories")).toBeInTheDocument();
     });
 
-    it("should render no categories available", () => {
-        const { queryByText } = render(<SearchDetails totalResults={10} categories={[]}/>);
+    it("should render 'No categories available'", () => {
+        const { queryByText } = render(<SearchDetails totalProducts={10} categories={[]}/>);
 
-        expect(queryByText("No categories available")).toBeInTheDocument()
+        expect(queryByText("No categories available")).toBeInTheDocument();
     });
 
-    it("should change the body overflow when we activate or desactivate the filter", async () => {
+    it("should add hidden style to body overflow when we activate the filter", async () => {
         const { findByText } = render(
-            <SearchDetails totalResults={10} categories={CATEGORIES_MOCK}/>
+            <SearchDetails totalProducts={10} categories={CATEGORIES_MOCK}/>
         );
 
         const toggleButton = await findByText("Filter");
 
         fireEvent.click(toggleButton);
         expect(document.body.style.overflow).toBe("hidden");
+    });
+
+    it("should add auto style to body overflow when we activate the filter", async () => {
+        const { findByText } = render(
+            <SearchDetails totalProducts={10} categories={CATEGORIES_MOCK}/>
+        );
+
+        const toggleButton = await findByText("Filter");
 
         fireEvent.click(toggleButton);
+        fireEvent.click(toggleButton);
+
+        expect(document.body.style.overflow).toBe("auto");
+    });
+
+    it("should add auto style to body overflow when we click on a category", async () => {
+        const { findByText } = render(
+            <SearchDetails totalProducts={10} categories={CATEGORIES_MOCK}/>
+        );
+
+        const category = await findByText("Gamer");
+
+        fireEvent.click(category);
+
         expect(document.body.style.overflow).toBe("auto");
     });
 });

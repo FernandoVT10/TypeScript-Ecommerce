@@ -2,53 +2,38 @@ import React from "react";
 
 import { render } from "@testing-library/react";
 
-import { PaginationProps } from "@/components/Pagination";
-import { ProductCardProps } from "@/components/ProductCard";
-
-import { Category } from "./SearchDetails";
-
 import Products from "./Products";
 
-const PRODUCTS_MOCK: ProductCardProps[] = [
-    {
-        _id: "test-id",
-        images: ["test-2.jpg"],
-        title: "test title 1",
-        price: 10,
-        discount: 0,
-        description: "test description"
-    }
-];
-
-const PAGINATION_MOCK: PaginationProps = {
-    hasPrevPage: false,
-    prevPage: null,
+const PRODUCTS_PROPS_MOCK = {
+    products: [
+        {
+            _id: "test-id",
+            images: ["test-2.jpg"],
+            title: "test title 1",
+            price: 10,
+            discount: 0,
+            description: "test description"
+        }
+    ],
+    totalProducts: 100,
+    totalPages: 10,
+    hasPrevPage: true,
+    prevPage: 3,
     hasNextPage: false,
     nextPage: null,
-    pages: [
-        {
-            active: true,
-            pageNumber: 5
-        }
-    ]
+    page: 5
 }
 
-const CATEGORIES_MOCK: Category[] = [
+const CATEGORIES_MOCK = [
     {
-        _id: "test-category-1",
-        name: "Gamer"
+	_id: "test-category-1",
+	name: "Gamer"
     }
-];
+]; 
 
 describe("Domain Products", () => {
     it("should render correctly", () => {
-        const { queryByText } = render(
-            <Products
-            products={PRODUCTS_MOCK}
-            totalResults={100}
-            pagination={PAGINATION_MOCK}
-            categories={CATEGORIES_MOCK}/>
-        );
+        const { queryByText } = render(<Products productsResponse={PRODUCTS_PROPS_MOCK} categories={CATEGORIES_MOCK}/>);
 
         expect(queryByText("test description")).toBeInTheDocument();
 

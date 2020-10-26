@@ -1,3 +1,11 @@
+.notFound {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 20px;
+    color: var(--blue);
+}
+
 .productsCarousel {
     position: relative;
 

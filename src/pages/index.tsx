@@ -4,33 +4,29 @@ import Head from "next/head";
 
 import ApiController from "@/services/ApiController";
 
-import Home from "@/domain/Home";
-import { CarouselProps } from "@/domain/Home/Carousel";
-import { PromoCardProps } from "@/domain/Home/PromoCard";
-
-import { ProductCardProps } from "@/components/ProductCard";
+import Home, { HomeProps } from "@/domain/Home";
 
 export async function getServerSideProps() {
     try {
         const carouselResponse = await ApiController.get<{
-            carousel: CarouselProps[]
-        }>("carousel");
+            carousel: HomeProps["carouselItems"]
+        }>("carousel/getAllItems");
 
         const promotionsResponse = await ApiController.get<{
-            promotions: PromoCardProps[]
+            promotions: HomeProps["promotions"]
         }>("promotions");
 
         const recentProductsResponse = await ApiController.get<{
-            products: ProductCardProps[]
+            products: HomeProps["recentProducts"]
         }>("products?limit=10");
 
         const discountProductsResponse = await ApiController.get<{
-            products: ProductCardProps[]
+            products: HomeProps["discountProducts"]
         }>("products?discountsOnly=true&limit=10");
     
         return {
             props: {
-                carouselData: carouselResponse.data.carousel,
+                carouselItems: carouselResponse.data.carousel,
                 promotions: promotionsResponse.data.promotions,
                 recentProducts: recentProductsResponse.data.products,
                 discountProducts: discountProductsResponse.data.products
@@ -39,7 +35,7 @@ export async function getServerSideProps() {
     } catch {
         return {
             props: {
-                carouselData: [],
+                carouselItems: [],
                 promotions: [],
                 recentProducts: [],
                 discountProducts: []
@@ -49,7 +45,7 @@ export async function getServerSideProps() {
 }
 
 function IndexPage({
-    carouselData,
+    carouselItems,
     promotions,
     recentProducts,
     discountProducts
@@ -61,7 +57,7 @@ function IndexPage({
             </Head>
             
             <Home
-            carouselData={carouselData}
+            carouselItems={carouselItems}
             promotions={promotions}
             recentProducts={recentProducts}
             discountProducts={discountProducts}/>

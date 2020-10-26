@@ -2,19 +2,18 @@ import React from "react";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ProductCardProps } from "@/components/ProductCard";
 
 import Carousel, { CarouselProps } from "./Carousel";
-import ProductsCarousel from "./ProductsCarousel";
+import ProductsCarousel, { ProductsCarouselProps } from "./ProductsCarousel";
 import PromoCard, { PromoCardProps } from "./PromoCard";
 
 import styles from "./Home.module.scss";
 
-interface HomeProps {
+export interface HomeProps {
     carouselItems: CarouselProps[],
     promotions: PromoCardProps[],
-    recentProducts: ProductCardProps[],
-    discountProducts: ProductCardProps[]
+    recentProducts: ProductsCarouselProps["products"],
+    discountProducts: ProductsCarouselProps["products"]
 }
 
 function Home({ carouselItems, promotions, recentProducts, discountProducts }: HomeProps) {

@@ -1,43 +1,21 @@
 import React from "react";
 
-import { useRouter } from "next/router";
-import { mocked } from "ts-jest/utils";
-
 import { fireEvent, render } from "@testing-library/react";
 
-import Pagination, { PaginationProps } from "./Pagination";
+import Pagination from "./Pagination";
 
-const PAGINATION_MOCK: PaginationProps = {
+const PAGINATION_MOCK = {
+    totalPages: 10,
     hasPrevPage: true,
     prevPage: 3,
     hasNextPage: false,
     nextPage: null,
-    pages: [
-        {
-            active: false,
-            pageNumber: 3
-        },
-        {
-            active: false,
-            pageNumber: 4
-        },
-        {
-            active: true,
-            pageNumber: 5
-        }
-    ]
+    page: 5
 }
 
 describe("Pagination Component", () => {
-    const mockedUseRouter = mocked(useRouter);
-
-    beforeEach(() => {
-        mockedUseRouter.mockClear();
-    });
-
     it("should render correclty", async () => {
         const { queryByText, findAllByTestId } = render(<Pagination pagination={PAGINATION_MOCK}/>);
-
         expect(queryByText("3")).toBeInTheDocument();
         expect(queryByText("4")).toBeInTheDocument();
         expect(queryByText("5")).toBeInTheDocument();
@@ -48,33 +26,37 @@ describe("Pagination Component", () => {
         expect(buttons[1].disabled).toBeTruthy();
     });
 
-    it("should call router.push when we clicked on the page number or navigation button", async () => {
+    it("should call router.push when we clicked on the page number", async () => {
         const routerPushMock = jest.fn();
 
-        const testRouter = useRouter();
-        testRouter.push = routerPushMock;
-        mockedUseRouter.mockImplementation(() => testRouter);
+        changeRouterProperties({ push: routerPushMock, pathname: "/" });
 
-        const { findByText, findAllByTestId } = render(<Pagination pagination={PAGINATION_MOCK}/>);
+        const { findByText } = render(<Pagination pagination={PAGINATION_MOCK}/>);
 
         const number3 = await findByText("5");
 
         fireEvent.click(number3);
 
         expect(routerPushMock).toHaveBeenCalledWith({
-            pathname: testRouter.pathname,
+            pathname: "/",
             query: { page: "5" }
         });
+    });
+
+    it("should call router.push when we clicked on the navigation button", async () => {
+        const routerPushMock = jest.fn();
+
+        changeRouterProperties({ push: routerPushMock, pathname: "/" });
+
+        const { findAllByTestId } = render(<Pagination pagination={PAGINATION_MOCK}/>);
 
         const buttons = await findAllByTestId("pagination-button") as HTMLButtonElement[];
 
         fireEvent.click(buttons[0]);
 
         expect(routerPushMock).toHaveBeenCalledWith({
-            pathname: testRouter.pathname,
+            pathname: "/",
             query: { page: "3" }
         });
-
-        expect(routerPushMock).toHaveBeenCalledTimes(2);
     });
 });
