@@ -1,0 +1,80 @@
+.quantityContainer {
+    cursor: pointer;
+    position: relative;
+
+    & .label {
+	color: var(--light);
+	font-size: 16px;
+    }
+
+    & .select {
+	display: inline;
+	font-weight: bold;
+	
+	& .quantity {
+	    color: var(--light);
+	    font-size: 16px;
+	}
+	
+	& i {
+	    margin-left: 5px;
+	    color: var(--blue);
+	    font-size: 14px;
+	}
+    }
+
+    & .inStock {
+	color: var(--gray);
+	font-size: 14px;
+	margin-left: 10px;
+    }
+
+    & .selectOptions {
+	position: absolute;
+	top: 30px;
+	left: 20px;
+	width: 200px;
+	height: 280px;
+	border: solid 1px rgba(var(--blue-rgb), .5);
+	background: var(--black);
+	overflow: auto;
+
+	& .option {
+	    cursor: pointer;
+	    display: block;
+	    width: 100%;
+	    text-align: center;
+	    padding: 15px;
+	    border: none;
+	    border-top: solid 1px rgba(var(--blue-rgb), .2);
+	    color: var(--light);
+	    background: var(--black);
+	    transition: .3s;
+
+	    &:nth-child(1) {
+		border: none;
+	    }
+
+	    &:hover,
+	    &.active {
+		background: rgba(var(--blue-rgb), .5);
+	    }
+	}
+
+	&.hidden {
+	    display: none;
+	}
+
+	&::-webkit-scrollbar {
+	  width: 2px;
+	}
+
+	&::-webkit-scrollbar-track {
+	  background: var(--black);
+	}
+
+	&::-webkit-scrollbar-thumb {
+	  background: var(--blue);
+	}
+    }
+}

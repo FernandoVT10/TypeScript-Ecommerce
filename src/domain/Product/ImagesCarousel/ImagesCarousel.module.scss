@@ -1,0 +1,32 @@
+.imagesCarousel {
+    display: flex;
+
+    & .imageList {
+	display: flex;
+	flex-direction: column;
+
+	& .image {
+	    cursor: pointer;
+	    width: 80px;
+	    height: 80px;
+	    object-fit: cover;
+	    margin-bottom: 20px;
+	    border: solid 2px transparent;
+	    transition: .3s;
+
+	    &:hover,
+	    &.active {
+		border: solid 2px var(--blue);
+	    }
+	}
+    }
+
+    & .activeImageContainer {
+	margin-left: 20px;
+	& .activeImage {
+	    width: 600px;
+	    height: 600px;
+	    object-fit: cover;
+	}
+    }
+}

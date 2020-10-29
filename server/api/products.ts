@@ -50,4 +50,29 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:productId", async (req, res) => {
+    const { productId } = req.params;
+    
+    try {
+        const product = await Product.findById(productId);
+
+        if(product) {
+            res.json({ data: { product } });
+        } else {
+            res.json({
+                errors: [
+                    {
+                        status: 404,
+                        message: `The product ${productId} doesn't exist`
+                    }
+                ]
+            });
+        }
+    } catch(error) {
+        res.json({
+            errors: [ error ]
+        });
+    }
+});
+
 export default router;
