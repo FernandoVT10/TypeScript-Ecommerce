@@ -4,6 +4,7 @@ import { ICategory } from "./Category";
 
 export interface IProduct extends Document {
     title: string,
+    calification: number,
     images: string[],
     price: number,
     discount: number,
@@ -23,6 +24,11 @@ const productSchema = new Schema({
         type: String,
         maxlength: 100,
         required: true
+    },
+    calification: {
+	type: String,
+	max: 5,
+	default: 0
     },
     images: [String],
     price: {

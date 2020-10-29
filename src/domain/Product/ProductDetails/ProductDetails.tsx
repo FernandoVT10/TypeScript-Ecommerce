@@ -8,6 +8,7 @@ import styles from "./ProductDetails.module.scss";
 export interface ProductDetailsProps {
     product: {
 	title: string,
+	calification: CalificationProps["calification"],
 	price: number,
 	inStock: SelectQuantityProps["inStock"],
 	discount: number,
@@ -16,8 +17,6 @@ export interface ProductDetailsProps {
     }
 }
 
-const calification = 0.5;
-
 function ProductDetails({ product }: ProductDetailsProps) {
     const discountedPrice = product.price * (product.discount / 100);
 
@@ -25,7 +24,7 @@ function ProductDetails({ product }: ProductDetailsProps) {
 	<div className={styles.productDetails}>
 	    <h3 className={styles.title}>{product.title}</h3>
 
-	    <Calification calification={calification}/>
+	    <Calification calification={product.calification}/>
 
 	    {product.discount > 0 ?
 		<div className={styles.priceContainer}>
