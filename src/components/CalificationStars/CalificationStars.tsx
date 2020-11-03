@@ -1,12 +1,8 @@
 import React from "react";
 
-import styles from "./Calification.module.scss";
+import styles from "./CalificationStars.module.scss";
 
-export interface CalificationProps {
-    calification: number
-}
-
-function Calification({ calification }: CalificationProps) {
+function CalificationStars({ calification }: { calification: number }) {
     const getFullStars = () => {
 	const fullStars: JSX.Element[] = [];
 
@@ -44,9 +40,8 @@ function Calification({ calification }: CalificationProps) {
 		<i className="fas fa-star-half-alt" aria-hidden="true"></i>
 	    }
 	    { getEmptyStars() }
-	    <span className={styles.opinions}>3 opnions</span>
 	</div>
     );
 }
 
-export default Calification;
+export default CalificationStars;

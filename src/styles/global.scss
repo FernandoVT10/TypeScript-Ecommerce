@@ -7,8 +7,10 @@
     --gray: rgba(210, 218, 226, .6);
     --blue: #4BCFFA;
     --green: #20DB77;
+    --red: #f14d52;
 
     --blue-rgb: 75, 207, 250;
+    --black-rgb: 25, 26, 28;
 
     --background: #262A2B;
 }
@@ -70,6 +72,44 @@ body {
     }
 }
 
+.submit-button {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--black);
+    background: var(--blue);
+    transition: .3s;
+
+    &:hover {
+	background: transparent;
+	color: var(--light);
+    }
+
+    &.secondary {
+	color: var(--light);
+	background: var(--background);
+
+	&:hover {
+	    color: var(--blue);
+	    background: rgba(var(--blue-rgb), .2);
+	}
+    }
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 3px var(--blue);
+    border-top: solid 3px var(--black);
+    animation: rotation .8s infinite linear;
+}
+
 @media screen and (max-width: 1200px) {
     .subtitle {
         margin-left: 20px;
@@ -79,5 +119,14 @@ body {
 @media screen and (max-width: 768px) {
     .subtitle {
         font-size: 18px;
+    }
+}
+
+@keyframes rotation {
+    from {
+	transform: rotate(0deg);
+    }
+    to {
+	transform: rotate(360deg);
     }
 }

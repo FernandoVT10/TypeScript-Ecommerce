@@ -1,7 +1,10 @@
 import { Router } from "express";
-import Category from "../models/Category";
 
-import Product from "../models/Product";
+import reviewsRoute from "./reviews";
+
+import Category from "../../models/Category";
+
+import Product from "../../models/Product";
 
 const PAGINATE_CUSTOM_LABELS = {
     totalDocs: "totalProducts",
@@ -11,6 +14,8 @@ const PAGINATE_CUSTOM_LABELS = {
 const PRODUCTS_PER_PAGE = 6;
 
 const router = Router();
+
+router.use("/:productId/reviews/", reviewsRoute);
 
 router.get("/", async (req, res) => {
     const { search, category, discountsOnly } = req.query;

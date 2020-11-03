@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import ProductCard, { ProductCardProps } from "@/components/ProductCard";
+import ProductCard, { ProductCardProps } from "../ProductCard";
 
 import styles from "./ProductsCarousel.module.scss";
 

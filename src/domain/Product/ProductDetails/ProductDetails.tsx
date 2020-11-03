@@ -1,30 +1,34 @@
 import React from "react";
 
 import SelectQuantity, { SelectQuantityProps } from "./SelectQuantity";
-import Calification, { CalificationProps } from "./Calification"; 
+import CalificationStars from "@/components/CalificationStars";
 
 import styles from "./ProductDetails.module.scss";
 
 export interface ProductDetailsProps {
     product: {
 	title: string,
-	calification: CalificationProps["calification"],
+	calification: number,
 	price: number,
 	inStock: SelectQuantityProps["inStock"],
 	discount: number,
 	arrivesIn: string,
 	warranty: string
-    }
+    },
+    totalReviews: number
 }
 
-function ProductDetails({ product }: ProductDetailsProps) {
+function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
     const discountedPrice = product.price * (product.discount / 100);
 
     return (
 	<div className={styles.productDetails}>
 	    <h3 className={styles.title}>{product.title}</h3>
 
-	    <Calification calification={product.calification}/>
+	    <div className={styles.calification}>
+		<CalificationStars calification={product.calification}/>
+		<span className={styles.reviews}>{ totalReviews } reviews</span>
+	    </div>
 
 	    {product.discount > 0 ?
 		<div className={styles.priceContainer}>
@@ -40,8 +44,8 @@ function ProductDetails({ product }: ProductDetailsProps) {
 
 	    <SelectQuantity inStock={product.inStock}/>
 
-	    <button className={styles.button}>Buy Now</button>
-	    <button className={`${styles.button} ${styles.addToCart}`}>Add to Shopping Cart</button>
+	    <button className="submit-button">Buy Now</button>
+	    <button className="submit-button secondary">Add to Shopping Cart</button>
 
 	    <div className={styles.info}>
 		<i className="fas fa-truck" aria-hidden="true"></i>

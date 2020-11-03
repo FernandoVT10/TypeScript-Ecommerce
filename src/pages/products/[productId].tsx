@@ -14,27 +14,43 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
 	    product: ProductProps["product"]
 	}>(`products/${productId}`);
 
+	const recommendedProductsResponse = await ApiController.get<{
+	    products: ProductProps["recommendedProducts"]
+	}>(`products?limit=10`);
+
+	const reviewsCountResonse = await ApiController.get<{
+	    reviewsCount: ProductProps["reviewsCount"]
+	}>(`products/${productId}/reviews/getTotalStarsCount/`);
+
         return {
             props: {
-                product: productResponse.data.product
+		product: productResponse.data.product,
+		recommendedProducts: recommendedProductsResponse.data.products,
+		reviewsCount: reviewsCountResonse.data.reviewsCount
             }
         }
     } catch {
         return {
             props: {
-                product: null
+		product: null,
+		recommendedProducts: [],
+		reviewsCountResonse: null
             }
         }
     }
 }
 
-function ProductPage({ product }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function ProductPage({ product, recommendedProducts, reviewsCount }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <div>
 	    <Head>
 		<title>{product.title} - TypeScript Ecommerce</title>
 	    </Head>
-	    <Product product={product}/>
+
+	    <Product
+	    product={product}
+	    recommendedProducts={recommendedProducts}
+	    reviewsCount={reviewsCount}/>
         </div>
     );
 }

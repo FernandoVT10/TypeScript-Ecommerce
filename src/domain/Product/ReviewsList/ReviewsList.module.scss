@@ -1,0 +1,60 @@
+.reviewsList {
+    width: 700px;
+
+    & .reviews,
+    & .addReview {
+	margin-top: 40px;
+	width: 100%;
+
+	& .review {
+	    color: var(--light);
+	    font-size: 16px;
+	    margin: 0;
+	    margin-top: 40px;
+	}
+
+	& .notAvailable {
+	    color: var(--blue);
+	    text-align: center;
+	    font-weight: bold;
+	    font-size: 18px;
+	}
+    }
+
+    & .loadMore {
+	display: none;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	color: var(--blue);
+	font-weight: bold;
+	transition: .3s;
+
+	&.active {
+	    display: block;
+	}
+
+	&:hover {
+	    color: var(--light);
+	}
+    }
+
+    & .loaderContainer {
+	display: none;
+	text-align: center;
+
+	& .loader {
+	    display: inline-block;
+	    width: 30px;
+	    height: 30px;
+	}
+
+	&.active {
+	    display: block;
+	}
+    }
+
+    @media screen and (max-width: 1200px) {
+	width: 100%;
+    }
+}

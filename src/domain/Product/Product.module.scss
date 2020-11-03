@@ -1,11 +1,11 @@
 .container {
-    margin-top: 40px;
+    margin: 40px auto;
+    background: var(--black);
+    padding: 20px;
 
     & .product {
 	display: flex;
 	flex-wrap: wrap;
-	background: var(--black);
-	padding: 20px;
 
 	& .imageCarousel {
 	    width: 700px;
@@ -18,18 +18,67 @@
 
 	& .description {
 	    width: 700px;
+	    margin-top: 40px;
 	    color: var(--light);
 	    font-size: 20px;
 
 	    & .subtitle {
+		margin: 0;
+		margin-bottom: 20px;
 		font-weigth: bold;
-		margin-top: 40px;
 	    }
 
 	    & .content {
+		margin: 0;
 		margin-top: 20px;
 		line-height: 2;
 	    }
 	}
+    }
+
+    & .calificationTable {
+	margin-top: 40px;
+	width: 700px;
+    }
+
+    @media screen and (max-width: 1200px) {
+	& .product {
+	    & .imageCarousel {
+		width: 100%;
+		margin: 0;
+	    }
+
+	    & .productDetails {
+		margin-top: 40px;
+		width: 100%;
+		max-width: 440px;
+	    }
+
+	    & .description {
+		width: calc(100% - 460px);
+		margin-left: 20px;
+	    }
+	}
+
+	& .calificationTable {
+	    width: 100%;
+	}
+    }
+
+    @media screen and (max-width: 992px) {
+	& .product {
+	    & .description {
+		width: 100%;
+		margin-left: 0;
+	    }
+	}
+    }
+}
+
+.recommendedProducts {
+    margin-bottom: 40px;
+
+    .subtitle {
+	margin-bottom: 10px;
     }
 }

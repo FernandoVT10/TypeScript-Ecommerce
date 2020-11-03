@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import Carousel, { CarouselProps } from "./Carousel";
-import ProductsCarousel, { ProductsCarouselProps } from "./ProductsCarousel";
+import ProductsCarousel, { ProductsCarouselProps } from "@/components/ProductsCarousel";
 import PromoCard, { PromoCardProps } from "./PromoCard";
 
 import styles from "./Home.module.scss";

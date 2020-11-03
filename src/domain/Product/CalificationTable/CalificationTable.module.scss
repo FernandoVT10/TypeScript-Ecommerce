@@ -1,0 +1,65 @@
+.calificationTable {
+    & .subtitle {
+	margin: 0;
+	margin-bottom: 20px;
+	color: var(--light);
+	font-size: 20px;
+	font-weight: bold;
+    }
+
+    & .table {
+	display: flex;
+	align-items: center;
+
+	& .calification {
+	    width: 130px;
+	    text-align: center;
+
+	    & .number {
+		display: block;
+		color: var(--light);
+		font-size: 30px;
+		font-weight: bold;
+		margin-bottom: 10px;
+	    }
+
+	    & .reviewsCount {
+		display: block;
+		color: var(--gray);
+		font-size: 14px;
+		margin-top: 10px;
+	    }
+	}
+
+	& .reviewsCountList {
+	    margin-left: 20px;
+
+	    & .reviewsCount {
+		display: flex;
+		align-items: center;
+
+		& .text {
+		    color: var(--gray);
+		    font-size: 14px;
+
+		    &:nth-child(1) {
+			width: 50px;
+			text-align: right;
+		    }
+		}
+
+		& .barContainer {
+		    display: block;
+		    width: 100px;
+		    margin: 0 10px;
+
+		    & .bar {
+			display: block;
+			height: 5px;
+			background: var(--blue);
+		    }
+		}
+	    }
+	}
+    }
+}
