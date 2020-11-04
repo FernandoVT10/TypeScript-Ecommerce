@@ -4,10 +4,10 @@ import { ICategory } from "./Category";
 
 export interface IProduct extends Document {
     title: string,
-    calification: number,
+    calification?: number,
     images: string[],
     price: number,
-    discount: number,
+    discount?: number,
     inStock: number,
     arrivesIn: string,
     warranty: string,
@@ -26,7 +26,7 @@ const productSchema = new Schema({
         required: true
     },
     calification: {
-	type: String,
+	type: Number,
 	max: 5,
 	default: 0
     },
