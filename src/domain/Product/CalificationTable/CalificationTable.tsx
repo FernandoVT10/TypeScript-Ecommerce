@@ -26,7 +26,7 @@ function CalificationTable({ calification, reviewsCount }: CalificationTableProp
 	    <div className={styles.reviewsCount}>
 		<span className={styles.text}>{ title }</span>
 		<span className={styles.barContainer}>
-		    <span className={styles.bar} style={{ width: barWidth }}></span>
+		    <span className={styles.bar} style={{ width: barWidth }} data-testid="countBar"></span>
 		</span>
 		<span className={styles.text}>{ count }</span>
 	    </div>
