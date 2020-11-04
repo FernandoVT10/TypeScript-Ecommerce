@@ -1,7 +1,7 @@
-import app from "../../app";
+import app from "../../../app";
 import supertest from "supertest";
-import Product, { IProduct } from "../../models/Product";
-import Category from "../../models/Category";
+import Product, { IProduct } from "../../../models/Product";
+import Category from "../../../models/Category";
 
 const request = supertest(app);
 
@@ -141,5 +141,35 @@ describe("Products API", () => {
 
             expect(products[0].title).toBe("product with discount");
         });
+    });
+
+    describe("Get by product id", () => {
+	let productId = "";
+
+	beforeEach(async () => {
+	    const product = await Product.findOne({ title: "product with discount 2" });
+	    productId = product._id;
+	});
+
+	it("should get a product", async () => {
+            const res = await request.get(`/api/products/${productId}`);
+
+	    const product: IProduct = res.body.data.product;
+
+	    expect(product.title).toBe("product with discount 2");
+	    expect(product.price).toBe(50);
+	    expect(product.discount).toBe(25);
+	});
+
+	it("should get a 404 not found error", async () => {
+	    const res = await request.get("/api/products/abcdefabcdef");
+
+	    expect(res.body.errors).toEqual([
+		{
+		    status: 404,
+		    message: "The product abcdefabcdef doesn't exist"
+		}
+	    ]);
+	});
     });
 });

@@ -100,7 +100,7 @@ router.post("/", checkIfProductExist, async (req, res) => {
 	const fixedProductCalification = calificationAverage[0].average.toFixed(1);
 	const productCalification = parseFloat(fixedProductCalification);
 
-	await Product.update({ _id: productId }, { $set: { calification: productCalification } });
+	await Product.updateOne({ _id: productId }, { $set: { calification: productCalification } });
 
 	res.json({ data: { createdReview } });
     } catch(error) {
