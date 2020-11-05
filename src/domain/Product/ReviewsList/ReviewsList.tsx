@@ -40,9 +40,6 @@ function ReviewsList({ productId }: { productId: string }) {
 	});
     }, [offset]);
 
-    const loaderClass = loading ? styles.active : "";
-    const loadMoreReviewsClass = canLoadMoreReviews && !loading ? styles.active : "";
-
     return (
 	<div className={styles.reviewsList}>
 	    <div className={styles.addReview}>
@@ -65,15 +62,19 @@ function ReviewsList({ productId }: { productId: string }) {
 		}
 	    </div>
 
-	    <div className={`${styles.loaderContainer} ${loaderClass}` }>
-		<span className={`${styles.loader} loader`}></span>
-	    </div>
+	    { loading &&
+		<div className={styles.loaderContainer}>
+		    <span className={`${styles.loader} loader`}></span>
+		</div>
+	    }
 
-	    <button
-	    className={`${styles.loadMore} ${loadMoreReviewsClass}`}
-	    onClick={() => setOffset(offset + REVIEWS_PER_PAGE)}>
-		Load more reviews
-	    </button>
+	    { canLoadMoreReviews && !loading &&
+		<button
+		className={styles.loadMore}
+		onClick={() => setOffset(offset + REVIEWS_PER_PAGE)}>
+		    Load more reviews
+		</button>
+	    }
 	</div>
     );
 }

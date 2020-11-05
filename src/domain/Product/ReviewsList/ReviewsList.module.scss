@@ -22,7 +22,7 @@
     }
 
     & .loadMore {
-	display: none;
+	display: block;
 	cursor: pointer;
 	background: transparent;
 	border: none;
@@ -30,27 +30,18 @@
 	font-weight: bold;
 	transition: .3s;
 
-	&.active {
-	    display: block;
-	}
-
 	&:hover {
 	    color: var(--light);
 	}
     }
 
     & .loaderContainer {
-	display: none;
 	text-align: center;
 
 	& .loader {
 	    display: inline-block;
 	    width: 30px;
 	    height: 30px;
-	}
-
-	&.active {
-	    display: block;
 	}
     }
 
