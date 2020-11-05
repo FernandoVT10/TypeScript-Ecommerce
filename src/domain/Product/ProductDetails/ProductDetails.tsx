@@ -1,7 +1,10 @@
 import React from "react";
 
 import SelectQuantity, { SelectQuantityProps } from "./SelectQuantity";
+
 import CalificationStars from "@/components/CalificationStars";
+
+import AddSpacesToNumber from "@/services/AddSpacesToNumber";
 
 import styles from "./ProductDetails.module.scss";
 
@@ -23,7 +26,7 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 
     return (
 	<div className={styles.productDetails}>
-	    <h3 className={styles.title}>{product.title}</h3>
+	    <h3 className={styles.title}>{ product.title }</h3>
 
 	    <div className={styles.calification}>
 		<CalificationStars calification={product.calification}/>
@@ -32,13 +35,13 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 
 	    {product.discount > 0 ?
 		<div className={styles.priceContainer}>
-		    <span className={styles.price}>$ {discountedPrice}</span>
-		    <s className={styles.oldPrice}>$ {product.price}</s>
-		    <span className={styles.discount}>%{product.discount} OFF</span>
+		    <span className={styles.price}>$ { AddSpacesToNumber(discountedPrice) }</span>
+		    <s className={styles.oldPrice}>$ { AddSpacesToNumber(product.price) }</s>
+		    <span className={styles.discount}>%{ product.discount } OFF</span>
 		</div>
 	    :
 		<div className={styles.priceContainer}>
-		    <span className={styles.price}>$ {product.price}</span>
+		    <span className={styles.price}>$ { AddSpacesToNumber(product.price) }</span>
 		</div>
 	    }
 
@@ -49,10 +52,10 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 
 	    <div className={styles.info}>
 		<i className="fas fa-truck" aria-hidden="true"></i>
-		Arrives free in {product.arrivesIn}
+		Arrives free in { product.arrivesIn }
 
 		<span className={styles.moreInfo}>
-		    The product arrives in {product.arrivesIn} approximately
+		    The product arrives in { product.arrivesIn } approximately
 		</span>
 	    </div>
 
@@ -69,7 +72,7 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 		Warranty
 
 		<span className={styles.moreInfo}>
-		    {product.warranty}
+		    { product.warranty }
 		</span>
 	    </div>
 	</div>
