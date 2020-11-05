@@ -1,9 +1,11 @@
 const API_URL = "http://localhost:3000/api/";
 
-function fetchCall<T>(url: string, options = {}): Promise<{data: T}> {
-    return fetch(url, options)
-    .then(res => res.json())
-    .catch(() => {
+async function fetchCall<T>(url: string, options = {}): Promise<{data: T}> {
+    try {
+	const res = await fetch(url, options)
+
+	return res.json();
+    } catch {
         throw {
             errors: [
                 {
@@ -12,7 +14,7 @@ function fetchCall<T>(url: string, options = {}): Promise<{data: T}> {
                 }
             ]
         }
-    });
+    }
 }
 
 interface callOptions {
