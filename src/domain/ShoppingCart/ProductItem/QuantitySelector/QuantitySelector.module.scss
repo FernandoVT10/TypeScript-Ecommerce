@@ -1,0 +1,49 @@
+.quantityContainer {
+    & .quantitySelector {
+	display: flex;
+	align-items: center;
+
+	& .button {
+	    cursor: pointer;
+	    width: 40px;
+	    height: 40px;
+	    font-weight: bold;
+	    font-size: 20px;
+	    background: transparent;
+	    color: var(--gray);
+	    border: solid 1px var(--gray);
+	    transition: .3s;
+
+	    &:hover {
+		color: var(--blue);
+		border-color: var(--blue);
+	    }
+	}
+
+	& .quantity {
+	    background: transparent;
+	    width: 60px;
+	    height: 40px;
+	    font-weight: bold;
+	    font-size: 18px;
+	    text-align: center;
+	    color: var(--light);
+	    border: solid 1px var(--gray);
+	    border-left: none;
+	    border-right: none;
+
+	    &::-webkit-outer-spin-button,
+	    &::-webkit-inner-spin-button {
+	      -webkit-appearance: none;
+	      margin: 0;
+	    }
+	}
+    }
+
+    & .available {
+	display: block;
+	margin-top: 10px;
+	color: var(--gray);
+	font-size: 14px;
+    }
+}

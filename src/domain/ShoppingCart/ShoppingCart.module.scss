@@ -1,0 +1,25 @@
+.shoppingCart {
+    & .productList {
+	background: var(--black);
+	margin-top: 20px;
+
+	& .totalPrice {
+	    display: flex;
+	    justify-content: space-between;
+	    padding: 20px;
+	    color: var(--light);
+	    font-size: 20px;
+	}
+    }
+
+    & .continueButton {
+	margin-top: 20px;
+	margin-bottom: 40px;
+	width: 200px;
+	float: right;
+
+	& i {
+	    margin-left: 5px;
+	}
+    }
+}
