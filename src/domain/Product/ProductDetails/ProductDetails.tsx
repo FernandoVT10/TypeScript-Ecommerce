@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 import SelectQuantity, { SelectQuantityProps } from "./SelectQuantity";
 
 import CalificationStars from "@/components/CalificationStars";
 
 import AddSpacesToNumber from "@/services/AddSpacesToNumber";
+import ShoppingCartController from "@/services/ShoppingCartController";
 
 import styles from "./ProductDetails.module.scss";
 
 export interface ProductDetailsProps {
     product: {
+	_id: string,
 	title: string,
 	calification: number,
 	price: number,
@@ -22,6 +25,19 @@ export interface ProductDetailsProps {
 }
 
 function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
+    const [quantity, setQuantity] = useState(1);
+
+    const router = useRouter();
+
+    const handleAddToShoppingCart = () => {
+	ShoppingCartController.setItem({
+	    productId: product._id,
+	    quantity
+	});
+
+	router.push("/cart/");
+    }
+
     const discountedPrice = product.price * (product.discount / 100);
 
     return (
@@ -45,10 +61,15 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 		</div>
 	    }
 
-	    <SelectQuantity inStock={product.inStock}/>
+	    <SelectQuantity quantity={quantity} setQuantity={setQuantity} inStock={product.inStock}/>
 
 	    <button className="submit-button">Buy Now</button>
-	    <button className="submit-button secondary">Add to Shopping Cart</button>
+
+	    <button
+	    className="submit-button secondary"
+	    onClick={handleAddToShoppingCart}>
+		Add to Shopping Cart
+	    </button>
 
 	    <div className={styles.info}>
 		<i className="fas fa-truck" aria-hidden="true"></i>

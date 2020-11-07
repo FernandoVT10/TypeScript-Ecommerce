@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import styles from "./SelectQuantity.module.scss";
 
 export interface SelectQuantityProps {
+    quantity: number,
+    setQuantity: React.Dispatch<number>
     inStock: number
 }
 
-function SelectQuantity({ inStock }: SelectQuantityProps) {
-    const [quantity, setQuantity] = useState(1);
+function SelectQuantity({ quantity, setQuantity, inStock }: SelectQuantityProps) {
     const [isActive, setIsActive] = useState(false);
 
     const getOptions = () => {
