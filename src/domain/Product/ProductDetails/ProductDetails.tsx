@@ -38,7 +38,7 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 	router.push("/cart/");
     }
 
-    const discountedPrice = product.price * (product.discount / 100);
+    const discountedPrice = product.price * ((100 - product.discount) / 100) * quantity;
 
     return (
 	<div className={styles.productDetails}>

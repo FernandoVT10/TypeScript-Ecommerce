@@ -1,17 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import ProductItem, { ProductItemProps } from "./ProductItem";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
+import ShoppingCartController from "@/services/ShoppingCartController";
+import ApiController from "@/services/ApiController";
+
 import styles from "./ShoppingCart.module.scss";
 
-export interface ShoppingCartProps {
-    products: ProductItemProps["product"][]
-}
+function ShoppingCart() {
+    const [products, setProducts] = useState<ProductItemProps["product"][]>([]);
 
-function ShoppingCart({ products }: ShoppingCartProps) {
+    useEffect(() => {
+	async function getProducts() {
+	    const cartItems = ShoppingCartController.getItems();
+
+	    const products: ProductItemProps["product"][] = [];
+
+	    for(const cartItem of cartItems) {
+		const productResponse = await ApiController.get<{
+		    product: ProductItemProps["product"]
+		}>(`products/${cartItem.productId}`);
+
+		const { product } = productResponse.data;
+
+		product.quantity = cartItem.quantity;
+
+		products.push(productResponse.data.product);
+	    }
+
+	    setProducts(products);
+	}
+
+	getProducts();
+    }, [])
+
     return (
 	<div>
 	    <Navbar/>'
