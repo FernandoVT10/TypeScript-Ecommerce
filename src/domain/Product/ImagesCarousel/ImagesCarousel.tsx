@@ -30,7 +30,10 @@ function ImagesCarousel({ images }: ImagesCarouselProps) {
 	    <div className={styles.activeImageContainer}>
 		<img
 		className={styles.activeImage}
-		src={`/img/products/${activeImageName}`}
+		srcSet={`
+		    /img/products/medium-${activeImageName} 1024w,
+		    /img/products/large-${activeImageName} 1920w
+		`}
 		alt="Product Carousel Image Active"/>
 	    </div>
 	</div>
