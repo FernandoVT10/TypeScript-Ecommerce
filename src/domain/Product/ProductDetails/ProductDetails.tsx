@@ -5,7 +5,7 @@ import SelectQuantity, { SelectQuantityProps } from "./SelectQuantity";
 
 import CalificationStars from "@/components/CalificationStars";
 
-import AddSpacesToNumber from "@/services/AddSpacesToNumber";
+import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumber";
 import ShoppingCartController from "@/services/ShoppingCartController";
 
 import styles from "./ProductDetails.module.scss";
@@ -38,7 +38,7 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 	router.push("/cart/");
     }
 
-    const discountedPrice = product.price * ((100 - product.discount) / 100) * quantity;
+    const discountedPrice = getDiscountedPrice(product.price, product.discount);
 
     return (
 	<div className={styles.productDetails}>
