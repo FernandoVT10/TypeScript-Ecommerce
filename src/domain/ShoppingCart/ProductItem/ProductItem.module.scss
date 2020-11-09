@@ -6,6 +6,7 @@
 
     & .productDetails {
 	display: flex;
+	width: 700px;
 	align-items: center;
 
 	& .image {
@@ -18,11 +19,18 @@
 	    margin-left: 15px;
 
 	    & .title {
+		display: block;
 		color: var(--light);
 		font-weight: bold;
 		font-size: 20px;
 		margin: 0;
 		margin-bottom: 10px;
+		text-decoration: none;
+		transition: .3s;
+
+		&:hover {
+		    color: var(--blue);
+		}
 	    }
 
 	    & .option {
@@ -39,7 +47,9 @@
     }
 
     & .priceContainer {
+	width: 200px;
 	display: flex;
+	justify-content: flex-end;
 	align-items: center;
 
 	& .discount {

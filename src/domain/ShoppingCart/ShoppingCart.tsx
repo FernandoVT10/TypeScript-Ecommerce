@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 
 import ShoppingCartController from "@/services/ShoppingCartController";
 import ApiController from "@/services/ApiController";
+import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumber";
 
 import styles from "./ShoppingCart.module.scss";
 
@@ -37,6 +38,33 @@ function ShoppingCart() {
 	getProducts();
     }, [])
 
+    const removeProductFromCart = (productId: string) => {
+	ShoppingCartController.deleteItem(productId);
+
+	setProducts(
+	    products.filter(product => product._id !== productId)
+	);
+    }
+
+    const updateQuantityOnCart = (productId: string, quantity: number) => {
+	ShoppingCartController.updateItem(productId, quantity);
+
+	setProducts(
+	     products.map(product => {
+		 if(product._id === productId) {
+		     product.quantity = quantity;
+		 }
+
+		 return product;
+	     })
+	);
+    }
+
+    const totalPrice = products.reduce((acc, product) => {
+	acc += getDiscountedPrice(product.price * product.quantity, product.discount);
+	return acc;
+    }, 0);
+
     return (
 	<div>
 	    <Navbar/>'
@@ -45,21 +73,37 @@ function ShoppingCart() {
 		<div className={`container ${styles.shoppingCart}`}>
 		    <h3 className="subtitle">Shopping Cart</h3>
 
-		    <div className={styles.productList}>
-			{products.map((product, index) => {
-			    return <ProductItem product={product} key={index}/>;
-			})}
+		    { products.length > 0 &&
+			<div className={styles.productList}>
+			    {products.map((product, index) => {
+				return (
+				    <ProductItem
+				    product={product}
+				    removeProductFromCart={removeProductFromCart}
+				    updateQuantityOnCart={updateQuantityOnCart}
+				    key={index}/>
+				);
+			    })}
 
-			<div className={styles.totalPrice}>
-			    <span className={styles.label}>Total</span>
-			    <span className={styles.price}>$ 16 382</span>
+			    <div className={styles.totalPrice}>
+				<span className={styles.label}>Total</span>
+				<span className={styles.price}>$ { AddSpacesToNumber(totalPrice) }</span>
+			    </div>
 			</div>
-		    </div>
+		    }
 
-		    <button className={`continue-button ${styles.continueButton}`}>
-			Continue
-			<i className="fas fa-arrow-right" aria-hidden="true"></i>
-		    </button>
+		    { products.length === 0 &&
+			<div className={styles.emptyShoppingCart}>
+			    There are not products in your shopping cart
+			</div>
+		    }
+
+		    { products.length > 0 &&
+			<button className={`continue-button ${styles.continueButton}`}>
+			    Continue
+			    <i className="fas fa-arrow-right" aria-hidden="true"></i>
+			</button>
+		    }
 		</div>
 	    </div>
 

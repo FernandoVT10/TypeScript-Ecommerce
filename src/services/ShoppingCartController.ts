@@ -34,6 +34,20 @@ function setItem(newItem: CartItem): void {
     window.localStorage.setItem("cart", JSON.stringify(items));
 }
 
+function updateItem(productId: CartItem["productId"], quantity: CartItem["quantity"]) {
+    const items = getItems();
+
+    const updatedItems = items.map(item => {
+	if(item.productId === productId) {
+	    item.quantity = quantity;
+	}
+
+	return item;
+    });
+
+    window.localStorage.setItem("cart", JSON.stringify(updatedItems));
+}
+
 function deleteItem(productId: string): void {
    const items = getItems();
 
@@ -45,5 +59,6 @@ function deleteItem(productId: string): void {
 export default {
     getItems,
     setItem,
+    updateItem,
     deleteItem
 }

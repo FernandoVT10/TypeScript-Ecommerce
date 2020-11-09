@@ -12,6 +12,16 @@
 	}
     }
 
+    & .emptyShoppingCart {
+	display: flex;
+	justify-content: center;
+	background: var(--black);
+	padding: 20px;
+	color: var(--blue);
+	font-size: 18px;
+	font-weight: bold;
+    }
+
     & .continueButton {
 	margin-top: 20px;
 	margin-bottom: 40px;
