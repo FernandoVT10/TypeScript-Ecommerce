@@ -30,13 +30,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
             }
         }
     } catch {
-        return {
-            props: {
-		product: null,
-		recommendedProducts: [],
-		reviewsCountResonse: null
-            }
-        }
+	const { res } = context;
+
+	res.statusCode = 302;
+	res.setHeader("location", "/products#product_not_found");
+	res.end();
+
+	return { props: {} };
     }
 }
 

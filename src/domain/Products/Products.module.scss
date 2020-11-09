@@ -1,3 +1,13 @@
+.productNotFound {
+    background: var(--black);
+    color: var(--blue);
+    padding: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    border: solid 1px var(--blue);
+}
+
 .container {
     display: flex;
     margin: 40px auto;
