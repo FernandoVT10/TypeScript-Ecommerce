@@ -75,4 +75,37 @@
 	    }
 	}
     }
+
+    @media screen and (max-width: 1200px) {
+	& .productDetails {
+	    width: 50%;
+	}
+    }
+
+    @media screen and (max-width: 768px) {
+	flex-wrap: wrap;
+
+	& .productDetails {
+	    width: 100%;
+	    margin-bottom: 10px;
+	}
+
+	& .priceContainer {
+	    width: auto;
+
+	    & .discount {
+		font-size: 16px;
+	    }
+	
+	    & .price {
+		& .currentPrice {
+		    font-size: 18px;
+		}
+
+		& .oldPrice {
+		    font-size: 12px;
+		}
+	    }
+	}
+    }
 }
