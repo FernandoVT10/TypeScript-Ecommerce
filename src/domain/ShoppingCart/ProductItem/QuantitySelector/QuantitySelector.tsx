@@ -47,6 +47,7 @@ function QuantitySelector({ quantity, setQuantity, inStock }: QuantitySelectorPr
 		ref={quantityInput}
 		className={styles.quantity}
 		onChange={handleInput}
+		data-testid="quantity-selector-input"
 		defaultValue={quantity}/>
 
 		<button className={styles.button} onClick={() => handleSetQuantity(quantity + 1)}>+</button>

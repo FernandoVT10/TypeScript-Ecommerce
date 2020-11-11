@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ export interface ProductItemProps {
     product: {
 	_id: string,
 	title: string,
-	images: [string],
+	images: string[],
 	price: number,
 	quantity: number,
 	discount: number,
