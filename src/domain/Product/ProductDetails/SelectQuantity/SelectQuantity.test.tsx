@@ -6,7 +6,9 @@ import SelectQuantity from "./SelectQuantity";
 
 describe("Domain Product ProductDetails SelectQuantity", () => {
     it("should renders correcly", () => {
-	const { queryByText } = render(<SelectQuantity inStock={31}/>);
+	const { queryByText } = render(
+	    <SelectQuantity quantity={1} inStock={31} setQuantity={jest.fn()}/>
+	);
 
 	expect(queryByText("1 product")).toBeInTheDocument();
 	expect(queryByText("10 products")).toBeInTheDocument();
@@ -16,15 +18,19 @@ describe("Domain Product ProductDetails SelectQuantity", () => {
 	expect(queryByText("(31 available)")).toBeInTheDocument();
     });
 
-    it("should change the quntity selected when we select other quantity option", async () => {
-	const { findByText, queryByText } = render(<SelectQuantity inStock={31}/>);
+    it("should call setQuantity when we select other quantity option", async () => {
+	const setQuantityMock = jest.fn();
 
-	expect(queryByText("1")).toBeInTheDocument();
+	const { findByText, queryByText } = render(
+	    <SelectQuantity quantity={17} inStock={31} setQuantity={setQuantityMock}/>
+	);
+
+	// This is the current quantity
+	expect(queryByText("17")).toBeInTheDocument();
 
 	const tenProductsOptions = await findByText("10 products");
-
 	fireEvent.click(tenProductsOptions);
 
-	expect(queryByText("10")).toBeInTheDocument();
+	expect(setQuantityMock).toHaveBeenCalledWith(10);
     });
 });

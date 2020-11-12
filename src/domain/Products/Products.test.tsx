@@ -33,7 +33,14 @@ const CATEGORIES_MOCK = [
 
 describe("Domain Products", () => {
     it("should render correctly", () => {
-        const { queryByText } = render(<Products productsResponse={PRODUCTS_PROPS_MOCK} categories={CATEGORIES_MOCK}/>);
+	changeRouterProperties({
+	    query: {},
+	    asPath: ""
+	});
+
+	const { queryByText } = render(
+	    <Products productsResponse={PRODUCTS_PROPS_MOCK} categories={CATEGORIES_MOCK}/>
+	);
 
         expect(queryByText("test description")).toBeInTheDocument();
 
@@ -42,5 +49,18 @@ describe("Domain Products", () => {
         expect(queryByText("5")).toBeInTheDocument();
 
         expect(queryByText("Gamer")).toBeInTheDocument();
+    });
+
+    it("should render a alert when the url hash is equal to 'product_not_found'", () => {
+	changeRouterProperties({
+	    query: {},
+	    asPath: "example#product_not_found"
+	});
+
+	const { queryByText } = render(
+	    <Products productsResponse={PRODUCTS_PROPS_MOCK} categories={CATEGORIES_MOCK}/>
+	);
+
+	expect(queryByText("The product you are looking for doesn't exists")).toBeInTheDocument();
     });
 });

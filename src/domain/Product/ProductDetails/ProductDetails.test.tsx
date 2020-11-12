@@ -5,6 +5,7 @@ import { render } from "@testing-library/react";
 import ProductDetails from "./ProductDetails";
 
 const PRODUCT_MOCK = {
+    _id: "test-id",
     title: "Test title",
     calification: 4.8,
     price: 10000,
@@ -16,7 +17,9 @@ const PRODUCT_MOCK = {
 
 describe("Domian Product ProductDetails", () => {
     it("should render correctly", () => {
-	const { queryByText, queryAllByText } = render(<ProductDetails product={PRODUCT_MOCK} totalReviews={50}/>);
+	const { queryByText, queryAllByText } = render(
+	    <ProductDetails product={PRODUCT_MOCK} totalReviews={50}/>
+	);
 
 	expect(queryByText("Test title")).toBeInTheDocument();
 	expect(queryByText("50 reviews")).toBeInTheDocument();
@@ -36,7 +39,9 @@ describe("Domian Product ProductDetails", () => {
 
 	localMock.discount = 0;
 
-	const { queryByText } = render(<ProductDetails product={localMock} totalReviews={50}/>);
+	const { queryByText } = render(
+	    <ProductDetails product={localMock} totalReviews={50}/>
+	);
 
 	expect(queryByText("$ 10 000")).toBeInTheDocument();
 	expect(queryByText("%50 OFF")).not.toBeInTheDocument();

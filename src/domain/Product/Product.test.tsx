@@ -57,7 +57,7 @@ describe("Domain Product", () => {
 
 	// Images Carousel
 	const image = await screen.findByAltText("Product Carousel Image Active") as HTMLImageElement;
-	expect(image.src).toMatch("test-1.jpg");
+	expect(image.srcset).toMatch("test-1.jpg");
 
 	// Product Details
 	expect(screen.queryByText("Test title")).toBeInTheDocument();

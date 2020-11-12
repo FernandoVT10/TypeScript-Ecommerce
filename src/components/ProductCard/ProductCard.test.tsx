@@ -8,7 +8,7 @@ const PRODUCT_MOCK = {
     _id: "test-id",
     images: ["test-1.jpg"],
     title: "test title 12",
-    price: 18,
+    price: 180.50,
     discount: 50,
     description: "test description"
 }
@@ -24,6 +24,6 @@ describe("ProductCard Component", () => {
         expect(queryByText("test title 12")).toBeInTheDocument();
         expect(queryByText("test title 1")).toBeInTheDocument();
         expect(queryByText("test description")).toBeInTheDocument();
-        expect(queryByText("$ 18")).toBeInTheDocument();
+        expect(queryByText("$ 90.25")).toBeInTheDocument();
     });
 });

@@ -12,13 +12,13 @@ describe("Domian Product ImagesCarousel", () => {
 
 	const images = await findAllByAltText("Product Carousel Image") as HTMLImageElement[];
 
-	expect(images[0].src).toMatch(/test-1\.jpg/);
-	expect(images[1].src).toMatch(/test-2\.jpg/);
-	expect(images[2].src).toMatch(/test-3\.jpg/);
+	expect(images[0].src).toMatch("thumb-test-1.jpg");
+	expect(images[1].src).toMatch("thumb-test-2.jpg");
+	expect(images[2].src).toMatch("thumb-test-3.jpg");
 
 	const activeImage = await findByAltText("Product Carousel Image Active") as HTMLImageElement;
 
-	expect(activeImage.src).toMatch(/test-1.jpg/);
+	expect(activeImage.srcset).toMatch("test-1.jpg");
     });
 
     it("should change the active image when we click to a carousel image", async () => {
@@ -30,10 +30,10 @@ describe("Domian Product ImagesCarousel", () => {
 
 	const activeImage = await findByAltText("Product Carousel Image Active") as HTMLImageElement;
 
-	expect(activeImage.src).toMatch(/test-3.jpg/);
+	expect(activeImage.srcset).toMatch("test-3.jpg");
 
 	fireEvent.click(images[0]);
 
-	expect(activeImage.src).toMatch(/test-1.jpg/);
+	expect(activeImage.srcset).toMatch("test-1.jpg");
     });
 });
