@@ -7,7 +7,8 @@ export interface IUser extends Document {
     username: string,
     email: string,
     password: string,
-    activationStatus?: "Pending" | "Activated"
+    active?: boolean,
+    activeToken: string
 }
 
 const userSchema = new Schema({
@@ -35,11 +36,11 @@ const userSchema = new Schema({
 	type: String,
 	required: true
     },
-    activationStatus: {
-	type: String,
-	enum: ["Pending", "Activated"],
-	default: "Pending"
-    }
+    active: {
+	type: Boolean,
+	default: false
+    },
+    activeToken: String
 }, { timestamps: true });
 
 export default mongoose.model<IUser>("users", userSchema);

@@ -1,9 +1,13 @@
 import { Router } from "express";
 
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { Error } from "mongoose";
 
-import { JWT_SECRET_KEY } from "../config";
+import transporter from "../utils/services/mail";
+
+import { JWT_SECRET_KEY, MAIL_CONFIG } from "../config";
 
 import User, { IUser } from "../models/User";
 
@@ -25,7 +29,22 @@ router.post("/register/", async (req, res) => {
     try {
 	const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
-	await User.create({ name, username, email, password: passwordHash });
+	const activeToken = crypto.randomBytes(20).toString("hex");
+
+	await User.create({
+	    name,
+	    username,
+	    email,
+	    password: passwordHash,
+	    activeToken
+	});
+
+	await transporter.sendMail({
+	    from: MAIL_CONFIG.username,
+	    to: email,
+	    subject: "Email Verification - TypeScriptEcomerce",
+	    html: `<a href="http://localhost:3000/api/account/activate/${activeToken}">Activate account</a>`
+	});
 
 	res.json({
 	    data: {
@@ -46,7 +65,18 @@ router.post("/register/", async (req, res) => {
 		status: 400,
 		error: "Validation Error",
 		message: errorMessage,
-		path: "/api/users/register/"
+		path: "/api/account/register/"
+	    });
+
+	    return;
+	}
+
+	if(err instanceof Error) {
+	    res.json({
+		status: 400,
+		error: "Validation Error",
+		message: err.message,
+		path: "/api/account/register/"
 	    });
 
 	    return;
@@ -56,13 +86,52 @@ router.post("/register/", async (req, res) => {
 	    status: 500,
 	    error: "Internal server error",
 	    message: err.message,
-	    path: "/api/users/register/"
+	    path: "/api/account/register/"
 	});
     }
 });
 
+router.get("/activate/:activeToken", async (req, res) => {
+    const { activeToken } = req.params;
+
+    try {
+	const user = await User.updateOne({ activeToken }, {
+	    $set: { active: true }
+	});
+
+	if(!user) {
+	    res.json({
+		status: 404,
+		error: "User not found",
+		message: "The activation token don't exists",
+		path: `/api/account/activate/${activeToken}`
+	    });
+
+	    return;
+	}
+
+	res.json({
+	    data: {
+		message: "Your account has been activated"
+	    }
+	});
+    } catch(err) {
+	res.json({
+	    status: 500,
+	    error: "Internal server error",
+	    message: err.message,
+	    path: `/api/account/activate/${activeToken}`
+	});
+    }
+});
+
+interface ILoginInput {
+    usernameOrEmail: IUser["username"] | IUser["email"],
+    password: IUser["password"]
+}
+
 router.post("/login/", async (req, res) => {
-    const { usernameOrEmail, password } = req.body;
+    const { usernameOrEmail, password } = req.body as ILoginInput;
 
     try {
 	const user = await User.findOne({ $or: [
@@ -74,18 +143,18 @@ router.post("/login/", async (req, res) => {
 		status: 404,
 		error: "User not found",
 		message: "The email or username don't exists",
-		path: "/api/users/login/"
+		path: "/api/account/login/"
 	    });
 
 	    return;
 	}
 
-	if(user.activationStatus === "Pending") {
+	if(!user.active) {
 	    res.json({
 		status: 400,
 		error: "User not activated",
-		message: "This user has not been confirmed",
-		path: "/api/users/login/"
+		message: "This account has not been activated",
+		path: "/api/account/login/"
 	    });
 
 	    return;
@@ -98,7 +167,7 @@ router.post("/login/", async (req, res) => {
 		status: 400,
 		error: "Validation Error",
 		message: "The password is incorrect",
-		path: "/api/users/login/"
+		path: "/api/account/login/"
 	    });
 
 	    return;
@@ -118,7 +187,7 @@ router.post("/login/", async (req, res) => {
 	    status: 500,
 	    error: "Internal server error",
 	    message: err.message,
-	    path: "/api/users/login/"
+	    path: "/api/account/login/"
 	});
     }
 });
