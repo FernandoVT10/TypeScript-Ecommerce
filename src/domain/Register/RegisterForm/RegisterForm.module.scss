@@ -1,0 +1,41 @@
+.registerForm {
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    background: var(--black);
+
+    & .title {
+	color: var(--light);
+	margin: 0;
+	font-size: 20px;
+    }
+
+    & .termsAndConditionsLink {
+	color: var(--light);
+	text-decoration: none;
+	font-weight: bold;
+	transition: .3s;
+
+	&:hover {
+	    color: var(--blue);
+	}
+    }
+
+    & .input {
+	margin-bottom: 20px;
+    }
+
+    & .loaderContainer {
+	& .loader {
+	    display: block;
+	    margin: auto;
+	    margin-top: 20px;
+	    width: 30px;
+	    height: 30px;
+	}
+    }
+
+    & .submitButton {
+	max-width: 200px;
+    }
+}

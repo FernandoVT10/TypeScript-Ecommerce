@@ -1,0 +1,25 @@
+.register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    & .successMessage {
+	padding: 20px;
+	width: 100%;
+	max-width: 500px;
+	background: var(--black);
+
+	& .title {
+	    color: var(--light);
+	    margin: 0;
+	    font-size: 20px;
+	}
+
+	& .message {
+	    font-size: 16px;
+	    font-weight: bold;
+	    color: var(--blue);
+	}
+    }
+}

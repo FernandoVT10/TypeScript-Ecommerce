@@ -1,0 +1,51 @@
+.inputGroup {
+    position: relative;
+    font-size: 16px;
+
+    &.error {
+	& .input {
+	    border-color: var(--red) !important;
+	}
+
+	& .label {
+	    color: var(--red) !important;
+	}
+    }
+
+    & .input {
+	width: 100%;
+	color: var(--light);
+	background: transparent;
+	border: none;
+	font-size: 18px;
+	border-bottom: solid 2px var(--gray);
+	padding: 10px 0;
+	transition: .3s;
+
+	&:focus,
+	&:valid {
+	    margin-top: 20px;
+	    border-color: var(--blue);
+	}
+    }
+
+    & .label {
+	position: absolute;
+	color: var(--gray);
+	top: 15px;
+	left: 0;
+	transition: .3s;
+    }
+
+    & .input:focus + .label,
+    & .input:valid + .label{
+	color: var(--blue);
+	top: 5px;
+    }
+
+    & .errorMessage {
+	color: var(--red);
+	font-weight: bold;
+	font-size: 12px;
+    }
+}
