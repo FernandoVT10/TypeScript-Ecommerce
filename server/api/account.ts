@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { Error } from "mongoose";
 
 import transporter from "../utils/services/mail";
+import loadEmailTemplate from "../utils/services/loadEmailTemplate";
 
 import { JWT_SECRET_KEY, MAIL_CONFIG } from "../config";
 
@@ -25,7 +26,7 @@ interface IRegisterInput {
 
 router.post("/register/", async (req, res) => {
     const { name, username, email, password } = req.body as IRegisterInput;
-
+    
     try {
 	const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -39,11 +40,14 @@ router.post("/register/", async (req, res) => {
 	    activeToken
 	});
 
+	const url = `${req.protocol}://${req.get("host")}`;
+	const verificationEmail = loadEmailTemplate("verificationEmail", { url, activeToken });
+
 	await transporter.sendMail({
 	    from: MAIL_CONFIG.username,
 	    to: email,
 	    subject: "Email Verification - TypeScriptEcomerce",
-	    html: `<a href="http://localhost:3000/api/account/activate/${activeToken}">Activate account</a>`
+	    html: verificationEmail
 	});
 
 	res.json({

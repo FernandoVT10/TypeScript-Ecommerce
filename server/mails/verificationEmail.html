@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #content {
+            display: block;
+            margin: auto;
+            padding-bottom: 25px;
+            background: #191a1c;
+            max-width: 600px;
+        }
+
+        #header {
+            padding: 10px;
+        }
+
+        #header a {
+            text-decoration: none;
+        }
+
+        #header img {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+        }
+
+        #header h1 {
+            font-size: 25px;
+            font-weight: bold;
+            vertical-align: middle;
+            display: inline;
+            margin: 0;
+            color: #d2dbe2;
+        }
+
+        #body {
+            padding: 0 25px;
+        }
+
+        #body h3 {
+            color: #d2dbe2;
+            margin: 25px 0;
+        }
+
+        #body p {
+            display: block;
+            margin: 25px 0;
+            font-size: 16px;
+            line-height: 2em;
+            color: #4bcffa;
+	    font-weight: bold;
+        }
+
+        #body a {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            background: #4bcffa;
+            padding: 10px 20px;
+            margin: auto;
+            width: 150px;
+            color: #191a1c;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <div id="header">
+            <a href="{url}">
+		<img src="{url}/favicon.png" alt="Icon" />
+                <h1>Commerce</h1>
+            </a>
+        </div>
+        <div id="body">
+            <h3>You have registered successfully!</h3>
+            <p>Now, you need to activate your account by clicking the link below.</p>
+	    <a href="{url}/login?activeToken={activeToken}">Activate Account</a>
+        </div>
+    </div>
+</body>
+</html>
