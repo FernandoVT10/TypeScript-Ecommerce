@@ -99,9 +99,7 @@ router.get("/activate/:activeToken", async (req, res) => {
     const { activeToken } = req.params;
 
     try {
-	const user = await User.updateOne({ activeToken }, {
-	    $set: { active: true }
-	});
+	const user = await User.findOne({ activeToken });
 
 	if(!user) {
 	    res.json({
@@ -113,6 +111,9 @@ router.get("/activate/:activeToken", async (req, res) => {
 
 	    return;
 	}
+
+	user.active = true;
+	user.save();
 
 	res.json({
 	    data: {

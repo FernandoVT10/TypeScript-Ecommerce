@@ -1,0 +1,46 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+
+    & .loginForm {
+	padding: 20px;
+	width: 100%;
+	max-width: 500px;
+	background: var(--black);
+
+	& .title {
+	    color: var(--light);
+	    font-size: 20px;
+	    margin: 0;
+	}
+
+	& .input {
+	    margin-bottom: 20px;
+	}
+
+	& .errorMessage {
+	    color: var(--red);
+	    font-weight: bold;
+	    font-size: 14px;
+	}
+
+	& .loaderContainer {
+	    & .loader {
+		display: block;
+		margin: auto;
+		margin-top: 20px;
+		width: 30px;
+		height: 30px;
+	    }
+	}
+
+	& .submitButton {
+	    max-width: 200px;
+	}
+    }
+}
+
