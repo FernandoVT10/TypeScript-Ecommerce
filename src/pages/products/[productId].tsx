@@ -6,21 +6,39 @@ import Product, { ProductProps } from "@/domain/Product";
 
 import ApiController from "@/services/ApiController";
 
+interface APIResponses {
+    product: {
+	data: {
+	    product: ProductProps["product"]
+	}
+    },
+    recommendedProducts: {
+	data: {
+	    products: ProductProps["recommendedProducts"]
+	}
+    },
+    reviewsCount: {
+	data: {
+	    reviewsCount: ProductProps["reviewsCount"]
+	}
+    }
+}
+
 export async function getServerSideProps(context: GetServerSidePropsContext)  {
     const { productId } = context.params;
 
     try {
-	const productResponse = await ApiController.get<{
-	    product: ProductProps["product"]
-	}>(`products/${productId}`);
+	const productResponse = await ApiController.get<
+	    APIResponses["product"]
+	>(`products/${productId}`);
 
-	const recommendedProductsResponse = await ApiController.get<{
-	    products: ProductProps["recommendedProducts"]
-	}>(`products?limit=10`);
+	const recommendedProductsResponse = await ApiController.get<
+	    APIResponses["recommendedProducts"]
+	>(`products?limit=10`);
 
-	const reviewsCountResonse = await ApiController.get<{
-	    reviewsCount: ProductProps["reviewsCount"]
-	}>(`products/${productId}/reviews/getTotalStarsCount/`);
+	const reviewsCountResonse = await ApiController.get<
+	    APIResponses["reviewsCount"]
+	>(`products/${productId}/reviews/getTotalStarsCount/`);
 
         return {
             props: {

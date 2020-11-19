@@ -16,7 +16,7 @@ export default async function jwtAuthentication(req: express.Request, res: expre
     try {
 	const decodedData = jwt.verify(token, JWT_SECRET_KEY);
 
-	req.userId = decodedData.userId;
+	// req.userId = decodedData.userId;
 
 	next();
     } catch {

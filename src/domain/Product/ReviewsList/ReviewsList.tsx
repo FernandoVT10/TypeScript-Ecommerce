@@ -13,6 +13,12 @@ export interface Review {
     calification: number
 }
 
+interface APIResponse {
+    data: {
+	reviews: Review[]
+    }
+}
+
 const REVIEWS_PER_PAGE = 3;
 
 function ReviewsList({ productId }: { productId: string }) {
@@ -24,7 +30,9 @@ function ReviewsList({ productId }: { productId: string }) {
     useEffect(() => {
 	setLoading(true);
 
-	ApiController.get<{ reviews: Review[] }>(`products/${productId}/reviews?limit=${REVIEWS_PER_PAGE}&offset=${offset}`)
+	const apiURL = `products/${productId}/reviews?limit=${REVIEWS_PER_PAGE}&offset=${offset}`;
+
+	ApiController.get<APIResponse>(apiURL)
 	.then(res => {
 	    if(res.data) {
 		const newReviews = res.data.reviews;

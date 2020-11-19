@@ -6,6 +6,17 @@ import ApiController from "@/services/ApiController";
 
 import Products, { ProductsProps } from "@/domain/Products";
 
+interface APIResponses {
+    products: {
+	data: ProductsProps["productsResponse"]
+    },
+    categories: {
+	data: {
+            categories: ProductsProps["categories"]
+	}
+    }
+}
+
 export async function getServerSideProps(context: GetServerSidePropsContext)  {
     const search = context.query.search || "";
     const category = context.query.category || "";
@@ -13,12 +24,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
 
     try {
         const productsResponse = await ApiController.get<
-            ProductsProps["productsResponse"]
+	    APIResponses["products"]
         >(`products?search=${search}&category=${category}&page=${page}`);
 
-        const categoriesResponse = await ApiController.get<{
-            categories: ProductsProps["categories"]
-        }>("categories");
+	const categoriesResponse = await ApiController.get<
+	    APIResponses["categories"]
+	>("categories");
 
         return {
             props: {

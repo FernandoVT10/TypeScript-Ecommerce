@@ -11,6 +11,12 @@ import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumb
 
 import styles from "./ShoppingCart.module.scss";
 
+interface APIResponse {
+    data: {
+	product: ProductItemProps["product"]
+    }
+}
+
 function ShoppingCart() {
     const [products, setProducts] = useState<ProductItemProps["product"][]>([]);
 
@@ -21,9 +27,7 @@ function ShoppingCart() {
 	    const products: ProductItemProps["product"][] = [];
 
 	    for(const cartItem of cartItems) {
-		const productResponse = await ApiController.get<{
-		    product: ProductItemProps["product"]
-		}>(`products/${cartItem.productId}`);
+		const productResponse = await ApiController.get<APIResponse>(`products/${cartItem.productId}`);
 
 		const { product } = productResponse.data;
 

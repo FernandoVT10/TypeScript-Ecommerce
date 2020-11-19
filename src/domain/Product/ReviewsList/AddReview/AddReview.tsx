@@ -28,7 +28,9 @@ function AddReview({ setReviews, productId }: AddReviewProps) {
 	setLoading(true);
 
 	ApiController.post<{
-	    createdReview: Review
+	    data: {
+		createdReview: Review
+	    }
 	}>(`products/${productId}/reviews/`, {
 	    body: { content: review, calification }
 	})
