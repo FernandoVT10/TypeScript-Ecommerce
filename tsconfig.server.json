@@ -11,6 +11,8 @@
     "include": ["server"],
     "exclude": [
         "node_modules",
-        "src"
+        "src",
+	"server/**/__tests__/",
+	"server/setupJest.ts"
     ]
 }
