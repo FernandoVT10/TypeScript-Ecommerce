@@ -71,6 +71,7 @@ function Register() {
 		}
 
 		emailHandler.setError(res.message);
+		return
 	    }
 
 	    if(res.data.message) {
