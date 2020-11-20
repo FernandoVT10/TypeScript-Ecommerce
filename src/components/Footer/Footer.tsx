@@ -16,11 +16,9 @@ function Footer() {
 
             <p className={styles.copyright}>© 2020 TypeScript Ecommerce</p>
 
-            <Link href="#">
-                <a className={styles.termsAndConditions}>
-                    Terms and conditions    
-                </a>
-            </Link>
+	    <a href="#" className={styles.termsAndConditions}>
+		Terms and conditions    
+	    </a>
         </footer>
     );
 }

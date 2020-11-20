@@ -9,11 +9,11 @@ function App({ Component, pageProps }: AppProps) {
         <div>
             <Head>
                 <link rel="shortcut icon" href="/favicon.png"/>
+
+		<script src="https://kit.fontawesome.com/63ef8f1397.js" crossOrigin="anonymous"></script>
             </Head>
 
             <Component {...pageProps} />
-
-            <script src="https://kit.fontawesome.com/63ef8f1397.js" crossOrigin="anonymous"></script>
         </div>
     );
 }
