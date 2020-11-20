@@ -43,7 +43,7 @@ function ProductItem({ product, removeProductFromCart, updateQuantityOnCart }: P
 		<div className={styles.optionsContainer}>
 		    <Link href={`/products/${product._id}`}>
 			<a className={styles.title}>{ product.title }</a>
-		    </Link>'
+		    </Link>
 
 		    <a
 		    href="#"

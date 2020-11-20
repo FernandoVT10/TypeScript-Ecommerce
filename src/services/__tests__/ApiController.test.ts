@@ -8,12 +8,12 @@ describe("Services Api Controller", () => {
     describe("Get method", () => {
         it("should get and parse the data correctly", async () => {
             fetchMock.mockResponseOnce(
-                JSON.stringify({ data: { message: "Test Message" } })
+                JSON.stringify({ message: "Test Message" })
             );
 
             const res = await ApiController.get<{ message: "Test Message" }>("test");
 
-            expect(res.data.message).toBe("Test Message");
+            expect(res.message).toBe("Test Message");
 
 	    const fetchCall = fetchMock.mock.calls[0];
 
@@ -32,12 +32,9 @@ describe("Services Api Controller", () => {
             }
 
             expect(thrownError).toEqual({
-                errors: [
-                    {
-                        status: 500,
-                        message: "An error has ocurred in the server. Please try again later."
-                    }
-                ]
+		status: 500,
+		error: "Internal Server Error",
+		message: "An error has ocurred in the server. Please try again later."
             });
 
 	    const fetchCall = fetchMock.mock.calls[0];
@@ -49,7 +46,7 @@ describe("Services Api Controller", () => {
     describe("POST method", () => {
 	it("should send and get the data correctly", async () => {
             fetchMock.mockResponseOnce(
-                JSON.stringify({ data: { message: "Post test message" } })
+                JSON.stringify({ message: "Post test message" })
             );
 
             const res = await ApiController.post<{ message: "Post test message" }>("postTest", {
@@ -58,7 +55,7 @@ describe("Services Api Controller", () => {
 		}
 	    });
 
-	    expect(res.data.message).toBe("Post test message");
+	    expect(res.message).toBe("Post test message");
 
 	    const fetchCall = fetchMock.mock.calls[0];
 

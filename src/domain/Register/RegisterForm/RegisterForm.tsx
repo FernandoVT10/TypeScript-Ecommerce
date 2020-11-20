@@ -101,7 +101,7 @@ function RegisterForm({
 		</Checkbox>
 
 		{ loading ?
-		    <div className={styles.loaderContainer}>
+		    <div className={styles.loaderContainer} data-testid="register-form-loader">
 			<span className={`loader ${styles.loader}`}></span>
 		    </div>
 		:
