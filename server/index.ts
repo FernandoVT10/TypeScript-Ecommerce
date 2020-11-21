@@ -5,7 +5,8 @@ import app from "./app";
 mongoose.connect("mongodb://localhost:27017/TypeScriptEcommerce", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 
 const dev = process.env.NODE_ENV !== "production";

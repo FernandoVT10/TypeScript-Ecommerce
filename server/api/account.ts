@@ -52,7 +52,7 @@ router.post("/register/", async (req, res) => {
 
 	res.json({
 	    data: {
-	       message: "You have successfully registered "
+	       message: "You have successfully registered"
 	    }
 	});
     } catch(err) {

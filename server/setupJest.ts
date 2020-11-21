@@ -6,7 +6,8 @@ function setupTestDB(dbname: string) {
             await mongoose.connect(`mongodb://localhost/${dbname}`, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
-                useFindAndModify: false
+                useFindAndModify: false,
+		useCreateIndex: true
             });
         } catch (error) {
             console.log(error);
