@@ -14,7 +14,7 @@ function ActivationMessage({ activationStatus }: { activationStatus: string }) {
     if(activationStatus === "error") {
 	return (
 	    <div className={`${styles.message} ${styles.error}`}>
-		The activation token don't exists
+		The activation token don't exists.
 	    </div>
 	);
     }

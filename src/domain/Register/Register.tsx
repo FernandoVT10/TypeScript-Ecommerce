@@ -71,7 +71,7 @@ function Register() {
 		}
 
 		emailHandler.setError(res.message);
-		return
+		return;
 	    }
 
 	    if(res.data.message) {
@@ -84,7 +84,7 @@ function Register() {
 	return (
 	    <div className={styles.register}>
 		<div className={styles.successMessage}>
-		    <h3 className={styles.title}>You have successfully registered! </h3>
+		    <h3 className={styles.title}>You have successfully registered!</h3>
 
 		    <p className={styles.message}>
 			We have sent a verification email.
