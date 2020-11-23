@@ -65,18 +65,19 @@ router.get("/:productId", async (req, res) => {
             res.json({ data: { product } });
         } else {
             res.json({
-                errors: [
-                    {
-                        status: 404,
-                        message: `The product ${productId} doesn't exist`
-                    }
-                ]
+		status: 404,
+		error: "Product not found",
+		message: `The product ${productId} doesn't exist`,
+		path: `/api/products/${productId}`
             });
         }
-    } catch(error) {
-        res.json({
-            errors: [ error ]
-        });
+    } catch(err) {
+	res.json({
+	    status: 500,
+	    error: "Internal server error",
+	    message: err.message,
+	    path: "/api/account/register/"
+	});
     }
 });
 

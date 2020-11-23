@@ -164,12 +164,12 @@ describe("Products API", () => {
 	it("should get a 404 not found error", async () => {
 	    const res = await request.get("/api/products/abcdefabcdef");
 
-	    expect(res.body.errors).toEqual([
-		{
-		    status: 404,
-		    message: "The product abcdefabcdef doesn't exist"
-		}
-	    ]);
+	    expect(res.body).toEqual({
+		status: 404,
+		error: "Product not found",
+		message: "The product abcdefabcdef doesn't exist",
+		path: `/api/products/abcdefabcdef`
+	    });
 	});
     });
 });

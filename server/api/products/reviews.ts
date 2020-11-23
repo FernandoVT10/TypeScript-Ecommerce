@@ -103,8 +103,13 @@ router.post("/", checkIfProductExist, async (req, res) => {
 	await Product.updateOne({ _id: productId }, { $set: { calification: productCalification } });
 
 	res.json({ data: { createdReview } });
-    } catch(error) {
-	res.json({ errors: [ error ] });
+    } catch(err) {
+	res.json({
+	    status: 500,
+	    error: "Internal server error",
+	    message: err.message,
+	    path: "/api/account/register/"
+	});
     }
 });
 
