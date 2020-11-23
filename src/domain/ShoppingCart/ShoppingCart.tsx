@@ -20,6 +20,8 @@ interface APIResponse {
 function ShoppingCart() {
     const [products, setProducts] = useState<ProductItemProps["product"][]>([]);
 
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
 	async function getProducts() {
 	    const cartItems = ShoppingCartController.getItems();
@@ -36,6 +38,7 @@ function ShoppingCart() {
 		products.push(productResponse.data.product);
 	    }
 
+	    setLoading(false);
 	    setProducts(products);
 	}
 
@@ -71,11 +74,17 @@ function ShoppingCart() {
 
     return (
 	<div>
-	    <Navbar/>'
+	    <Navbar/>
 
 	    <div className="wrapper">
 		<div className={`container ${styles.shoppingCart}`}>
 		    <h3 className="subtitle">Shopping Cart</h3>
+
+		    { loading && 
+			<div className={styles.loaderContainer}>
+			    <span className={`loader ${styles.loader}`}></span>
+			</div>
+		    }
 
 		    { products.length > 0 &&
 			<div className={styles.productList}>
@@ -96,7 +105,7 @@ function ShoppingCart() {
 			</div>
 		    }
 
-		    { products.length === 0 &&
+		    { products.length === 0 && !loading &&
 			<div className={styles.emptyShoppingCart}>
 			    There are not products in your shopping cart
 			</div>
