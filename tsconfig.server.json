@@ -6,7 +6,8 @@
         "allowJs": true,
         "esModuleInterop": true,
         "baseUrl": "server",
-        "downlevelIteration": true
+        "downlevelIteration": true,
+	"typeRoots": ["./types"]
     },
     "include": ["server"],
     "exclude": [

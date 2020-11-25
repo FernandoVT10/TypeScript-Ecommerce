@@ -1,0 +1,114 @@
+import { Router } from "express";
+
+import mongoose from "mongoose";
+
+import paypal, { IOrderItem } from "../utils/services/paypal";
+
+import Product from "../models/Product";
+import Order, { IOrder } from "../models/Order";
+
+const router = Router();
+
+interface ICheckoutInput {
+    cartItems: {
+    	productId: string,
+	quantity: number
+    }[]
+}
+
+router.post("/create/", async (req, res) => {
+    const { cartItems } = req.body as ICheckoutInput;
+
+    let error = "";
+
+    if(!cartItems) {
+	error = "The parameter 'cartItems' is required";
+    } else if(typeof cartItems !== "object") {
+	error = "The parameter 'cartItems' must be an array";
+    } else if(!cartItems.length) {
+	error = "The parameter 'cartItems' must not be empty";
+    }
+
+    if(error.length) {
+	return res.json({
+	    status: 400,
+	    error: "Bad Request",
+	    message: error,
+	    path: req.originalUrl
+	});
+    }
+
+    try {
+	let error = "";
+
+	const items: IOrderItem[] = [];
+	const orderProducts: IOrder["products"] = [];
+
+	for(const cartItem of cartItems) {
+	    const product = await Product.findById(cartItem.productId);
+
+	    if(!cartItem.quantity) {
+		error = `The parameter 'quantity' must be more greater than 0 for the product '${product.title}'`;
+		break;
+	    }
+
+	    if(cartItem.quantity > product.inStock) {
+		error = `Not enough stock for the product '${product.title}'`;
+		break;
+	    }
+
+	    items.push({
+		title: product.title,
+		price: product.discountedPrice,
+		quantity: cartItem.quantity
+	    });
+
+	    orderProducts.push({
+		originalProduct: product._id,
+		price: product.discountedPrice,
+		discount: product.discount,
+		quantity: cartItem.quantity
+	    });
+	}
+
+	if(error.length) {
+	    return res.json({
+		status: 400,
+		error: "Bad request",
+		message: error,
+		path: req.originalUrl
+	    });
+	}
+
+	const orderId = await paypal.createOrder(items);
+
+	const total = orderProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
+
+	await Order.create({
+	    userId: req.userId,
+	    paypalOrderId: orderId,
+	    products: orderProducts,
+	    total
+	});
+
+	res.json({ data: { orderId } });
+    } catch (err) {
+	if(err instanceof mongoose.Error) {
+	    return res.json({
+		status: 400,
+		error: "Bad Request",
+		message: err.message,
+		path: req.originalUrl
+	    });
+	}
+
+	res.json({
+	    status: 500,
+	    error: "Internal Server Error",
+	    message: err.message,
+	    path: req.originalUrl
+	});
+    }
+});
+
+export default router;

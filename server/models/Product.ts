@@ -12,7 +12,8 @@ export interface IProduct extends Document {
     arrivesIn: string,
     warranty: string,
     description: string,
-    categories: ICategory["_id"]
+    categories: ICategory["_id"],
+    discountedPrice?: number
 }
 
 interface IProductModel extends Model<IProduct> {
@@ -37,6 +38,8 @@ const productSchema = new Schema({
     },
     discount: {
         type: Number,
+	max: 100,
+	min: 0,
         default: 0
     },
     inStock: {
@@ -63,6 +66,12 @@ const productSchema = new Schema({
         ref: "categories"
     }]
 }, { timestamps: true });
+
+productSchema.virtual("discountedPrice").get(function() {
+    const discount = (100 - this.discount) / 100;
+
+    return this.price * discount;
+})
 
 productSchema.plugin(mongoosePaginate);
 
