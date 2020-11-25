@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useRouter } from "next/router";
 import { PayPalButton } from "react-paypal-button-v2";
 
 import ShoppingCartController from "@/services/ShoppingCartController";
@@ -12,6 +13,13 @@ interface BuyNowProps {
 }
 
 interface APIResponses {
+    executeOrder: {
+	data: {
+	    message: string
+	},
+	error: string,
+	message: string
+    },
     createOrder: {
 	data: {
 	    orderId: string
@@ -20,8 +28,22 @@ interface APIResponses {
 }
 
 function BuyNow({ paypalClientId }: BuyNowProps) {
-    const onSuccess = (details, data) => {
-        console.log(details, data);
+    const router = useRouter();
+
+    const onSuccess = async (_, data) => {
+	const res = await ApiController.post<APIResponses["executeOrder"]>("payment/execute", {
+	    body: {
+		orderId: data.orderID
+	    }
+	});
+
+	if(res.error) {
+	    alert(res.message);
+	    return;
+	}
+
+	ShoppingCartController.clear();
+	console.log(res.data.message);
     }
 
     const paypalOptions = {
@@ -40,12 +62,22 @@ function BuyNow({ paypalClientId }: BuyNowProps) {
 	return res.data.orderId;
     }
 
+    const onCancel = async (data) => {
+	await ApiController.post("payment/cancel", {
+	    body: {
+		orderId: data.orderID
+	    }
+	});
+
+	router.push("/cart/");
+    }
+
     return (
 	<div className={styles.buyNow}>
 	    <PayPalButton
-	    amount="0.01"
 	    createOrder={createOrder}
 	    onSuccess={onSuccess}
+	    onCancel={onCancel}
 	    options={paypalOptions}/>
 	</div>
     );

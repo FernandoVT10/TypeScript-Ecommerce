@@ -56,9 +56,14 @@ function deleteItem(productId: string): void {
    window.localStorage.setItem("cart", JSON.stringify(newItems));
 }
 
+function clear() {
+    window.localStorage.setItem("cart", JSON.stringify([]));
+}
+
 export default {
     getItems,
     setItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    clear
 }
