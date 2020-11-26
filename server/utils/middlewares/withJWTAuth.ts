@@ -6,7 +6,8 @@ import { JWT_SECRET_KEY } from "../../config";
 import User from "../../models/User";
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const { token } = req.cookies;
+    const bearer = req.headers["authorization"];
+    const token = bearer.replace("token", "");
 
     if(!token) {
 	res.json({

@@ -13,7 +13,7 @@ interface APIResponse {
     error: string,
     message: string,
     data: {
-	message: string
+	token: string
     }
 }
 
@@ -43,6 +43,8 @@ function Login({ activationStatus }: { activationStatus: string }) {
 		setErrorMessage(res.message);
 		return;
 	    }
+
+	    window.localStorage.setItem("token", res.data.token);
 
 	    router.push("/dashboard/");
 	});
