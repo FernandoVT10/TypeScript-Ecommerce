@@ -14,20 +14,31 @@ async function fetchCall<T>(url: string, options = {}): Promise<T> {
     }
 }
 
-interface callOptions {
+interface postOptions {
     body: object
 }
 
 export default {
-    get<T>(url: string) {
-        return fetchCall<T>(API_URL + url);
+    get<T>(url: string, customAuthToken = "") {
+	const authToken = process.browser ? window.localStorage.getItem("token") : customAuthToken;
+
+	const options = {
+	    headers: {
+		"Authorization": `Bearer ${authToken}`
+	    }
+	}
+
+        return fetchCall<T>(API_URL + url, options);
     },
-    post<T>(url: string, options: callOptions) {
+    post<T>(url: string, options: postOptions) {
+	const authToken = window.localStorage.getItem("token");
+
 	const newOptions = {
 	    body: JSON.stringify(options.body),
 	    method: "POST",
 	    headers: {
-		"Content-Type": "application/json"
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${authToken}`
 	    }
 	}
 

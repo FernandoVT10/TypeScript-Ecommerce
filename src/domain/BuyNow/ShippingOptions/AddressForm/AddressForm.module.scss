@@ -1,0 +1,108 @@
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    background: var(--black);
+}
+
+.addressForm {
+    & .title {
+	color: var(--light);
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 20px;
+    }
+
+    & .formContainer {
+	margin-top: 20px;
+	padding: 20px;
+	background: var(--black);
+
+	& .title {
+	    margin: 0;
+	    color: var(--light);
+	    font-weight: bold;
+	    font-size: 20px;
+	}
+
+	& .input {
+	    margin-bottom: 20px;
+	}
+
+	& .inputGroup {
+	    display: flex;
+	    margin-bottom: 20px;
+
+	    & .input {
+		margin: 0;
+
+		&:nth-child(1) {
+		    margin-right: 20px;
+		}
+	    }
+	}
+
+	& .textareaContainer {
+	    & .textareaLabel {
+		display: block;
+		color: var(--light);
+		font-weight: bold;
+		font-size: 16px;
+		margin-bottom: 10px;
+	    }
+
+	    & .textarea {
+		width: 100%;
+		padding: 20px;
+		font-size: 16px;
+		background: transparent;
+		height: 150px;
+		color: var(--light);
+		border: solid 2px var(--gray);
+	    }
+	}
+
+	& .errorMessage {
+	    margin: 0;
+	    margin-top: 10px;
+	    color: var(--red);
+	    font-weight: bold;
+	    font-size: 16px;
+	}
+    }
+
+    & .continueButton {
+	cursor: pointer;
+	margin-top: 20px;
+	float: right;
+	width: 150px;
+	height: 50px;
+	color: var(--green);
+	border: none;
+	font-weight: bold;
+	background: var(--black);
+
+	& i {
+	    margin-left: 5px;
+	}
+    }
+
+    @media screen and (max-width: 600px) {
+	& .formContainer {
+	    & .inputGroup {
+		margin: 0;
+		flex-direction: column;
+
+		& .input {
+		    margin-bottom: 20px;
+
+		    &:nth-child(1) {
+			margin: 0;
+			margin-bottom: 20px;
+		    }
+		}
+	    }
+	}
+    }
+}

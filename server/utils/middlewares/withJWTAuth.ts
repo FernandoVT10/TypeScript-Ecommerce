@@ -7,18 +7,18 @@ import User from "../../models/User";
 
 export default async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const bearer = req.headers["authorization"];
-    const token = bearer.replace("token", "");
 
-    if(!token) {
-	res.json({
+    if(!bearer) {
+	return res.json({
 	    status: 401,
 	    error: "No authorization cookie",
-	    message: "The authorization cookie doesn't exists",
+	    message: "The authorization header is required",
 	    path: req.originalUrl
 	});
-
-	return;
     }
+
+    const token = bearer.replace("Bearer ", "");
+
 
     try {
 	const decodedData = jwt.verify(token, JWT_SECRET_KEY) as { userId: string };
@@ -37,14 +37,12 @@ export default async (req: express.Request, res: express.Response, next: express
 	next();
     } catch(err) {
 	if (err instanceof jwt.JsonWebTokenError) {
-	    res.json({
+	    return res.json({
 		status: 401,
 		error: "Invalid Token",
 		message: err.message,
 		path: req.originalUrl
 	    });
-
-	    return;
 	}
 
 	res.json({

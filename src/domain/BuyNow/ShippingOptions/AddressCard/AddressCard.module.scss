@@ -1,0 +1,54 @@
+.addressCard {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--black);
+    border: solid 1px var(--black);
+    margin-bottom: 20px;
+
+    &.selected {
+	border-color: var(--blue);
+
+	& .checkbox:before {
+	    display: block;
+	}
+    }
+
+    & p {
+	margin: 0;
+    }
+
+    & .firstDetail {
+	color: var(--light);
+	font-size: 18px;
+	margin-bottom: 10px;
+    }
+
+    & .details {
+	color: var(--gray);
+	font-size: 16px;
+    }
+
+    & .checkbox {
+	position: relative;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border: solid 2px var(--blue);
+	border-radius: 50%;
+
+	&:before {
+	    content: "";
+	    position: absolute;
+	    top: 2.5px;
+	    left: 2.5px;
+	    width: 10px;
+	    height: 10px;
+	    display: none;
+	    border-radius: 50%;
+	    background: var(--blue);
+	}
+    }
+}

@@ -1,84 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
-import { PayPalButton } from "react-paypal-button-v2";
-
+import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumber";
 import ShoppingCartController from "@/services/ShoppingCartController";
-import ApiController from "@/services/ApiController";
+
+import ProductCard, { ProductCardProps } from "./ProductCard";
+import ShippingOptions from "./ShippingOptions";
+import BuyButton from "./BuyButton";
 
 import styles from "./BuyNow.module.scss";
 
-interface BuyNowProps {
-    paypalClientId: string
-}
+function BuyNow ({ paypalClientId }: { paypalClientId: string }) {
+    const [products, setProducts] = useState<ProductCardProps["product"][]>([]);
 
-interface APIResponses {
-    executeOrder: {
-	data: {
-	    message: string
-	},
-	error: string,
-	message: string
-    },
-    createOrder: {
-	data: {
-	    orderId: string
-	}
-    }
-}
+    useEffect(() => {
+	async function getProducts () {
+	    const products = await ShoppingCartController.getProductsFromServer<ProductCardProps["product"]>();
 
-function BuyNow({ paypalClientId }: BuyNowProps) {
-    const router = useRouter();
-
-    const onSuccess = async (_, data) => {
-	const res = await ApiController.post<APIResponses["executeOrder"]>("payment/execute", {
-	    body: {
-		orderId: data.orderID
-	    }
-	});
-
-	if(res.error) {
-	    alert(res.message);
-	    return;
+	    setProducts(products);
 	}
 
-	ShoppingCartController.clear();
-	console.log(res.data.message);
-    }
+	getProducts();
+    }, []);
 
-    const paypalOptions = {
-	clientId: paypalClientId
-    }
-
-    const createOrder = async () => {
-	const cartItems = ShoppingCartController.getItems();
-
-	const res = await ApiController.post<APIResponses["createOrder"]>("payment/create", {
-	    body: {
-	    	cartItems
-	    }
-	});
-
-	return res.data.orderId;
-    }
-
-    const onCancel = async (data) => {
-	await ApiController.post("payment/cancel", {
-	    body: {
-		orderId: data.orderID
-	    }
-	});
-
-	router.push("/cart/");
-    }
+    const total = products.reduce((acc, product) => {
+	const discountedPrice = getDiscountedPrice(product.price, product.discount);
+	return acc + discountedPrice * product.quantity;
+    }, 0)
 
     return (
-	<div className={styles.buyNow}>
-	    <PayPalButton
-	    createOrder={createOrder}
-	    onSuccess={onSuccess}
-	    onCancel={onCancel}
-	    options={paypalOptions}/>
+	<div className={`container ${styles.buyNow}`}>
+	    <div className={styles.shippingOptions}>
+		<ShippingOptions/>
+	    </div>
+
+	    <div className={styles.productList}>
+		{products.map((product, index) => {
+		    return <ProductCard product={product} key={index}/>;
+		})}
+
+		<div className={styles.total}>
+		    <span>Total</span>
+		    <span>$ { AddSpacesToNumber(total) }</span>
+		</div>
+	    </div>
+
+	    { /* <BuyButton paypalClientId={paypalClientId}/> */ }
 	</div>
     );
 }

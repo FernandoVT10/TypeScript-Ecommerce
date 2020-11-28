@@ -46,7 +46,7 @@ export async function getServerSideProps() {
 	const discountProductsResponse = await ApiController.get<
 	    APIResponses["discountProducts"]
 	>("products?discountsOnly=true&limit=10");
-    
+
         return {
             props: {
                 carouselItems: carouselResponse.data.carousel,

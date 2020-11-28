@@ -8,7 +8,7 @@ import User from "../../models/User";
 
 export default async (req: Request, res: Response) => {
     const bearer = req.headers["authorization"];
-    const token = bearer.replace("token", "");
+    const token = bearer.replace("Bearer ", "");
 
     try {
 	const decodedData = jwt.verify(token, JWT_SECRET_KEY) as { userId: string };

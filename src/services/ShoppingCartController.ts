@@ -1,3 +1,5 @@
+import ApiController from "./ApiController";
+
 export interface CartItem {
     productId: string,
     quantity: number
@@ -11,6 +13,28 @@ function getItems(): CartItem[] {
     }
 
     return [];
+}
+
+async function getProductsFromServer<T>() {
+    const items = getItems();
+
+    const products: T[] = [];
+
+    for(const item of items) {
+	const productResponse = await ApiController.get<{
+	    data: {
+		product: T & { quantity: number }
+	    } 
+	}>(`products/${item.productId}`);
+
+	const { product } = productResponse.data;
+
+	product.quantity = item.quantity;
+
+	products.push(product);
+    }
+
+    return products;
 }
 
 function setItem(newItem: CartItem): void {
@@ -62,6 +86,7 @@ function clear() {
 
 export default {
     getItems,
+    getProductsFromServer,
     setItem,
     updateItem,
     deleteItem,

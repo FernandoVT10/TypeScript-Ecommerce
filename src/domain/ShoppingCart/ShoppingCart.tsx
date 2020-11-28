@@ -6,16 +6,9 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 import ShoppingCartController from "@/services/ShoppingCartController";
-import ApiController from "@/services/ApiController";
 import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumber";
 
 import styles from "./ShoppingCart.module.scss";
-
-interface APIResponse {
-    data: {
-	product: ProductItemProps["product"]
-    }
-}
 
 function ShoppingCart() {
     const [products, setProducts] = useState<ProductItemProps["product"][]>([]);
@@ -24,19 +17,7 @@ function ShoppingCart() {
 
     useEffect(() => {
 	async function getProducts() {
-	    const cartItems = ShoppingCartController.getItems();
-
-	    const products: ProductItemProps["product"][] = [];
-
-	    for(const cartItem of cartItems) {
-		const productResponse = await ApiController.get<APIResponse>(`products/${cartItem.productId}`);
-
-		const { product } = productResponse.data;
-
-		product.quantity = cartItem.quantity;
-
-		products.push(productResponse.data.product);
-	    }
+	    const products = await ShoppingCartController.getProductsFromServer<ProductItemProps["product"]>();
 
 	    setLoading(false);
 	    setProducts(products);

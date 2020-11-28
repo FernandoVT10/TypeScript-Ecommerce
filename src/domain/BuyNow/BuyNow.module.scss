@@ -1,0 +1,43 @@
+.buyNow {
+    display: flex;
+    margin-top: 40px;
+
+    & .shippingOptions {
+	width: 700px;
+	margin-right: 20px;
+	margin-bottom: 40px;
+    }
+
+    & .productList {
+	width: 480px;
+	height: fit-content;
+	background: var(--black);
+
+	& .total {
+	    padding: 20px;
+	    display: flex;
+	    font-size: 20px;
+	    justify-content: space-between;
+	    color: var(--light);
+	}
+    }
+
+    @media screen and (max-width: 1200px) {
+	& .shippingOptions {
+	    padding: 20px;
+	    width: 100%;
+	    margin: 0;
+	    margin-bottom: 40px;
+	}
+
+	& .productList {
+	    display: none;
+	}
+    }
+
+    @media screen and (max-width: 600px) {
+	& .shippingOptions {
+	    padding: 0;
+	}
+    }
+}
