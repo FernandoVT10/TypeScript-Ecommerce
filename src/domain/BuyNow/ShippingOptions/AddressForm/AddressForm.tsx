@@ -1,40 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Input from "@/components/Formulary/Input";
 
-import useInputHandling from "@/hooks/useInputHandling";
-
-import ApiController from "@/services/ApiController";
-
 import styles from "./AddressForm.module.scss";
+import {InputHadnlingResponse} from "@/hooks/useInputHandling";
 
 const POSTAL_CODE_REGEX = /^([0-9]{5})([\-]{1}[0-9]{4})?$/;
 const PHONE_NUMBER_REGEX = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 
-interface APIResponse {
-    error: string,
-    message: string
+interface AddressFormProps {
+    fullNameHandler: InputHadnlingResponse<string>,
+    postalCodeHandler: InputHadnlingResponse<string>,
+    stateHandler: InputHadnlingResponse<string>,
+    municipalityHandler: InputHadnlingResponse<string>,
+    suburbHandler: InputHadnlingResponse<string>,
+    streetHandler: InputHadnlingResponse<string>,
+    outdoorNumberHandler: InputHadnlingResponse<string>,
+    interiorNumberHandler: InputHadnlingResponse<string>,
+    phoneNumberHandler: InputHadnlingResponse<string>,
+    additionalInformationHandler: InputHadnlingResponse<string>,
+    setIsEditing: React.Dispatch<boolean>,
+    loading: boolean,
+    errorMessage: string,
+    handleOnSubmit: () => void
 }
 
-function AddressForm() {
-    const fullNameHandler = useInputHandling("");
-    const postalCodeHandler = useInputHandling("");
-    const stateHandler = useInputHandling("");
-    const municipalityHandler = useInputHandling("");
-    const suburbHandler = useInputHandling("");
-    const streetHandler = useInputHandling("");
-    const outdoorNumberHandler = useInputHandling("");
-    const interiorNumberHandler = useInputHandling("W/0");
-    const phoneNumberHandler = useInputHandling("");
-    const additionalInformationHandler = useInputHandling("");
-
-    const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(false);
-
-    const saveAddress = async (e: React.FormEvent) => {
+function AddressForm({
+    fullNameHandler,
+    postalCodeHandler,
+    stateHandler,
+    municipalityHandler,
+    suburbHandler,
+    streetHandler,
+    outdoorNumberHandler,
+    interiorNumberHandler,
+    phoneNumberHandler,
+    additionalInformationHandler,
+    setIsEditing,
+    loading,
+    errorMessage,
+    handleOnSubmit
+}: AddressFormProps) {
+    const handleForm = (e: React.FormEvent) => {
 	e.preventDefault();
-
-	setErrorMessage("");
 
 	if(!POSTAL_CODE_REGEX.test(postalCodeHandler.value)) {
 	    return postalCodeHandler.setError("The postal code is invalid");
@@ -44,28 +52,7 @@ function AddressForm() {
 	    return phoneNumberHandler.setError("The phone number is invalid");
 	}
 
-	setLoading(true);
-
-	const res = await ApiController.post<APIResponse>("account/addresses/", {
-	    body: {
-		fullName: fullNameHandler.value,
-		postalCode: postalCodeHandler.value,
-		state: stateHandler.value,
-		municipality: municipalityHandler.value,
-		suburb: suburbHandler.value,
-		street: streetHandler.value,
-		outdoorNumber: outdoorNumberHandler.value,
-		interiorNumber: interiorNumberHandler.value,
-		additionalInformation: additionalInformationHandler.value,
-		phoneNumber: phoneNumberHandler.value
-	    }
-	});
-
-	setLoading(false);
-
-	if(res.error) {
-	    return setErrorMessage(res.message);
-	}
+	handleOnSubmit();
     }
 
     if(loading) {
@@ -78,11 +65,16 @@ function AddressForm() {
 
     return (
         <div className={styles.addressForm}>
-	    <h3 className={styles.title}>Shipping Options</h3>
-
-	    <form onSubmit={saveAddress}>
+	    <form onSubmit={handleForm}>
 		<div className={styles.formContainer}>
 		    <h3 className={styles.title}>Address</h3>
+
+		    <button
+		    type="button"
+		    className={styles.closeButton}
+		    onClick={() => setIsEditing(false)}>
+			<i className="fas fa-times"></i>
+		    </button>
 
 		    <div className={styles.input}>
 			<Input

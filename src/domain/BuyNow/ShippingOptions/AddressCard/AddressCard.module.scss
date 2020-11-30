@@ -1,4 +1,5 @@
 .addressCard {
+    position: relative;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -14,6 +15,20 @@
 	& .checkbox:before {
 	    display: block;
 	}
+    }
+
+    & .loaderContainer {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: var(--black);
+	opacity: .6;
     }
 
     & p {
@@ -42,13 +57,26 @@
 	&:before {
 	    content: "";
 	    position: absolute;
-	    top: 2.5px;
-	    left: 2.5px;
+	    top: 3px;
+	    left: 3px;
 	    width: 10px;
 	    height: 10px;
 	    display: none;
 	    border-radius: 50%;
 	    background: var(--blue);
+	}
+    }
+
+    & .options {
+	margin-top: 10px;
+
+	& .option {
+	    cursor: pointer;
+	    color: var(--blue);
+	    background: transparent;
+	    border: none;
+	    font-size: 16px;
+	    margin-right: 10px;
 	}
     }
 }

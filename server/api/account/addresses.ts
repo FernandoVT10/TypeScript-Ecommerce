@@ -41,14 +41,14 @@ router.post("/", async (req, res) => {
     const addressData = req.body as IPostInput;
     
     try {
-        await Address.create({
+        const createdAddress = await Address.create({
             userId: req.userId,
 	    ...addressData
         });
 
 	res.json({
 	    data: {
-		message: "The address has been created successfully"
+		createdAddress
 	    }
 	});
     } catch (err) {
@@ -67,6 +67,90 @@ router.post("/", async (req, res) => {
 	    message: err.message,
 	    path: req.originalUrl
 	});
+    }
+});
+
+router.put("/:addressId", async (req, res) => {
+    const { addressId } = req.params;
+
+    const addressData = req.body as IPostInput;
+    
+    try {
+	const address = await Address.findById(addressId);
+
+	if(!address) {
+	    return res.json({
+		status: 404,
+		error: "Address not found",
+		message: `The address ${addressId} doesn't exists`,
+		path: req.originalUrl
+	    });
+	}
+	
+	Object.assign(address, addressData);
+
+	const updatedAddress = await address.save();
+
+	res.json({
+	    data: {
+		updatedAddress
+	    }
+	});
+    } catch (err) {
+	if(err instanceof mongoose.Error.ValidationError) {
+	    return res.json({
+		status: 400,
+		error: "Validation Error",
+		message: err.message,
+		path: req.originalUrl
+	    });
+	}
+
+	res.json({
+	    status: 500,
+	    error: "Internal Server Error",
+	    message: err.message,
+	    path: req.originalUrl
+	});
+    }
+});
+
+router.delete("/:addressId", async (req, res) => {
+    const { addressId } = req.params;
+
+    try {
+	const address = await Address.findById(addressId);
+
+	if(!address) {
+	    return res.json({
+		status: 404,
+		error: "Address not found",
+		message: `The address ${addressId} doesn't exists`,
+		path: req.originalUrl
+	    });
+	}
+
+	const deletedAddress = await address.deleteOne();
+
+	res.json({
+	    data: { deletedAddress }
+	});
+    } catch (err) {
+	if(err instanceof mongoose.Error) {
+	    return res.json({
+		status: 400,
+		error: "Bad Request",
+		message: err.message,
+		path: req.originalUrl
+	    });
+	}
+
+	res.json({
+	    status: 500,
+	    error: "Internal Server Error",
+	    message: err.message,
+	    path: req.originalUrl
+	});       
     }
 });
 

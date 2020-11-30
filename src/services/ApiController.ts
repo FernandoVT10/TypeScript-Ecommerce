@@ -43,5 +43,32 @@ export default {
 	}
 
 	return fetchCall<T>(API_URL + url, newOptions);
+    },
+    put<T>(url: string, options: postOptions) {
+	const authToken = window.localStorage.getItem("token");
+
+	const newOptions = {
+	    body: JSON.stringify(options.body),
+	    method: "PUT",
+	    headers: {
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${authToken}`
+	    }
+	}
+
+	return fetchCall<T>(API_URL + url, newOptions);
+    },
+    delete<T>(url: string) {
+	const authToken = window.localStorage.getItem("token");
+
+	const options = {
+	    method: "DELETE",
+	    headers: {
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${authToken}`
+	    }
+	}
+
+	return fetchCall<T>(API_URL + url, options);
     }
 }

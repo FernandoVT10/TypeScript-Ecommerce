@@ -7,14 +7,8 @@
 }
 
 .addressForm {
-    & .title {
-	color: var(--light);
-	font-weight: bold;
-	font-size: 25px;
-	margin-left: 20px;
-    }
-
     & .formContainer {
+	position: relative;
 	margin-top: 20px;
 	padding: 20px;
 	background: var(--black);
@@ -23,6 +17,17 @@
 	    margin: 0;
 	    color: var(--light);
 	    font-weight: bold;
+	    font-size: 20px;
+	}
+
+	& .closeButton {
+	    cursor: pointer;
+	    position: absolute;
+	    top: 20px;
+	    right: 20px;
+	    background: transparent;
+	    color: var(--light);
+	    border: none;
 	    font-size: 20px;
 	}
 
