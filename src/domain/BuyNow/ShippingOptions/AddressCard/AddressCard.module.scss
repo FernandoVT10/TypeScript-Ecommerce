@@ -2,7 +2,6 @@
     position: relative;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 20px;
     background: var(--black);
@@ -47,7 +46,8 @@
     }
 
     & .checkbox {
-	position: relative;
+	position: absolute;
+	right: 20px;
 	display: block;
 	width: 20px;
 	height: 20px;

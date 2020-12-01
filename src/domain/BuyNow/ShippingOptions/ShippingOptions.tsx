@@ -20,7 +20,6 @@ export interface Address {
     interiorNumber: string
     phoneNumber: string
     additionalInformation: string
-
 }
 
 interface APIResponses {
@@ -38,7 +37,11 @@ interface APIResponses {
     }
 }
 
-function ShippingOptions() {
+interface ShippingOptionsProps {
+    setAddressId: React.Dispatch<string>
+}
+
+function ShippingOptions({ setAddressId }: ShippingOptionsProps) {
     const [addresses, setAddresses] = useState<Address[]>([]);
     const [selectedAddress, setSelectedAddress] = useState(0);
     const [editingAddress, setEditingAddress] = useState<Address>(null);
@@ -71,6 +74,12 @@ function ShippingOptions() {
 	setIsEditing(true);
     }
 
+    const handleSetAddressId = () => {
+	const addressId = addresses[selectedAddress]._id;
+
+	setAddressId(addressId);
+    }
+
     if(isAdding) {
 	return (
 	    <AddAddress setIsEditing={setIsAdding} setAddresses={setAddresses}/>
@@ -85,7 +94,18 @@ function ShippingOptions() {
 
     return(
 	<div className={styles.shippingOptions}>
-	    <h3 className={styles.subtitle}>Select an address</h3>
+	    <div className={styles.header}>
+		<h3 className={styles.subtitle}>
+		    Select an address
+		</h3>
+
+		<a
+		href="#"
+		className={styles.addNewAddress}
+		onClick={() => setIsAdding(true)}>
+		    Add New Address
+		</a>
+	    </div>
 
 	    <div className={styles.selectAddress}>
 		{addresses.map((address, index) => {
@@ -103,12 +123,13 @@ function ShippingOptions() {
 		})}
 	    </div>
 
-	    <a
-	    href="#"
-	    className={styles.addNewAddress}
-	    onClick={() => setIsAdding(true)}>
-	    	Add New Address
-	    </a>
+
+	    <button
+	    className={styles.continueButton}
+	    onClick={handleSetAddressId}>
+		Continue
+		<i className="fas fa-arrow-right"></i>
+	    </button>
 	</div>
     );
 }

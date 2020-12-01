@@ -20,10 +20,20 @@ interface APIResponses {
     }
 }
 
-const BuyButton = ({ paypalClientId }: { paypalClientId: string }) => {
+interface BuyButtonProps {
+    paypalClientId: string,
+    addressId: string,
+    setErrorMessage: React.Dispatch<string>
+}
+
+const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProps) => {
     const router = useRouter();
 
-    const onSuccess = async (_, data) => {
+    const paypalOptions = {
+	clientId: paypalClientId
+    }
+
+    const onSuccess = async (_, data: { orderID: string }) => {
 	const res = await ApiController.post<APIResponses["executeOrder"]>("payment/execute", {
 	    body: {
 		orderId: data.orderID
@@ -36,11 +46,7 @@ const BuyButton = ({ paypalClientId }: { paypalClientId: string }) => {
 	}
 
 	ShoppingCartController.clear();
-	console.log(res.data.message);
-    }
-
-    const paypalOptions = {
-	clientId: paypalClientId
+	router.push("/dashboard/orders");
     }
 
     const createOrder = async () => {
@@ -48,21 +54,28 @@ const BuyButton = ({ paypalClientId }: { paypalClientId: string }) => {
 
 	const res = await ApiController.post<APIResponses["createOrder"]>("payment/create", {
 	    body: {
-	    	cartItems
+		cartItems,
+		addressId
 	    }
 	});
 
 	return res.data.orderId;
     }
 
-    const onCancel = async (data) => {
+    const cancelOrder = async (orderId: string) => {
 	await ApiController.post("payment/cancel", {
 	    body: {
-		orderId: data.orderID
+		orderId
 	    }
 	});
+    }
 
-	router.push("/cart/");
+    const onCancel = (data: { orderID: string }) => cancelOrder(data.orderID);
+
+    const onError = (data: { orderID: string }) => {
+	cancelOrder(data.orderID);
+
+	setErrorMessage("An error has ocurred in the server. Please try again later.");
     }
 
     return (
@@ -70,6 +83,7 @@ const BuyButton = ({ paypalClientId }: { paypalClientId: string }) => {
 	createOrder={createOrder}
 	onSuccess={onSuccess}
 	onCancel={onCancel}
+	onError={onError}
 	options={paypalOptions}/>
     );
 }

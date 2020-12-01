@@ -6,6 +6,18 @@ import { IUser } from "./User";
 export interface IOrder extends Document {
     userId: IUser["_id"],
     paypalOrderId: string,
+    address: {
+	fullName: string,
+	postalCode: string,
+	state: string,
+	municipality: string,
+	suburb: string,
+	street: string,
+	outdoorNumber: string,
+	interiorNumber?: string,
+	phoneNumber: string,
+	additionalInformation?: string
+    },
     products: {
 	originalProduct: IProduct["_id"],
 	price: number,
@@ -24,6 +36,19 @@ const orderSchema = new Schema({
     paypalOrderId: {
 	type: String,
 	required: true
+    },
+    address: {
+	_id: false,
+	fullName: String,
+	postalCode: String,
+	state: String,
+	municipality: String,
+	suburb: String,
+	street: String,
+	outdoorNumber: String,
+	interiorNumber: String,
+	phoneNumber: String,
+	additionalInformation: String
     },
     products: [{
 	_id: false,

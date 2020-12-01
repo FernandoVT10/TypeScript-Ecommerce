@@ -1,19 +1,38 @@
 .shippingOptions {
-    & .subtitle {
-	margin: 0;
+    & .header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	margin-bottom: 20px;
-	margin-left: 10px;
-	color: var(--light);
-	font-weight: bold;
-	font-size: 20px;
+
+	& .subtitle {
+	    margin: 0;
+	    margin-left: 10px;
+	    color: var(--light);
+	    font-weight: bold;
+	    font-size: 20px;
+	}
+
+	& .addNewAddress {
+	    margin-right: 10px;
+	    color: var(--blue);
+	    text-decoration: none;
+	    font-weight: bold;
+	    font-size: 12px;
+	}
     }
 
-    & .addNewAddress {
-	float: right;
-	margin-right: 20px;
-	color: var(--blue);
-	text-decoration: none;
+    & .continueButton {
+	cursor: pointer;
+	padding: 15px 50px;
+	width: 100%;
 	font-weight: bold;
-	font-size: 12px;
+	color: var(--blue);
+	background: var(--black);
+	border: none;
+
+	& i {
+	    margin-left: 5px;
+	}
     }
 }

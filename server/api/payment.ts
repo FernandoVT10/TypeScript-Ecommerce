@@ -6,6 +6,7 @@ import paypal, { IOrderItem } from "../utils/services/paypal";
 
 import Product from "../models/Product";
 import Order, { IOrder } from "../models/Order";
+import Address, { IAddress } from "../models/Address";
 
 const router = Router();
 
@@ -13,11 +14,12 @@ interface ICheckoutInput {
     cartItems: {
     	productId: string,
 	quantity: number
-    }[]
+    }[],
+    addressId: IAddress["_id"];
 }
 
 router.post("/create/", async (req, res) => {
-    const { cartItems } = req.body as ICheckoutInput;
+    const { cartItems, addressId } = req.body as ICheckoutInput;
 
     let error = "";
 
@@ -39,6 +41,17 @@ router.post("/create/", async (req, res) => {
     }
 
     try {
+	const address = await Address.findById(addressId);
+
+	if(!address) {
+	    return res.json({
+		status: 400,
+		error: "Bad request",
+		message: `The address ${addressId} doesn't exists`,
+		path: req.originalUrl
+	    });
+	}
+
 	let error = "";
 
 	const items: IOrderItem[] = [];
@@ -88,7 +101,8 @@ router.post("/create/", async (req, res) => {
 	    userId: req.userId,
 	    paypalOrderId: orderId,
 	    products: orderProducts,
-	    total
+	    total,
+	    address
 	});
 
 	res.json({ data: { orderId } });
