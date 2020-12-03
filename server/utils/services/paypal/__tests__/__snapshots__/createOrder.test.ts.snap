@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Paypal Create Order service should call apiCall and return the order id 1`] = `
+Object {
+  "intent": "CAPTURE",
+  "purchase_units": Array [
+    Object {
+      "amount": Object {
+        "breakdown": Object {
+          "item_total": Object {
+            "currency_code": "USD",
+            "value": "110.00",
+          },
+        },
+        "currency_code": "USD",
+        "value": "110.00",
+      },
+      "items": Array [
+        Object {
+          "name": "test 1",
+          "quantity": "2",
+          "unit_amount": Object {
+            "currency_code": "USD",
+            "value": "50.00",
+          },
+        },
+        Object {
+          "name": "test 2",
+          "quantity": "4",
+          "unit_amount": Object {
+            "currency_code": "USD",
+            "value": "2.50",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;

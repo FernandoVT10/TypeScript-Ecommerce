@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-function setupTestDB(dbname: string) {
+export default (dbname: string) => {
     beforeAll(async () => {
         try {
             await mongoose.connect(`mongodb://localhost/${dbname}`, {
@@ -44,5 +44,3 @@ function setupTestDB(dbname: string) {
         }
     });
 }
-
-global.setupTestDB = setupTestDB;

@@ -19,7 +19,6 @@ export default async (req: express.Request, res: express.Response, next: express
 
     const token = bearer.replace("Bearer ", "");
 
-
     try {
 	const decodedData = jwt.verify(token, JWT_SECRET_KEY) as { userId: string };
 

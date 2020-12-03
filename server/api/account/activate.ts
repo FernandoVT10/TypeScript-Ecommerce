@@ -12,7 +12,7 @@ export default async (req: Request, res: Response) => {
 	    res.json({
 		status: 404,
 		error: "User not found",
-		message: "The activation token don't exists",
+		message: "The activation token doesn't exists",
 		path: `/api/account/activate/${activeToken}`
 	    });
 

@@ -31,7 +31,7 @@ module.exports = {
                 "^.+\\.tsx?$": "ts-jest"
             },
             testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
-            setupFiles: ["./server/setupJest.ts"]
+            setupFiles: ["./server/tests/setupJest.ts"]
         }
     ]
 };
