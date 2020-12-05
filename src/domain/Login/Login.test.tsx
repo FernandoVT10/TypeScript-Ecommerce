@@ -12,6 +12,7 @@ const setInputValue = (inputLabel: string, value: string) => {
 describe("Domain Login Component", () => {
     beforeEach(() => {
 	fetchMock.resetMocks();
+	window.localStorage.clear();
     });
 
     it("should renders correctly", () => {
@@ -55,7 +56,7 @@ describe("Domain Login Component", () => {
 	expect(queryByText("error message")).toBeInTheDocument();
     });
 
-    it("should redirect to /dashboard/ when login is successful", async () => {
+    it("should redirect to /dashboard/ and set the token in the localStorage when login is successful", async () => {
 	const routerPushMock = jest.fn();
 
 	changeRouterProperties({
@@ -67,11 +68,12 @@ describe("Domain Login Component", () => {
 	setInputValue("Username or Email", "test777");
 	setInputValue("Password", "secret");
 
-	fetchMock.mockOnce(JSON.stringify({}));
+	fetchMock.mockOnce(JSON.stringify({ data: { token: "test token" } }));
 
 	const submitButton = getByRole("button");
 	await act(async () => fireEvent.click(submitButton));
 
+	expect(window.localStorage.getItem("token")).toBe("test token");
 	expect(routerPushMock).toHaveBeenCalledWith("/dashboard/");
     });
 });

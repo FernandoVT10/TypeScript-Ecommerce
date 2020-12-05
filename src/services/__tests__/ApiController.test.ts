@@ -3,6 +3,11 @@ import ApiController from "../ApiController";
 describe("Services Api Controller", () => {
     beforeEach(() => {
         fetchMock.resetMocks();
+
+	window.localStorage.setItem("token", "testtoken")
+	Object.defineProperty(process, "browser", {
+	    value: true
+	});
     });
 
     describe("Get method", () => {
@@ -18,24 +23,23 @@ describe("Services Api Controller", () => {
 	    const fetchCall = fetchMock.mock.calls[0];
 
             expect(fetchCall[0]).toMatch("/api/test");
+            expect(fetchCall[1].headers).toEqual({
+		Authorization: "Bearer testtoken"
+	    });
         });
 
         it("should throw an error", async () => {
             fetchMock.mockRejectOnce(() => Promise.reject("Testing API"));
 
-            let thrownError: Error;
-
             try {
                 await ApiController.get<{ message: "Test Message" }>("test")
             } catch (error) {
-                thrownError = error;
+		expect(error).toEqual({
+		    status: 500,
+		    error: "Internal Server Error",
+		    message: "An error has ocurred in the server. Please try again later."
+		});
             }
-
-            expect(thrownError).toEqual({
-		status: 500,
-		error: "Internal Server Error",
-		message: "An error has ocurred in the server. Please try again later."
-            });
 
 	    const fetchCall = fetchMock.mock.calls[0];
 
@@ -49,7 +53,7 @@ describe("Services Api Controller", () => {
                 JSON.stringify({ message: "Post test message" })
             );
 
-            const res = await ApiController.post<{ message: "Post test message" }>("postTest", {
+            const res = await ApiController.post<{ message: string }>("postTest", {
 		body: {
 		    test: "i'm a parameter :)"
 		}
@@ -66,7 +70,29 @@ describe("Services Api Controller", () => {
 	    }));
 	    expect(fetchCall[1].method).toBe("POST");
 	    expect(fetchCall[1].headers).toEqual({
-		"Content-Type": "application/json"
+		"Content-Type": "application/json",
+		Authorization: "Bearer testtoken"
+	    });
+	});
+    });
+
+    describe("DELETE method", () => {
+	it("should call the api correctly", async () => {
+            fetchMock.mockResponseOnce(
+                JSON.stringify({ message: "Delete test message" })
+            );
+
+            const res = await ApiController.delete<{ message: string }>("to/delete/id");
+	    expect(res.message).toBe("Delete test message");
+
+	    const fetchCall = fetchMock.mock.calls[0];
+
+	    expect(fetchCall[0]).toMatch("/api/to/delete/id");
+
+	    expect(fetchCall[1].method).toBe("DELETE");
+	    expect(fetchCall[1].headers).toEqual({
+		"Content-Type": "application/json",
+		Authorization: "Bearer testtoken"
 	    });
 	});
     });

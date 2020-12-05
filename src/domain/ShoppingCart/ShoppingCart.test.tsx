@@ -8,21 +8,6 @@ import ShoppingCartController from "@/services/ShoppingCartController";
 
 import ShoppingCart from "./ShoppingCart";
 
-const SHOPPING_CART_MOCK = [
-    {
-	productId: "id-1",
-	quantity: 5
-    },
-    {
-	productId: "id-2",
-	quantity: 10
-    },
-    {
-	productId: "id-3",
-	quantity: 15
-    }
-];
-
 jest.mock("@/services/ShoppingCartController");
 
 const PRODUCTS_MOCK = [
@@ -32,7 +17,8 @@ const PRODUCTS_MOCK = [
 	images: ["test-1.jpg"],
 	price: 700,
 	discount: 25,
-	inStock: 5
+	inStock: 5,
+	quantity: 5
     },
     {
 	_id: "id-2",
@@ -40,7 +26,8 @@ const PRODUCTS_MOCK = [
 	images: ["test-2.jpg"],
 	price: 1400,
 	discount: 50,
-	inStock: 10
+	inStock: 10,
+	quantity: 10
     },
     {
 	_id: "id-3",
@@ -48,11 +35,12 @@ const PRODUCTS_MOCK = [
 	images: ["test-3.jpg"],
 	price: 2800,
 	discount: 75,
-	inStock: 15
+	inStock: 15,
+	quantity: 15
     }
 ];
 
-const mockedShoppingCartGetItems = mocked(ShoppingCartController.getItems);
+const mockedSCGetProductFromServer = mocked(ShoppingCartController.getProductsFromServer);
 const mockedShoppingCartDeleteItem = mocked(ShoppingCartController.deleteItem);
 const mockedShoppingCartUpdateItem = mocked(ShoppingCartController.updateItem);
 
@@ -60,29 +48,16 @@ describe("Domain Shopping Cart component", () => {
     beforeEach(() => {
 	fetchMock.resetMocks();
 
-	mockedShoppingCartGetItems.mockReset();
-	mockedShoppingCartGetItems.mockImplementation(
-	    () => SHOPPING_CART_MOCK
-	);
+	mockedSCGetProductFromServer.mockReset();
+	mockedSCGetProductFromServer.mockImplementation(() => Promise.resolve(PRODUCTS_MOCK));
 
 	mockedShoppingCartDeleteItem.mockReset();
 	mockedShoppingCartUpdateItem.mockReset();
-
-	fetchMock.once(JSON.stringify({ data: { product: PRODUCTS_MOCK[0] } }))
-	    .once(JSON.stringify({ data: { product: PRODUCTS_MOCK[1] } }))
-	    .once(JSON.stringify({ data: { product: PRODUCTS_MOCK[2] } }));
     });
 
-    it("should call the api correctly", async () => {
+    it("should call Shopping Cart Get Product From Server correctly", async () => {
 	await act(async () => render(<ShoppingCart/>));
-
-	const fetchCalls = fetchMock.mock.calls;
-
-	expect(fetchCalls[0][0]).toMatch("products/id-1");
-	expect(fetchCalls[1][0]).toMatch("products/id-2");
-	expect(fetchCalls[2][0]).toMatch("products/id-3");
-
-	expect(fetchMock).toHaveBeenCalledTimes(3);
+	expect(mockedSCGetProductFromServer).toHaveBeenCalled();
     });
 
     it("should render the api data correctly", async () => {
@@ -97,7 +72,7 @@ describe("Domain Shopping Cart component", () => {
     });
 
     it("should render without cart elements correctly", async () => {
-	mockedShoppingCartGetItems.mockImplementation(() => []);
+	mockedSCGetProductFromServer.mockImplementation(() => Promise.resolve([]));
 
 	await act(async () => render(<ShoppingCart/>));
 
@@ -132,7 +107,7 @@ describe("Domain Shopping Cart component", () => {
     describe("Update Quantity On Cart", () => {
 	it("should call the updateItem from Shopping Cart Controller", async () => {
 	    await act(async () => render(<ShoppingCart/>));
-
+	    
 	    const subtractButtob = await screen.findAllByText("-");
 	    fireEvent.click(subtractButtob[1]);
 
