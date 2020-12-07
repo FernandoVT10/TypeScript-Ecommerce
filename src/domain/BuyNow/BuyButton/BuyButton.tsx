@@ -41,8 +41,7 @@ const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProp
 	});
 
 	if(res.error) {
-	    alert(res.message);
-	    return;
+	    return setErrorMessage(res.message);
 	}
 
 	ShoppingCartController.clear();

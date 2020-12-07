@@ -28,7 +28,7 @@ function AddAddress({ setIsEditing, setAddresses }: AddAddressProps) {
     const suburbHandler = useInputHandling("");
     const streetHandler = useInputHandling("");
     const outdoorNumberHandler = useInputHandling("");
-    const interiorNumberHandler = useInputHandling("W/0");
+    const interiorNumberHandler = useInputHandling("W/O");
     const phoneNumberHandler = useInputHandling("");
     const additionalInformationHandler = useInputHandling("");
 

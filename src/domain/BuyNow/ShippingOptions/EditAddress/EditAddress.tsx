@@ -7,8 +7,6 @@ import ApiController from "@/services/ApiController";
 import { Address } from "../ShippingOptions";
 import AddressForm from "../AddressForm";
 
-import styles from "./EditAddress.module.scss";
-
 interface EditAddressProps {
     setIsEditing: React.Dispatch<boolean>,
     setAddresses: React.Dispatch<React.SetStateAction<Address[]>>,
@@ -17,7 +15,7 @@ interface EditAddressProps {
 
 interface APIResponse {
     error: string,
-    msessage: string,
+    message: string,
     data: {
 	updatedAddress: Address
     }
@@ -60,7 +58,7 @@ function EditAddress({ address, setIsEditing, setAddresses }: EditAddressProps) 
 	setLoading(false);
 
 	if(res.error) {
-	    return setErrorMessage(res.msessage);
+	    return setErrorMessage(res.message);
 	}
 
 	setAddresses(addresses => addresses.map(localAddress => {

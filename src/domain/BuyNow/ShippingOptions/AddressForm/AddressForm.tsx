@@ -72,6 +72,7 @@ function AddressForm({
 		    <button
 		    type="button"
 		    className={styles.closeButton}
+		    data-testid="address-form-close-button"
 		    onClick={() => setIsEditing(false)}>
 			<i className="fas fa-times"></i>
 		    </button>
