@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import ProductItem, { ProductItemProps } from "./ProductItem";
 
@@ -14,6 +15,8 @@ function ShoppingCart() {
     const [products, setProducts] = useState<ProductItemProps["product"][]>([]);
 
     const [loading, setLoading] = useState(true);
+    
+    const router = useRouter();
 
     useEffect(() => {
 	async function getProducts() {
@@ -46,6 +49,10 @@ function ShoppingCart() {
 		 return product;
 	     })
 	);
+    }
+
+    const handleOnClick = () => {
+	router.push("/buyNow/");
     }
 
     const totalPrice = products.reduce((acc, product) => {
@@ -93,7 +100,9 @@ function ShoppingCart() {
 		    }
 
 		    { products.length > 0 &&
-			<button className={`continue-button ${styles.continueButton}`}>
+			<button
+			onClick={() => router.push("/buyNow/")}
+			className={`continue-button ${styles.continueButton}`}>
 			    Continue
 			    <i className="fas fa-arrow-right" aria-hidden="true"></i>
 			</button>
