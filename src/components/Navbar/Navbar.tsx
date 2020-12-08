@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
+
+import CartController from "@/services/ShoppingCartController";
 
 import styles from "./Navbar.module.scss";
 
@@ -20,6 +22,8 @@ function Navbar() {
 
         setIsActive(!isActive);
     }
+
+    const cartItemsCount = process.browser ? CartController.getItems().length : 0;
 
     const navbarClass = isActive ? styles.navbarActive : "";
     const toggleButtonClass = isActive ? "fa-times" : "fa-bars";
@@ -68,7 +72,7 @@ function Navbar() {
                         <Link href="/cart/">
                             <a className={`${styles.item} ${styles.shoppingCart}`}>
                                 <i className="fas fa-shopping-cart" aria-hidden="true"></i>
-                                <span>9</span>
+                                <span>{ cartItemsCount }</span>
                             </a>
                         </Link>
                     </li>

@@ -7,13 +7,13 @@
         "esModuleInterop": true,
         "baseUrl": "server",
         "downlevelIteration": true,
-	"typeRoots": ["./types"]
+	"typeRoots": ["./types", "node_modules/@types"]
     },
     "include": ["server"],
     "exclude": [
         "node_modules",
         "src",
-	"server/**/__tests__/",
-	"server/setupJest.ts"
+	"server/tests/",
+	"server/**/__tests__/"
     ]
 }

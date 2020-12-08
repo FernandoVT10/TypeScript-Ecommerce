@@ -64,7 +64,7 @@ describe("Domain BuyNow ShippingOptions Component", () => {
 	fireEvent.click(deleteButtons[1]);
 
 	const yesButton = screen.getByText("Yes");
-	await act(() => fireEvent.click(yesButton));
+	await act(async () => fireEvent.click(yesButton));
 
 	expect(screen.queryByText("test state 1(11111), test municipality 1")).toBeInTheDocument();
 	expect(screen.queryByText("test state 2(22222), test municipality 2")).not.toBeInTheDocument();
@@ -75,8 +75,8 @@ describe("Domain BuyNow ShippingOptions Component", () => {
     it("should renders the AddAddress form when we click the button 'Add New Address'", async () => {
 	await act(async () => render(<ShippingOptions setAddressId={jest.fn()} />));
 
-	const yesButton = screen.getByText("Add New Address");
-	fireEvent.click(yesButton);
+	const addNewAddressButton = screen.getByText("Add New Address");
+	fireEvent.click(addNewAddressButton);
 
 	expect(screen.queryByText("test state 1(11111), test municipality 1")).not.toBeInTheDocument();
 	expect(screen.queryByText("test state 2(22222), test municipality 2")).not.toBeInTheDocument();
