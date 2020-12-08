@@ -19,8 +19,8 @@ interface postOptions {
 }
 
 export default {
-    get<T>(url: string, customAuthToken = "") {
-	const authToken = process.browser ? window.localStorage.getItem("token") : customAuthToken;
+    get<T>(url: string) {
+	const authToken = window.localStorage.getItem("token") || "";
 
 	const options = {
 	    headers: {

@@ -58,9 +58,7 @@ export default async (req: Request, res: Response) => {
 
 	const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, { expiresIn: EXPIRE_TIME  });
 
-	res.cookie("token", token, {
-	    maxAge: EXPIRE_TIME * 1000
-	}).send({
+	res.json({
 	    data: { token }
 	});
     } catch(err) {

@@ -1,13 +1,11 @@
 import React from "react";
 
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 
-import ApiController from "@/services/ApiController";
+import withAuth from "@/hoc/withAuth";
 
 import BuyNow from "@/domain/BuyNow";
-
-import { getTokenFromCookies } from "@/services/cookie";
 
 interface APIResponse {
     data: {
@@ -15,32 +13,12 @@ interface APIResponse {
     }
 }
 
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-    try {
-	const token = getTokenFromCookies(ctx.req);
-
-	const apiResponse = await ApiController.get<APIResponse>("account/isLogged", token);
-
-	if(apiResponse.data.isLogged) {
-	    return {
-		props: {
-		    paypalClientId: process.env.PAYPAL_CLIENT_ID
-		}
-	    }
-	}
-    } catch { }
-
-    const { res } = ctx;
-
-    res.statusCode = 302;
-    res.setHeader("location", "/login/");
-    res.end();
-
+export async function getServerSideProps() {
     return {
 	props: {
-	    paypalClientId: ""
+	    paypalClientId: process.env.PAYPAL_CLIENT_ID || ""
 	}
-    };
+    }
 }
 
 function BuyNowPage({ paypalClientId }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -55,4 +33,4 @@ function BuyNowPage({ paypalClientId }: InferGetServerSidePropsType<typeof getSe
     );
 }
 
-export default BuyNowPage;
+export default withAuth(BuyNowPage);
