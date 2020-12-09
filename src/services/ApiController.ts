@@ -20,7 +20,7 @@ interface postOptions {
 
 export default {
     get<T>(url: string) {
-	const authToken = window.localStorage.getItem("token") || "";
+	const authToken = process.browser ? window.localStorage.getItem("token") : "";
 
 	const options = {
 	    headers: {
@@ -31,7 +31,7 @@ export default {
         return fetchCall<T>(API_URL + url, options);
     },
     post<T>(url: string, options: postOptions) {
-	const authToken = window.localStorage.getItem("token");
+	const authToken = process.browser ? window.localStorage.getItem("token") : "";
 
 	const newOptions = {
 	    body: JSON.stringify(options.body),

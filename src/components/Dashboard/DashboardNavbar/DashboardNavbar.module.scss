@@ -1,0 +1,152 @@
+.dashboardNavbar {
+    z-index: 10;
+    position: fixed;
+    background: var(--black);
+    width: 50px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: .3s;
+
+    &.active {
+	width: 250px;
+    }
+
+    & .navbarBackground {
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .6);
+    }
+
+    & .items {
+	list-style: none;
+	width: 250px;
+	margin: 0;
+	padding: 0;
+
+	& .item {
+	    cursor: pointer;
+	    position: relative;
+	    display: flex;
+	    align-items: center;
+	    color: var(--light);
+	    font-weight: bold;
+	    font-size: 16px;
+
+	    &:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 5px;
+		height: 100%;
+		background: var(--blue);
+		opacity: 0;
+		transition: .3s;
+	    }
+
+	    &:hover:before {
+		opacity: 1;
+	    }
+
+	    &.mainItem {
+		cursor: auto;
+		font-size: 20px;
+
+		&:before {
+		    display: none;
+		}
+	    }
+
+	    & .toggleButton {
+		cursor: pointer;
+		width: 50px;
+		height: 50px;
+		font-size: 25px;
+		color: var(--light);
+		background: transparent;
+		border: none;
+	    }
+
+	    & .link {
+		text-decoration: none;
+		color: var(--light);
+	    }
+
+	    & .icon {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 50px;
+		height: 50px;
+		font-size: 25px;
+	    }
+
+	    &.dropdownItem {
+		position: relative;
+
+		& .arrow {
+		    position: absolute;
+		    right: 20px;
+		    font-size: 14px;
+		}
+	    }
+	}
+
+	& .dropdown {
+	    height: 0;
+	    overflow: hidden;
+	    transition: .3s;
+
+	    &.active {
+		height: 93px;
+	    }
+
+	    & .link {
+		padding: 5px 50px;
+		text-decoration: none;
+		display: block;
+		font-size: 14px;
+		font-weight: bold;
+		color: var(--blue);
+		transition: .3s;
+
+		&:hover {
+		    color: var(--gray);
+		}
+	    }
+	}
+    }
+
+    @media screen and (max-width: 1200px) {
+	z-index: 10;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	height: 100vh;
+	width: 100% !important;
+	background: transparent;
+
+	&.active {
+	    display: flex;
+	}
+
+	& .navbarBackground {
+	    display: block;
+	}
+
+	& .items {
+	    z-index: 100;
+	    background: var(--black);
+
+	    & .mainItem {
+		display: none;
+	    }
+	}
+    }
+}
