@@ -4,19 +4,36 @@ import { mocked } from "ts-jest/utils";
 
 import { render, fireEvent } from "@testing-library/react";
 
+import ShoppingCartController, { CartItem } from "@/services/ShoppingCartController";
+
 import Navbar from "./Navbar";
 
 window.scroll = jest.fn();
 
-describe("Navbar Component", () => {
-    const mockedWindowScroll = mocked(window.scroll);
+jest.mock("@/services/ShoppingCartController");
 
+const mockedSCGetItems = mocked(ShoppingCartController.getItems);
+const mockedWindowScroll = mocked(window.scroll);
+
+const CART_ITEMS_MOCK = [
+    "1", "2", "3", "4", "5"
+] as any as CartItem[];
+
+Object.defineProperty(process, "browser", {
+    value: true
+});
+
+describe("Navbar Component", () => {
     beforeEach(() => {
         mockedWindowScroll.mockReset();
+	
+	mockedSCGetItems.mockReset();
+	mockedSCGetItems.mockImplementation(() => CART_ITEMS_MOCK);
     });
 
     it("should render correclty", () => {
-        render(<Navbar/>);
+        const { queryByText, debug } = render(<Navbar/>);
+	expect(queryByText("5")).toBeInTheDocument();
     });
 
     it("should set the defaultValue in search inputs", async () => {

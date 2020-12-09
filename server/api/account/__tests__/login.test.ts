@@ -33,13 +33,12 @@ describe("Account Login API", () => {
 	mockedJWTSign.mockImplementation(() => "jwttoken321");
     });
 
-    it("should set the token cookie and return the token correctly", async () => {
+    it("should return the token correctly", async () => {
 	const res = await request.post("/api/account/login/").send({
 	    usernameOrEmail: "test@gmail.com",
 	    password: "secret"
 	});
 
-	expect(res.get("Set-Cookie")[0]).toMatch("jwttoken321");
 	expect(res.body.data.token).toBe("jwttoken321");
     });
 
