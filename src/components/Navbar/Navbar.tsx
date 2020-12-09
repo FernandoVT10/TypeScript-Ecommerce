@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
@@ -9,6 +9,11 @@ import styles from "./Navbar.module.scss";
 
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
+    const [cartItemsCount, setCartItemCount] = useState(0);
+
+    useEffect(() => {
+	setCartItemCount(CartController.getItems().length);
+    }, []);
 
     const router = useRouter();
 
@@ -22,8 +27,6 @@ function Navbar() {
 
         setIsActive(!isActive);
     }
-
-    const cartItemsCount = process.browser ? CartController.getItems().length : 0;
 
     const navbarClass = isActive ? styles.navbarActive : "";
     const toggleButtonClass = isActive ? "fa-times" : "fa-bars";

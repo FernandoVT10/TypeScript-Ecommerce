@@ -19,10 +19,6 @@ const CART_ITEMS_MOCK = [
     "1", "2", "3", "4", "5"
 ] as any as CartItem[];
 
-Object.defineProperty(process, "browser", {
-    value: true
-});
-
 describe("Navbar Component", () => {
     beforeEach(() => {
         mockedWindowScroll.mockReset();
@@ -32,7 +28,7 @@ describe("Navbar Component", () => {
     });
 
     it("should render correclty", () => {
-        const { queryByText, debug } = render(<Navbar/>);
+        const { queryByText } = render(<Navbar/>);
 	expect(queryByText("5")).toBeInTheDocument();
     });
 
