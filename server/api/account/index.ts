@@ -7,7 +7,9 @@ import addresses from "./addresses";
 import register from "./register";
 import login from "./login";
 import activate from "./activate";
-import isLogged from "./isLogged";
+import getUserData from "./getUserData";
+import edit from "./edit";
+import changePassword from "./changePassword";
 
 const router = Router();
 
@@ -16,6 +18,8 @@ router.use("/addresses/", withJWTAuth, addresses);
 router.post("/register/", register);
 router.post("/login/", login);
 router.post("/activate/:activeToken", activate);
-router.get("/isLogged/", isLogged);
+router.get("/getUserData/", withJWTAuth, getUserData);
+router.put("/edit/", withJWTAuth, edit);
+router.put("/changePassword/", withJWTAuth, changePassword);
 
 export default router;

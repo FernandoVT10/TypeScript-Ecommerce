@@ -1,9 +1,10 @@
 .dashboardNavbar {
     z-index: 10;
-    position: fixed;
+    position: relative;
     background: var(--black);
     width: 50px;
-    height: calc(100vh - 70px);
+    height: 100%;
+    min-height: calc(100vh - 70px);
     overflow-y: auto;
     overflow-x: hidden;
     transition: .3s;
@@ -56,6 +57,10 @@
 	    &.mainItem {
 		cursor: auto;
 		font-size: 20px;
+
+		& .name {
+		    width: 200px;
+		}
 
 		&:before {
 		    display: none;
@@ -125,9 +130,10 @@
     @media screen and (max-width: 1200px) {
 	z-index: 10;
 	display: none;
+	position: fixed;
+	top: 0;
 	justify-content: center;
 	align-items: center;
-	top: 0;
 	height: 100vh;
 	width: 100% !important;
 	background: transparent;

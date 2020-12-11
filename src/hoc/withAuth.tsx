@@ -7,38 +7,40 @@ import LoginPage from "@/pages/login";
 
 import FullScreenLoader from "@/components/FullScreenLoader";
 
+import UserContext, { IUserContextProps } from "@/contexts/UserContext";
+
 interface APIResponse {
     data: {
-	isLogged: boolean
+	user: IUserContextProps
     }
 }
 
 interface ComponentState {
-    isLogged: boolean,
-    loading: boolean
+    loading: boolean,
+    user: IUserContextProps
 }
 
 const withAuth = <T extends object>(Component: React.ComponentType<T>) => {
     return class extends React.Component<T, ComponentState> {
 	state = {
-	    isLogged: false,
-	    loading: true
+	    loading: true,
+	    user: null
 	}
 
 	async componentDidMount() {
-	    const apiResponse = await ApiController.get<APIResponse>("account/isLogged");
+	    const apiResponse = await ApiController.get<APIResponse>("account/getUserData");
 
 	    if(!apiResponse.data) {
 		Router.replace("/login/");
 		return this.setState({ loading: false });
 	    }
 
-	    if(!apiResponse.data.isLogged) {
+	    if(!apiResponse.data.user) {
 		Router.replace("/login/");
 	    }
 	    
 	    this.setState({
-		isLogged: apiResponse.data.isLogged,
+		user: apiResponse.data.user,
 		loading: false
 	    });
 	}
@@ -46,9 +48,13 @@ const withAuth = <T extends object>(Component: React.ComponentType<T>) => {
 	render() {
 	    if(this.state.loading) return <FullScreenLoader/>;
 
-	    if(!this.state.isLogged) return <LoginPage activationStatus=""/>;
+	    if(!this.state.user) return <LoginPage activationStatus=""/>;
 
-	    return <Component { ...this.props }/>;
+	    return (
+		<UserContext.Provider value={this.state.user}>
+		    <Component { ...this.props }/>
+		</UserContext.Provider>
+	    );
 	}
     }
 }

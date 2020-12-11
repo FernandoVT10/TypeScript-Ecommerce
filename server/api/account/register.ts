@@ -15,13 +15,22 @@ interface IRegisterInput {
     name: IUser["name"],
     username: IUser["username"],
     email: IUser["email"],
-    password: IUser["password"]
+    password: string
 }
 
 export default async (req: Request, res: Response) => {
     const { name, username, email, password } = req.body as IRegisterInput;
     
     try {
+	if(password.length < 4) {
+	    return res.json({
+		status: 400,
+		error: "Validation Error",
+		message: "The password must contain 4 or more characters",
+		path: req.originalUrl
+	    });
+	}
+
 	const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
 	const activeToken = crypto.randomBytes(20).toString("hex");

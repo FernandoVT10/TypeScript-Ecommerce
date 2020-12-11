@@ -6,7 +6,7 @@ import MobileMenu from "./MobileMenu";
 
 import styles from "./DashboardNavbar.module.scss";
 
-const DashboardNavbar = ({ fullname }: { fullname: string }) => {
+const DashboardNavbar = ({ name }: { name: string }) => {
     const [isActive, setIsActive] = useState(true);
     const [dropdownIsActive, setDropdownIsActive] = useState(false);
 
@@ -25,6 +25,14 @@ const DashboardNavbar = ({ fullname }: { fullname: string }) => {
 
 	return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    useEffect(() => {
+	if(isActive && window.innerWidth <= 1200) {
+	    document.body.style.overflow = "hidden";
+	} else {
+	    document.body.style.overflow = "auto";
+	}
+    }, [isActive]);
 
     const navbarClass = isActive ? styles.active : "";
     const dropdownClass = dropdownIsActive ? styles.active : "";
@@ -45,7 +53,7 @@ const DashboardNavbar = ({ fullname }: { fullname: string }) => {
 			    <i className="fas fa-bars" aria-hidden="true"></i>
 			</button>
 
-			{ fullname }
+			<span className={styles.name}>{ name }</span>
 		    </li>
 		    <li className={styles.item}>
 			<Link href="/dashboard/profile/edit/">

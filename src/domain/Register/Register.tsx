@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import RegisterForm from "./RegisterForm";
 
 import ApiController from "@/services/ApiController";
+import validate from "@/services/validate";
 
 import useInputHandling from "@/hooks/useInputHandling";
 
 import styles from "./Register.module.scss";
-
-const EMAIL_VALIDATION_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 interface APIResponse {
     error: string,
@@ -32,7 +31,7 @@ function Register() {
     const handleForm = (e: React.FormEvent) => {
 	e.preventDefault();
 
-	if(!EMAIL_VALIDATION_REGEX.test(emailHandler.value)) {
+	if(!validate.email(emailHandler.value)) {
 	    emailHandler.setError("The email is invalid");
 	    return;
 	}

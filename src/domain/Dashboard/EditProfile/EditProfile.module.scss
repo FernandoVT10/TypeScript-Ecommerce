@@ -1,0 +1,52 @@
+.editProfile {
+    & .title {
+	color: var(--light);
+	font-size: 25px;
+	font-weight: bold;
+    }
+
+    & .form {
+	padding: 20px;
+	background: var(--black);
+
+	& .input {
+	    margin-bottom: 20px;
+	}
+
+	& .message {
+	    font-size: 14px;
+	    font-weight: bold;
+
+	    &.error {
+		color: var(--red);
+	    }
+
+	    &.success {
+		color: var(--green);
+	    }
+
+	    & i {
+		margin-right: 5px;
+	    }
+	}
+
+	& .submitButton {
+	    max-width: 250px;
+	}
+
+	& .loader {
+	    display: block;
+	    margin-left: 20px;
+	    width: 30px;
+	    height: 30px;
+	}
+    }
+
+    @media screen and (max-width: 600px) {
+	& .form {
+	    & .submitButton {
+		max-width: 100%;
+	    }
+	}
+    }
+}
