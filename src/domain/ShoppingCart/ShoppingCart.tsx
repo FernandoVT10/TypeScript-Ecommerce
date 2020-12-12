@@ -51,10 +51,6 @@ function ShoppingCart() {
 	);
     }
 
-    const handleOnClick = () => {
-	router.push("/buyNow/");
-    }
-
     const totalPrice = products.reduce((acc, product) => {
 	acc += getDiscountedPrice(product.price * product.quantity, product.discount);
 	return acc;

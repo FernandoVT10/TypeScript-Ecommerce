@@ -72,7 +72,7 @@ export default async (req: Request, res: Response) => {
 		status: 400,
 		error: "Validation Error",
 		message: errorMessage,
-		path: "/api/account/register/"
+		path: req.originalUrl
 	    });
 
 	    return;
@@ -83,7 +83,7 @@ export default async (req: Request, res: Response) => {
 		status: 400,
 		error: "Validation Error",
 		message: err.message,
-		path: "/api/account/register/"
+		path: req.originalUrl
 	    });
 
 	    return;
@@ -93,7 +93,7 @@ export default async (req: Request, res: Response) => {
 	    status: 500,
 	    error: "Internal server error",
 	    message: err.message,
-	    path: "/api/account/register/"
+	    path: req.originalUrl
 	});
     }
 }

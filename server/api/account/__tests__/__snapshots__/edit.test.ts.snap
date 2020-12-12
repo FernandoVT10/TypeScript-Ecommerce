@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api/account/edit should return an error when the values are invalid 1`] = `
+Object {
+  "error": "Bad Request",
+  "message": "users validation failed: email: The email is invalid",
+  "path": "/api/account/edit",
+  "status": 400,
+}
+`;

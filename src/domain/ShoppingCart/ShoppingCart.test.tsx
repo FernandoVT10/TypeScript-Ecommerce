@@ -40,6 +40,7 @@ const PRODUCTS_MOCK = [
     }
 ];
 
+const mockedSCGetItems = mocked(ShoppingCartController.getItems);
 const mockedSCGetProductFromServer = mocked(ShoppingCartController.getProductsFromServer);
 const mockedShoppingCartDeleteItem = mocked(ShoppingCartController.deleteItem);
 const mockedShoppingCartUpdateItem = mocked(ShoppingCartController.updateItem);
@@ -47,6 +48,9 @@ const mockedShoppingCartUpdateItem = mocked(ShoppingCartController.updateItem);
 describe("Domain Shopping Cart component", () => {
     beforeEach(() => {
 	fetchMock.resetMocks();
+
+	mockedSCGetItems.mockReset();
+	mockedSCGetItems.mockImplementation(() => []);
 
 	mockedSCGetProductFromServer.mockReset();
 	mockedSCGetProductFromServer.mockImplementation(() => Promise.resolve(PRODUCTS_MOCK));

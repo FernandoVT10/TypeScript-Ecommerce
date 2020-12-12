@@ -49,6 +49,22 @@ describe("Account Register API", () => {
 	expect(res.body.data.message).toBe("You have successfully registered");
     });
 
+    it("should return an error when the password length is less than 4", async () => {
+	const res = await request.post("/api/account/register").send({
+	    name: "register",
+	    username: "test777",
+	    email: "register@gmail.com",
+	    password: "pas"
+	});
+
+	expect(res.body).toEqual({
+	    status: 400,
+	    error: "Validation Error",
+	    message: "The password must contain 4 or more characters",
+	    path: "/api/account/register"
+	});
+    });
+
     it("should return 'The username already exists' error", async () => {
 	const res = await request.post("/api/account/register").send({
 	    name: "register",
@@ -61,7 +77,7 @@ describe("Account Register API", () => {
 	    status: 400,
 	    error: "Validation Error",
 	    message: "The username already exists",
-	    path: "/api/account/register/"
+	    path: "/api/account/register"
 	});
     });
 
@@ -77,7 +93,7 @@ describe("Account Register API", () => {
 	    status: 400,
 	    error: "Validation Error",
 	    message: "The email already exists",
-	    path: "/api/account/register/"
+	    path: "/api/account/register"
 	});
     });
 });
