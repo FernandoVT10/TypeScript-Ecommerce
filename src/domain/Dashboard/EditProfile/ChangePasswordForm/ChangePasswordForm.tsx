@@ -6,7 +6,7 @@ import useInputHandling from "@/hooks/useInputHandling";
 
 import ApiController from "@/services/ApiController";
 
-import styles from "./EditProfile.module.scss";
+import styles from "../EditProfile.module.scss";
 
 interface APIResponse {
     error: string,

@@ -9,7 +9,7 @@ import useInputHandling from "@/hooks/useInputHandling";
 import ApiController from "@/services/ApiController";
 import validate from "@/services/validate";
 
-import styles from "./EditProfile.module.scss";
+import styles from "../EditProfile.module.scss";
 
 interface APIResponse {
     error: string,
@@ -38,7 +38,7 @@ const EditForm = () => {
 	setSuccessMessage("");
 
 	if(!validate.email(emailHandler.value)) {
-	    return setErrorMessage("The email is invalid.");
+	    return setErrorMessage("The email is invalid");
 	}
 
 	setLoading(true);

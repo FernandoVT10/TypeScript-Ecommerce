@@ -34,10 +34,6 @@ const withAuth = <T extends object>(Component: React.ComponentType<T>) => {
 		Router.replace("/login/");
 		return this.setState({ loading: false });
 	    }
-
-	    if(!apiResponse.data.user) {
-		Router.replace("/login/");
-	    }
 	    
 	    this.setState({
 		user: apiResponse.data.user,

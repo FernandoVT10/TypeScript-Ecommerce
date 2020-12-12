@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:3000/api/";
 
-async function fetchCall<T>(url: string, options = {}): Promise<T> {
+export async function fetchCall<T>(url: string, options = {}): Promise<T> {
     try {
 	const res = await fetch(url, options)
 

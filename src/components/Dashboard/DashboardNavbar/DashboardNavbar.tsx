@@ -49,7 +49,8 @@ const DashboardNavbar = ({ name }: { name: string }) => {
 		    <li className={`${styles.item} ${styles.mainItem}`}>
 			<button
 			className={styles.toggleButton}
-			onClick={() => setIsActive(!isActive)}>
+			onClick={() => setIsActive(!isActive)}
+			data-testid="toggle-button">
 			    <i className="fas fa-bars" aria-hidden="true"></i>
 			</button>
 
