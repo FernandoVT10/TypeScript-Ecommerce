@@ -10,6 +10,7 @@ import activate from "./activate";
 import getUserData from "./getUserData";
 import edit from "./edit";
 import changePassword from "./changePassword";
+import notifications from "./notifications";
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.post("/activate/:activeToken", activate);
 router.get("/getUserData/", withJWTAuth, getUserData);
 router.put("/edit/", withJWTAuth, edit);
 router.put("/changePassword/", withJWTAuth, changePassword);
+router.use("/notifications/", withJWTAuth, notifications);
 
 export default router;

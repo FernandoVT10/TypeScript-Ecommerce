@@ -1,0 +1,55 @@
+.notificationCard {
+    position: relative;
+    background: var(--black);
+    margin-top: 20px;
+    padding: 20px;
+
+    &.noViewed {
+	border: solid 1px var(--blue);
+    }
+
+    & p {
+	margin: 0;
+    }
+
+    & .from {
+	color: var(--gray);
+	font-weight: bold;
+	font-size: 14px;
+
+	& span {
+	    color: var(--blue);
+	}
+    }
+
+    & .message {
+	color: var(--light);
+	font-size: 16px;
+	margin: 10px 0;
+    }
+
+    & .time {
+	color: var(--gray);
+	font-size: 14px;
+	font-weight: bold;
+    }
+
+    & .deleteButton {
+	cursor: pointer;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background: transparent;
+	border: none;
+	padding: 0;
+	margin-left: 10px;
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 20px;
+	transition: .3s;
+
+	&:hover {
+	    color: var(--light);
+	}
+    }
+}
