@@ -28,21 +28,21 @@ const MobileMenu = ({ isActive, setIsActive }: MobileMenuProps) => {
 		    </Link>
 		</li>
 		<li className={styles.item}>
-		    <Link href="/dashboard/profile/edit/">
+		    <Link href="/dashboard/notifications/">
 			<a className={styles.link}>
 			    <i className="fas fa-bell" aria-hidden="true"></i>
 			</a>
 		    </Link>
 		</li>
 		<li className={styles.item}>
-		    <Link href="/dashboard/profile/edit/">
+		    <Link href="/dashboard/orders/">
 			<a className={styles.link}>
 			    <i className="fas fa-shopping-bag" aria-hidden="true"></i>
 			</a>
 		    </Link>
 		</li>
 		<li className={styles.item}>
-		    <Link href="/dashboard/profile/edit/">
+		    <Link href="/dashboard/management/">
 			<a className={styles.link}>
 			    <i className="fas fa-cog" aria-hidden="true"></i>
 			</a>

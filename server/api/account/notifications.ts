@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     try {
         const notifications = await Notification.find({ userId: req.userId });
 
-	await Notification.update({ userId: req.userId, viewed: false }, { viewed: true })
+	await Notification.updateMany({ userId: req.userId, viewed: false }, { viewed: true })
 
 	res.json({
 	    data: { notifications }
