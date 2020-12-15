@@ -1,0 +1,39 @@
+.product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    & .image {
+	width: 100px;
+	height: 100px;
+	margin-right: 20px;
+    }
+
+    & .details {
+	& p {
+	    margin: 0;
+	}
+
+	& .title {
+	    color: var(--light);
+	    font-weight: bold;
+	    font-size: 20px;
+	    text-decoration: none;
+	    transition: .3s;
+
+	    &:hover {
+		color: var(--blue);
+	    }
+	}
+
+	& .price {
+	    color: var(--light);
+	    font-size: 25px;
+	}
+
+	& .quantity {
+	    color: var(--gray);
+	    font-size: 14px;
+	}
+    }
+}

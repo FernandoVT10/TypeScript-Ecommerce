@@ -9,7 +9,6 @@ export interface IProduct extends Document {
     price: number,
     discount?: number,
     inStock: number,
-    arrivesIn: string,
     warranty: string,
     description: string,
     categories: ICategory["_id"],
@@ -44,11 +43,6 @@ const productSchema = new Schema({
     },
     inStock: {
         type: Number,
-        required: true
-    },
-    arrivesIn: {
-        type: String,
-        maxlength: 30,
         required: true
     },
     warranty: {

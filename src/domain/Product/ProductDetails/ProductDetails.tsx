@@ -18,7 +18,6 @@ export interface ProductDetailsProps {
 	price: number,
 	inStock: SelectQuantityProps["inStock"],
 	discount: number,
-	arrivesIn: string,
 	warranty: string
     },
     totalReviews: number
@@ -70,15 +69,6 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 	    onClick={handleAddToShoppingCart}>
 		Add to Shopping Cart
 	    </button>
-
-	    <div className={styles.info}>
-		<i className="fas fa-truck" aria-hidden="true"></i>
-		Arrives free in { product.arrivesIn }
-
-		<span className={styles.moreInfo}>
-		    The product arrives in { product.arrivesIn } approximately
-		</span>
-	    </div>
 
 	    <div className={styles.info}>
 		<i className="fab fa-paypal" aria-hidden="true"></i>

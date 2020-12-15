@@ -1,0 +1,22 @@
+.orderCard {
+    padding: 20px;
+    margin-top: 20px;
+    background: var(--black);
+    border: solid 2px var(--blue);
+
+    & .total {
+	display: flex;
+	justify-content: space-between;
+	color: var(--light);
+	font-size: 20px;
+    }
+
+    & .purchaseId {
+	margin: 0;
+	margin-top: 20px;
+	color: var(--gray);
+	font-weight: bold;
+	font-size: 12px;
+	text-align: center;
+    }
+}
