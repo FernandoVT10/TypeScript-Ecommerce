@@ -1,0 +1,130 @@
+.shippingDetails {
+    color: var(--light);
+
+    & .address {
+	& .fullName {
+	    margin: 0;
+	    font-size: 20px;
+	}
+
+	& p {
+	    margin: 0;
+	    margin-top: 10px;
+	    font-weight: bold;
+	    font-size: 16px;
+	}
+
+	& .street {
+	    color: var(--blue);
+	}
+
+	& .phoneNumber .number {
+	    color: var(--blue);
+	    margin-left: 10px;
+	}
+
+	& .additionalInformation .information {
+	    color: var(--blue);
+	    margin-left: 10px;
+	}
+    }
+
+    & .shippingStatus {
+	margin-top: 20px;
+
+	& .title {
+	    margin: 0;
+	    font-size: 20px;
+	}
+
+	& .history {
+	    position: relative;
+	    margin-top: 10px;
+
+	    &:before {
+		z-index: 2;
+		content: "";
+		position: absolute;
+		top: 10px;
+		left: 8px;
+		width: 4px;
+		height: calc(100% - 20px);
+		background: var(--blue);
+		opacity: .6;
+	    }
+
+	    & .state {
+		margin-top: 10px;
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		&:nth-child(1) {
+		    & .circle {
+			background: var(--green);
+		    }
+
+		    & .content {
+			color: var(--green);
+			font-size: 16px;
+		    }
+		}
+
+		& .circle {
+		    z-index: 10;
+		    cursor: pointer;
+		    position: relative;
+		    display: inline-block;
+		    margin-right: 10px;
+		    width: 20px;
+		    height: 20px;
+		    border-radius: 50%;
+		    background: var(--blue);
+		    transition: .3s;
+
+		    &:hover {
+			background: var(--green);
+
+			& ~ .date {
+			    right: -64px;
+			    width: 50px;
+			    opacity: 1;
+			}
+		    }
+		}
+
+		& .date {
+		    position: absolute;
+		    left: 32px;
+		    top: 0;
+		    padding: 2.5px;
+		    width: 0;
+		    height: 24px;
+		    font-size: 12px;
+		    color: var(--black);
+		    font-weight: bold;
+		    background: var(--green);
+		    opacity: 0;
+		    transition: .3s;
+
+		    &:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: -12px;
+			width: 0; 
+			height: 0; 
+			border-top: 12px solid transparent;
+			border-bottom: 12px solid transparent;
+			border-right: 12px solid var(--green);
+		    }
+		}
+
+		& .content {
+		    font-weight: bold;
+		    font-size: 14px;
+		}
+	    }
+	}
+    }
+}

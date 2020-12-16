@@ -6,6 +6,7 @@ import paypal from "../../utils/services/paypal";
 
 import Order from "../../models/Order";
 import Product from "../../models/Product";
+import Shipping from "../../models/Shipping";
 
 export default async (req: Request, res: Response) => {
     const orderId: string = req.body.orderId;
@@ -42,7 +43,16 @@ export default async (req: Request, res: Response) => {
 	    await product.save();
 	}
 
-	order.status = "COMPLETED";
+	const shipping = await Shipping.create({
+	    history: [
+		{
+		    content: "Preparing the product"
+		}
+	    ]
+	});
+
+	order.status = "SHIPPING";
+	order.shipping = shipping._id;
 	await order.save();
 
 	res.json({

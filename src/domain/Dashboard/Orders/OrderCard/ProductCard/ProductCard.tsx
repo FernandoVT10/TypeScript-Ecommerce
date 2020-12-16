@@ -1,4 +1,4 @@
-import {AddSpacesToNumber} from "@/services/FormatsForNumber";
+import {AddSpacesToNumber, getDiscountedPrice} from "@/services/FormatsForNumber";
 import Link from "next/link";
 import React from "react";
 
@@ -18,6 +18,8 @@ export interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+    const price = getDiscountedPrice(product.price, product.discount);
+
     return (
 	<div className={styles.product}>
 	    <img
@@ -31,7 +33,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 		</Link>
 
 		<div className={styles.price}>
-		    $ { AddSpacesToNumber(product.price) }
+		    <span className={styles.currentPrice}>$ { AddSpacesToNumber(price) }</span>
+
+		    { product.discount > 0 &&
+			<span>
+			    <s className={styles.oldPrice}>$ { AddSpacesToNumber(product.price) }</s>
+
+			    <span className={styles.discount}>%{ product.discount }</span>
+			</span>
+		    }
 		</div>
 
 		<p className={styles.quantity}>Quantity: { product.quantity }</p>

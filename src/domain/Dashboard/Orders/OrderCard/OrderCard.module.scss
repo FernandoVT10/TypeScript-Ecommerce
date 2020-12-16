@@ -4,11 +4,69 @@
     background: var(--black);
     border: solid 2px var(--blue);
 
+    &.shipping {
+	border-color: var(--green);
+    }
+
     & .total {
 	display: flex;
 	justify-content: space-between;
 	color: var(--light);
 	font-size: 20px;
+    }
+
+    & .shippingDetails {
+	margin-top: 10px;
+
+	& .details {
+	    display: flex;
+
+	    & .arrivesIn {
+		display: block;
+		color: var(--light);
+		font-weight: bold;
+
+		& .date {
+		    color: var(--green);
+		    margin-left: 5px;
+		}
+	    }
+
+	    & .shippingStatus {
+		display: block;
+		margin-left: 20px;
+		color: var(--light);
+		font-weight: bold;
+
+		& .status {
+		    color: var(--green);
+		    margin-left: 5px;
+		}
+	    }
+	}
+
+	& .options {
+	    margin-top: 10px;
+
+	    & .option {
+		cursor: pointer;
+		padding: 0;
+		color: var(--blue);
+		background: transparent;
+		border: none;
+		font-weight: bold;
+		font-size: 16px;
+		transition: .3s;
+
+		&:nth-child(1) {
+		    margin-right: 20px;
+		}
+
+		&:hover {
+		    color: var(--light);
+		}
+	    }
+	}
     }
 
     & .purchaseId {
@@ -18,5 +76,22 @@
 	font-weight: bold;
 	font-size: 12px;
 	text-align: center;
+    }
+
+    @media screen and (max-width: 768px) {
+	& .shippingDetails {
+	    & .details {
+		flex-direction: column;
+
+		& .shippingStatus {
+		    margin: 0;
+		}
+	    }
+
+	    & .options {
+		display: flex;
+		justify-content: center;
+	    }
+	}
     }
 }

@@ -8,9 +8,10 @@ router.get("/", async (req, res) => {
     try {
 	const orders = await Order.find({
 	    userId: req.userId,
-	    status: "COMPLETED"
+	    status: { $ne: "PENDING" }
 	})
 	.populate("products.originalProduct", "title images")
+	.populate("shipping")
 	.sort({ createdAt: "desc" });
 
         res.json({

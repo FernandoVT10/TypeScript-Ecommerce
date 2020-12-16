@@ -81,7 +81,7 @@ export default async (req: Request, res: Response) => {
 
 	    orderProducts.push({
 		originalProduct: product._id,
-		price: product.discountedPrice,
+		price: product.price,
 		discount: product.discount,
 		quantity: cartItem.quantity
 	    });

@@ -1,10 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 import { IProduct } from "./Product";
+import { IShipping } from "./Shipping";
 import { IUser } from "./User";
 
 export interface IOrder extends Document {
     userId: IUser["_id"],
+    shipping?: IShipping["_id"],
     paypalOrderId: string,
     address: {
 	fullName: string,
@@ -25,13 +27,18 @@ export interface IOrder extends Document {
 	quantity: number
     }[],
     total: number,
-    status?: "PENDING" | "COMPLETED"
+    status?: "PENDING" | "SHIPPING" | "COMPLETED"
 }
 
 const orderSchema = new Schema({
     userId: {
 	type: Schema.Types.ObjectId,
 	ref: "users"
+    },
+    shipping: {
+	type: Schema.Types.ObjectId,
+	ref: "shipments",
+	default: null
     },
     paypalOrderId: {
 	type: String,
@@ -77,7 +84,7 @@ const orderSchema = new Schema({
     },
     status: {
 	type: String,
-	enum: ["PENDING", "COMPLETED"],
+	enum: ["PENDING", "SHIPPING", "COMPLETED"],
 	default: "PENDING"
     }
 }, { timestamps: true });
