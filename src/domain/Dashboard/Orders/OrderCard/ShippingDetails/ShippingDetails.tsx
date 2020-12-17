@@ -24,12 +24,12 @@ export interface ShippingDetailsProps {
 	    content: string,
 	    createdAt: string
 	}>
-    }
+    },
+    isActive: boolean,
+    setIsActive: React.Dispatch<boolean>
 }
 
-const ShippingDetails = ({ address, shipping }: ShippingDetailsProps) => {
-    const [isActive, setIsActive] = useState(true);
-
+const ShippingDetails = ({ address, shipping, isActive, setIsActive }: ShippingDetailsProps) => {
     return (
 	<Modal isActive={isActive} setIsActive={setIsActive}>
 	    <div className={styles.shippingDetails}>

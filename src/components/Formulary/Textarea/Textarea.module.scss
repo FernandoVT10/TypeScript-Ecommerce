@@ -1,0 +1,70 @@
+.textareaContainer {
+    position: relative;
+
+    &.error {
+	& .textarea {
+	    border-color: var(--red) !important;
+	}
+
+	& .label,
+	& .characteresCount {
+	    color: var(--red) !important;
+	}
+    }
+
+    & .textarea {
+	width: 100%;
+	color: var(--light);
+	background: transparent;
+	border: none;
+	font-size: 16px;
+	border: solid 2px var(--gray);
+	border-radius: 5px;
+	padding: 20px;
+	transition: .3s;
+    }
+
+    & .textarea:focus {
+	border-color: var(--blue);
+
+	& ~ .characteresCount {
+	    color: var(--blue);
+	}
+
+	& ~ .label {
+	    color: var(--blue);
+	}
+    }
+
+    & .textarea:focus ~ .label,
+    & .textarea:valid ~ .label {
+	top: -8px;
+	font-size: 12px;
+	font-weight: bold;
+    }
+
+    & .label {
+	font-size: 16px;
+	position: absolute;
+	padding: 0 10px;
+	top: 20px;
+	left: 10px;
+	background: var(--black);
+	transition: .3s;
+    }
+
+    & .characteresCount {
+	float: right;
+	font-size: 14px;
+	color: var(--gray);
+	font-weight: bold;
+	transition: .3s;
+    }
+
+    & .errorMessage {
+	margin: 0;
+	color: var(--red);
+	font-weight: bold;
+	font-size: 12px;
+    }
+}

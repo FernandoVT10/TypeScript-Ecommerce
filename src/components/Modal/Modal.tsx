@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import styles from "./Modal.module.scss";
 
@@ -9,6 +9,14 @@ interface ModalProps {
 }
 
 const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
+    useEffect(() => {
+    	if(isActive) {
+	    document.body.style.overflow = "hidden";
+	} else {
+	    document.body.style.overflow = "auto";
+	}
+    }, [isActive]);
+    
     if(!isActive) return null;
 
     return (

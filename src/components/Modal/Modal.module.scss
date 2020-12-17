@@ -20,6 +20,7 @@
 	color: var(--light);
 	background: var(--black);
 	border: solid 1px var(--blue);
+	animation: slideToDown .3s ease;
 
 	& .closeButton {
 	    cursor: pointer;
@@ -47,4 +48,9 @@
 	height: 100%;
 	opacity: .6;
     }
+}
+
+@keyframes slideToDown {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
 }

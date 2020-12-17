@@ -1,6 +1,4 @@
-import React from "react";
-
-import Link from "next/link";
+import React, { useState } from "react";
 
 import ProductCard, { ProductCardProps } from "./ProductCard";
 
@@ -9,6 +7,7 @@ import { AddSpacesToNumber } from "@/services/FormatsForNumber";
 import ShippingDetails, { ShippingDetailsProps } from "./ShippingDetails";
 
 import styles from "./OrderCard.module.scss";
+import Link from "next/link";
 
 export interface OrderCardProps {
     order: {
@@ -28,6 +27,7 @@ export interface OrderCardProps {
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
+    const [isShippingDetailsActive, setIsShippingDetailsActive] = useState(false);
     const { shipping } = order;
 
     const orderCardClass = order.status === "SHIPPING" ? styles.shipping : "";
@@ -35,7 +35,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
 
     return (
 	<div className={`${styles.orderCard} ${orderCardClass}`}>
-	    <ShippingDetails address={order.address} shipping={order.shipping}/>
+	    <ShippingDetails
+	    address={order.address}
+	    shipping={order.shipping}
+	    isActive={isShippingDetailsActive}
+	    setIsActive={setIsShippingDetailsActive}/>
 
 	    <div className={styles.products}>
 		{order.products.map((product, index) => {
@@ -65,15 +69,22 @@ const OrderCard = ({ order }: OrderCardProps) => {
 		    </div>
 
 		    <div className={styles.options}>
-			<Link href={`/dashboard/orders/${order._id}`}>
-			    <button className={styles.option}>See more shipping details</button>
+			<button
+			className={styles.option}
+			onClick={() => setIsShippingDetailsActive(true)}>
+			    See more shipping details
+			</button>
+
+			<Link href={`/dashboard/chat?help_with_order=${order._id}`}>
+			    <button className={styles.option}>
+				Send a message
+			    </button>
 			</Link>
-		    	<button className={styles.option}>Send a message</button>
 		    </div>
 		</div>
 	    }
 
-	    <p className={styles.purchaseId}>PurchaseId: { order._id }</p>
+	    <p className={styles.orderId}>Order Id: { order._id }</p>
 	</div>
     );
 }
