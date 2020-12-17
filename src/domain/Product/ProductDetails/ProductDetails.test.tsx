@@ -11,13 +11,12 @@ const PRODUCT_MOCK = {
     price: 10000,
     inStock: 31,
     discount: 50,
-    arrivesIn: "1 century",
     warranty: "Test warranty"
 }
 
 describe("Domian Product ProductDetails", () => {
     it("should render correctly", () => {
-	const { queryByText, queryAllByText } = render(
+	const { queryByText } = render(
 	    <ProductDetails product={PRODUCT_MOCK} totalReviews={50}/>
 	);
 
@@ -30,7 +29,6 @@ describe("Domian Product ProductDetails", () => {
 
 	expect(queryByText("(31 available)")).toBeInTheDocument();
 	
-	expect(queryAllByText(/1 century/)).toHaveLength(2);
 	expect(queryByText("Test warranty")).toBeInTheDocument();
     });
 

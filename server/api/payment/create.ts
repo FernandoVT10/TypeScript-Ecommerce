@@ -98,7 +98,11 @@ export default async (req: Request, res: Response) => {
 
 	const orderId = await paypal.createOrder(items);
 
-	const total = orderProducts.reduce((acc, product) => acc + product.price * product.quantity, 0);
+	const total = orderProducts.reduce((acc, product) => {
+	    const discount = (100 - product.discount) / 100;
+
+	    return acc + product.price * product.quantity * discount;
+	}, 0);
 
 	await Order.create({
 	    userId: req.userId,

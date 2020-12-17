@@ -8,7 +8,7 @@ export interface NotificationCardProps {
 	_id: string,
 	from: string,
 	message: string,
-	viewed: string,
+	viewed: boolean,
 	createdAt: string
     },
     deleteNotification: (notificationId: string) => void
@@ -23,6 +23,7 @@ const NotificationCard = ({ notification, deleteNotification }: NotificationCard
 	<div className={`${styles.notificationCard} ${notificationCardClass}`}>
 	    <button
 	    className={styles.deleteButton}
+	    data-testid="delete-notification-button"
 	    onClick={() => deleteNotification(notification._id)}>
 	    	<i className="fas fa-times" aria-hidden="true"></i>
 	    </button>

@@ -1,7 +1,13 @@
 export function AddSpacesToNumber(number: number) {
-    const fixedNumber = number.toFixed(2);
+    let formatNumber: string;
 
-    return fixedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    formatNumber = number.toString();
+
+    if(number % 1 !== 0) {
+	formatNumber = number.toFixed(2);
+    }
+
+    return formatNumber.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
 export function getDiscountedPrice(price: number, discount: number) {

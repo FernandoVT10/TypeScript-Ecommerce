@@ -7,6 +7,7 @@ import paypal from "../../../utils/services/paypal";
 import Order from "../../../models/Order";
 import User from "../../../models/User";
 import Product from "../../../models/Product";
+import Shipping from "../../../models/Shipping";
 
 const request = supertest(app);
 
@@ -93,12 +94,16 @@ describe("Payment Execute API", () => {
 	mockedPayPalExecuteOrder.mockImplementation(() => Promise.resolve(true));
     });
 
-    it("should complete an order correctly", async () => {
+    it("should complete an order and create a shipping document correctly", async () => {
 	const res = await callExecutePayment("testid");
 	expect(res.body.data.message).toBe("The purchase has been completed successfully");
 
 	const order = await Order.findOne({ paypalOrderId: "testid" });
-	expect(order.status).toBe("COMPLETED");
+	expect(order.status).toBe("SHIPPING");
+
+	const shipping = await Shipping.findOne();
+	expect(shipping.arrivesIn).toBeNull();
+	expect(shipping.history[0].content).toBe("Preparing the product");
     });
 
     it("should update the stock of the products correctly", async () => {
