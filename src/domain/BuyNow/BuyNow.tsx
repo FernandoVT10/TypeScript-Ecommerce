@@ -14,6 +14,7 @@ function BuyNow ({ paypalClientId }: { paypalClientId: string }) {
     const [products, setProducts] = useState<ProductCardProps["product"][]>([]);
     const [addressId, setAddressId] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const router = useRouter();
 
@@ -69,7 +70,14 @@ function BuyNow ({ paypalClientId }: { paypalClientId: string }) {
 			<BuyButton
 			paypalClientId={paypalClientId}
 			addressId={addressId}
-			setErrorMessage={setErrorMessage}/>
+			setErrorMessage={setErrorMessage}
+			setLoading={setLoading}/>
+		    </div>
+		}
+
+		{ loading &&
+		    <div className={styles.loaderContainer}>
+			<span className="loader"></span>
 		    </div>
 		}
 	    </div>

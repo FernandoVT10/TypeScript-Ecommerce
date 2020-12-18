@@ -23,10 +23,11 @@ interface APIResponses {
 interface BuyButtonProps {
     paypalClientId: string,
     addressId: string,
-    setErrorMessage: React.Dispatch<string>
+    setErrorMessage: React.Dispatch<string>,
+    setLoading: React.Dispatch<boolean>
 }
 
-const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProps) => {
+const BuyButton = ({ paypalClientId, addressId, setErrorMessage, setLoading }: BuyButtonProps) => {
     const router = useRouter();
 
     const paypalOptions = {
@@ -40,6 +41,8 @@ const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProp
 	    }
 	});
 
+	setLoading(false);
+
 	if(res.error) {
 	    return setErrorMessage(res.message);
 	}
@@ -49,6 +52,7 @@ const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProp
     }
 
     const createOrder = async () => {
+	setLoading(true);
 	const cartItems = ShoppingCartController.getItems();
 
 	const res = await ApiController.post<APIResponses["createOrder"]>("payment/create", {
@@ -67,6 +71,8 @@ const BuyButton = ({ paypalClientId, addressId, setErrorMessage }: BuyButtonProp
 		orderId
 	    }
 	});
+
+	setLoading(false);
     }
 
     const onCancel = (data: { orderID: string }) => cancelOrder(data.orderID);

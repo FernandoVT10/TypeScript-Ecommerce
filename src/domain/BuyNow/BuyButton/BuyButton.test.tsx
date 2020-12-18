@@ -26,22 +26,26 @@ const CART_ITEMS_MOCK = [
 const mockedPayPalButton = mocked(PayPalButton);
 const mockedAPIPost = mocked(ApiController.post);
 
+const setLoadingMock = jest.fn();
+
 describe("Domain BuyNow BuyButton Component", () => {
     beforeEach(() => {
 	fetchMock.mockReset();
 	mockedPayPalButton.mockReset();
 	mockedAPIPost.mockReset();
+	setLoadingMock.mockReset();
 
 	window.localStorage.clear();
 	window.localStorage.setItem("cart", JSON.stringify(CART_ITEMS_MOCK));
     });
 
     it("should renders correctly", () => {
-	const { getByText } = render(
+	render(
 	    <BuyButton
 	    paypalClientId="testpaypal"
 	    addressId="testaddress"
-	    setErrorMessage={jest.fn()}/>
+	    setErrorMessage={jest.fn()}
+	    setLoading={jest.fn()}/>
 	);
 
 	const buttonCall = mockedPayPalButton.mock.calls[0][0];
@@ -58,7 +62,8 @@ describe("Domain BuyNow BuyButton Component", () => {
 		<BuyButton
 		paypalClientId="testpaypal"
 		addressId="testaddress"
-		setErrorMessage={jest.fn()}/>
+		setErrorMessage={jest.fn()}
+		setLoading={setLoadingMock}/>
 	    );
 
 	    const buttonCall = mockedPayPalButton.mock.calls[0][0];
@@ -72,6 +77,8 @@ describe("Domain BuyNow BuyButton Component", () => {
 		    addressId: "testaddress"
 		}
 	    });
+
+	    expect(setLoadingMock).toHaveBeenCalledWith(true);
 	});       
     });
 
@@ -86,7 +93,8 @@ describe("Domain BuyNow BuyButton Component", () => {
 		<BuyButton
 		paypalClientId="testpaypal"
 		addressId="testaddress"
-		setErrorMessage={jest.fn()}/>
+		setErrorMessage={jest.fn()}
+		setLoading={setLoadingMock}/>
 	    );
 
 	    const buttonCall = mockedPayPalButton.mock.calls[0][0];
@@ -100,6 +108,7 @@ describe("Domain BuyNow BuyButton Component", () => {
 
 	    expect(window.localStorage.getItem("cart")).toBe("[]");
 	    expect(routerPushMock).toHaveBeenCalledWith("/dashboard/orders");
+	    expect(setLoadingMock).toHaveBeenCalledWith(false);
 	});
 
 	it("should call setErrorMessage when the api returns an error", async () => {
@@ -113,13 +122,15 @@ describe("Domain BuyNow BuyButton Component", () => {
 		<BuyButton
 		paypalClientId="testpaypal"
 		addressId="testaddress"
-		setErrorMessage={setErrorMessageMock}/>
+		setErrorMessage={setErrorMessageMock}
+		setLoading={setLoadingMock}/>
 	    );
 
 	    const buttonCall = mockedPayPalButton.mock.calls[0][0];
 	    await buttonCall.onSuccess(null, { orderID: "testid" });
 
 	    expect(setErrorMessageMock).toHaveBeenCalledWith("This is an error message");
+	    expect(setLoadingMock).toHaveBeenCalledWith(false);
 	});
     });
 
@@ -131,7 +142,8 @@ describe("Domain BuyNow BuyButton Component", () => {
 		<BuyButton
 		paypalClientId="testpaypal"
 		addressId="testaddress"
-		setErrorMessage={jest.fn()}/>
+		setErrorMessage={jest.fn()}
+		setLoading={setLoadingMock}/>
 	    );
 
 	    const buttonCall = mockedPayPalButton.mock.calls[0][0];
@@ -142,7 +154,9 @@ describe("Domain BuyNow BuyButton Component", () => {
 		    orderId: "testid"
 		}
 	    });
-	});       
+
+	    expect(setLoadingMock).toHaveBeenCalledWith(false);
+	});
     });
 
     describe("On Error", () => {
@@ -154,7 +168,8 @@ describe("Domain BuyNow BuyButton Component", () => {
 		<BuyButton
 		paypalClientId="testpaypal"
 		addressId="testaddress"
-		setErrorMessage={setErrorMessageMock}/>
+		setErrorMessage={setErrorMessageMock}
+		setLoading={setLoadingMock}/>
 	    );
 
 	    const buttonCall = mockedPayPalButton.mock.calls[0][0];
@@ -166,6 +181,7 @@ describe("Domain BuyNow BuyButton Component", () => {
 		}
 	    });
 	    expect(setErrorMessageMock).toHaveBeenCalledWith("An error has ocurred in the server. Please try again later.");
+	    expect(setLoadingMock).toHaveBeenCalledWith(false);
 	});       
     });
 });
