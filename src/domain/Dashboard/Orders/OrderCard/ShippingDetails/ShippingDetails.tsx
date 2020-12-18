@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import moment from "moment";
 
@@ -42,7 +42,10 @@ const ShippingDetails = ({ address, shipping, isActive, setIsActive }: ShippingD
 
 		    <p className={styles.street}>
 			{ address.suburb } { address.street } #{ address.outdoorNumber }
-			{ address.interiorNumber !== "W/0" ? address.interiorNumber : null }
+			{ address.interiorNumber !== "W/0"
+			    ? `(Interior: #${address.interiorNumber})`
+			    : null
+			}
 		    </p>
 
 		    <p className={styles.phoneNumber}>

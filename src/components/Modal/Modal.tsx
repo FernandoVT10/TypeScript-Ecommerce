@@ -26,13 +26,15 @@ const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
 
 		<button
 		className={styles.closeButton}
-		    onClick={() => setIsActive(false)}>
+		data-testid="close-modal-button"
+		onClick={() => setIsActive(false)}>
 		    <i className="fas fa-times" aria-hidden="true"></i>
 		</button>
 	    </div>
 
 	    <div
 	    className={styles.modalBackground}
+	    data-testid="modal-background"
 	    onClick={() => setIsActive(false)}></div>
 	</div>
     );

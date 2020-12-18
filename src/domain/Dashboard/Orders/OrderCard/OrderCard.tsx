@@ -13,7 +13,7 @@ export interface OrderCardProps {
     order: {
 	_id: string,
 	total: number,
-	status: "SHIPPING" | "COMPLETE",
+	status: "SHIPPING" | "COMPLETED",
 	address: ShippingDetailsProps["address"],
 	shipping: {
 	    arrivesIn: string,
