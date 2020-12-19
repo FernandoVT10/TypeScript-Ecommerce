@@ -1,70 +1,99 @@
 import React from "react";
 
 import { fireEvent, render, act } from "@testing-library/react";
+import { mocked } from "ts-jest/utils";
+
+import ApiController from "@/services/ApiController";
 
 import AddReview from "./AddReview";
 
-const API_RESPONSE_MOCK = JSON.stringify({
+jest.mock("@/services/ApiController");
+
+const API_RESPONSE_MOCK = {
     data: {
 	createdReview: {
 	    content: "created review",
 	    calification: 5
 	}
     }
-});
+}
+
+const mockedAPIPost = mocked(ApiController.post);
 
 describe("Domain Product ReviewsList AddReview", () => {
     beforeEach(() => {
-	fetchMock.resetMocks();
+	mockedAPIPost.mockReset();
+    });
+
+    it("shouldn't render when isActive is equal to false", () => {
+	const { container } = render(
+	    <AddReview
+	    setReviews={jest.fn()}
+	    productId="test-id"
+	    isActive={false}
+	    setIsActive={jest.fn()}/>
+	);
+
+	expect(container.children).toHaveLength(0);
     });
 
     it("should call the api to create a review", async () => {
-	const { findByText, findByLabelText, container } = render(<AddReview setReviews={jest.fn()} productId="test-id"/>);
+	const setIsActiveMock = jest.fn();
 
-	const textarea = await findByLabelText("What did you think of the product?") as HTMLTextAreaElement;
+	const { getByText, getByLabelText, getAllByTestId } = render(
+	    <AddReview
+	    setReviews={jest.fn()}
+	    productId="test-id"
+	    isActive={true}
+	    setIsActive={setIsActiveMock}/>
+	);
+
+	const textarea = getByLabelText("Write your review") as HTMLTextAreaElement;
 	fireEvent.change(textarea, { target: { value: "test review content" } });
 
-	const stars = container.querySelectorAll("i.far.fa-star");
+	const stars = getAllByTestId("select-calification-star");
 	fireEvent.click(stars[2]);
 
-	fetchMock.mockResponseOnce(API_RESPONSE_MOCK);
+	mockedAPIPost.mockImplementation(() => Promise.resolve(API_RESPONSE_MOCK));
 
-	const submitButton = await findByText("Add Review");
+	const submitButton = getByText("Add Review");
 	await act(async () => fireEvent.click(submitButton));
 
-	const fetchCall = fetchMock.mock.calls[0];
+	expect(mockedAPIPost).toHaveBeenCalledWith("products/test-id/reviews/", {
+	    body: {
+		content: "test review content",
+		calification: 3
+	    }
+	});
 
-	expect(fetchCall[0]).toMatch(/products\/test-id\/reviews/);
-
-	expect(fetchCall[1].body).toBe(JSON.stringify({
-	    content: "test review content",
-	    calification: 3
-	}));
-	expect(fetchCall[1].method).toBe("POST");
+	expect(setIsActiveMock).toHaveBeenCalledWith(false);
     });
 
     it("should call setReviews when we create a review", async () => {
 	const setReviewsMock = jest.fn(() => []);
 
-	const { findByText, findByLabelText, container } = render(<AddReview setReviews={setReviewsMock} productId="test-id"/>);
+	const { getByText, getByLabelText, getAllByTestId } = render(
+	    <AddReview
+	    setReviews={setReviewsMock}
+	    productId="test-id"
+	    isActive={true}
+	    setIsActive={jest.fn()}/>
+	);
 
-	const textarea = await findByLabelText("What did you think of the product?") as HTMLTextAreaElement;
+	const textarea = getByLabelText("Write your review") as HTMLTextAreaElement;
 	fireEvent.change(textarea, { target: { value: "test review content" } });
 
-	const stars = container.querySelectorAll("i.far.fa-star");
+	const stars = getAllByTestId("select-calification-star");
 	fireEvent.click(stars[2]);
 
-	fetchMock.mockResponseOnce(API_RESPONSE_MOCK);
+	mockedAPIPost.mockImplementation(() => Promise.resolve(API_RESPONSE_MOCK));
 
-	const submitButton = await findByText("Add Review");
+	const submitButton = getByText("Add Review");
 	await act(async () => fireEvent.click(submitButton));
 
 	expect(setReviewsMock).toHaveBeenCalled();
 
-	// we get the function into of the setReviews
-	const setReviewsFunction = setReviewsMock.mock.calls[0] as any as [
-	    (prevState: []) => []
-	];
+	const setReviewsFunction = setReviewsMock.mock.calls[0] as any;
 
 	expect(setReviewsFunction[0]([])).toEqual([
 	    {
@@ -74,15 +103,21 @@ describe("Domain Product ReviewsList AddReview", () => {
 	]);
     });
 
-    it("should display a calification is required error", async () => {
-	const { findByText, findByLabelText, queryByText } = render(<AddReview setReviews={jest.fn()} productId="test-id"/>);
+    it("should display an error when the calification is 0", async () => {
+	const { getByText, getByLabelText, queryByText } = render(
+	    <AddReview
+	    setReviews={jest.fn()}
+	    productId="test-id"
+	    isActive={true}
+	    setIsActive={jest.fn()}/>
+	);
 
-	const textarea = await findByLabelText("What did you think of the product?") as HTMLTextAreaElement;
+	const textarea = getByLabelText("Write your review") as HTMLTextAreaElement;
 	fireEvent.change(textarea, { target: { value: "test review content" } });
 
 	expect(queryByText("The calification is required")).not.toBeInTheDocument();
 
-	const submitButton = await findByText("Add Review");
+	const submitButton = getByText("Add Review");
 	fireEvent.click(submitButton);
 
 	expect(queryByText("The calification is required")).toBeInTheDocument();

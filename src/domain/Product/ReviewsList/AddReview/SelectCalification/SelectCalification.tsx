@@ -25,6 +25,7 @@ const SelectCalification = ({ calification, setCalification }: SelectCalificatio
 	    onClick={() => setCalification(star)}
 	    onMouseEnter={() => setHoverStar(star)}
 	    onMouseLeave={() => setHoverStar(0)}
+	    data-testid="select-calification-star"
 	    aria-hidden="true"
 	    key={star}></i>
 	);

@@ -94,10 +94,6 @@ function ReviewsList({ productId }: { productId: string }) {
 			</div> 
 		    );
 		})}
-
-		{reviews.length === 0 &&
-		    <p className={styles.notAvailable}>There are no reviews to display</p>
-		}
 	    </div>
 
 	    { loading &&
