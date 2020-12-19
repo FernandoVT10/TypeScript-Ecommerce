@@ -60,15 +60,21 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 		</div>
 	    }
 
-	    <SelectQuantity quantity={quantity} setQuantity={setQuantity} inStock={product.inStock}/>
+	    { product.inStock > 0 ?
+		<div>
+		    <SelectQuantity quantity={quantity} setQuantity={setQuantity} inStock={product.inStock}/>
 
-	    <button className="submit-button">Buy Now</button>
+		    <button className="submit-button">Buy Now</button>
 
-	    <button
-	    className="submit-button secondary"
-	    onClick={handleAddToShoppingCart}>
-		Add to Shopping Cart
-	    </button>
+		    <button
+			className="submit-button secondary"
+			onClick={handleAddToShoppingCart}>
+			Add to Shopping Cart
+		    </button>
+		</div>
+		:
+		<p className={styles.withourStock}>There is no stock for this product</p>
+	    }
 
 	    <div className={styles.info}>
 		<i className="fab fa-paypal" aria-hidden="true"></i>

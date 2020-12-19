@@ -59,6 +59,12 @@
 	}	
     } 
 
+    & .withourStock {
+	font-size: 14px;
+	font-weight: bold;
+	color: var(--red);
+    }
+
     & .warranty {
 	margin-top: 20px;
 	color: var(--light);
