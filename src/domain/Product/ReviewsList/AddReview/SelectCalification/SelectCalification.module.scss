@@ -1,0 +1,23 @@
+.selectCalification {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    & .stars {
+	& .star {
+	    cursor: pointer;
+	    color: var(--blue);
+	    margin-right: 10px;
+	}
+    }
+
+    & .calificationCount {
+	color: var(--gray);
+	font-weight: bold;
+	font-size: 12px;
+
+	&.active {
+	    color: var(--blue);
+	}
+    }
+}

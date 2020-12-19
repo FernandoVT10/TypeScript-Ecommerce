@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 
+import Textarea from "@/components/Formulary/Textarea";
+
+import useInputHandling from "@/hooks/useInputHandling";
+
 import ApiController from "@/services/ApiController";
 
 import { Review } from "../ReviewsList";
+import SelectCalification from "./SelectCalification";
 
 import styles from "./AddReview.module.scss";
 
 interface AddReviewProps {
     setReviews: React.Dispatch<React.SetStateAction<Review[]>>,
-    productId: string
+    productId: string,
+    isActive: boolean,
+    setIsActive: React.Dispatch<boolean>
 }
 
-function AddReview({ setReviews, productId }: AddReviewProps) {
-    const [review, setReview] = useState("");
+interface APIResponse {
+    error: string,
+    message: string,
+    data: {
+	createdReview: Review
+    }
+}
+
+function AddReview({ setReviews, productId, isActive, setIsActive }: AddReviewProps) {
+    const reviewHandler = useInputHandling("");
     const [calification, setCalification] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
+
     const [loading, setLoading] = useState(false);
 
-    const handleForm = (e: React.FormEvent<HTMLElement>) => {
+    const handleForm = async (e: React.FormEvent<HTMLElement>) => {
 	e.preventDefault();
 
 	if(!calification) {
@@ -27,72 +43,53 @@ function AddReview({ setReviews, productId }: AddReviewProps) {
 
 	setLoading(true);
 
-	ApiController.post<{
-	    data: {
-		createdReview: Review
+	const res = await ApiController.post<APIResponse>(`products/${productId}/reviews/`, {
+	    body: {
+		content: reviewHandler.value,
+		calification
 	    }
-	}>(`products/${productId}/reviews/`, {
-	    body: { content: review, calification }
-	})
-	.then(res => {
-	    if(res.data) {
-		setReviews(prevReviews => [res.data.createdReview, ...prevReviews]);
-	    }
-
-	    setLoading(false);
-	    setErrorMessage("");
 	});
-    }
 
-    const getStars = () => {
-	const stars: JSX.Element[] = [];
+	setLoading(false);
 
-	for(let star = 1; star <= 5; star++) {
-	    const starStyle = star <= calification ? "fas" : "far";
-
-	    stars.push(
-		<i
-		className={`${starStyle} fa-star ${styles.star}`}
-		onClick={() => setCalification(star)}
-		aria-hidden="true"
-		key={star}></i>
-	    );
+	if(res.error) {
+	    return setErrorMessage(res.message);
 	}
 
-	return stars;
+	setReviews(prevReviews => [res.data.createdReview, ...prevReviews]);
+	setIsActive(false);
     }
 
-    const loaderClass = loading ? styles.active : "";
+    if(!isActive) return null;
 
     return (
 	<div className={styles.addReview}>
-	    <div className={`${styles.loaderContainer} ${loaderClass}`}>
-	    	<span className={`${styles.loader} loader`}></span>
-	    </div>
-
 	    <form onSubmit={handleForm}>
-		<label className={styles.label} htmlFor="add-review">What did you think of the product?</label>
+		<p className={styles.title}>What did you think of the product?</p>
 
-		<textarea
-		className={styles.textarea}
-		id="add-review"
-		name="add-review-input"
-		onChange={({ target: { value } }) => setReview(value)}
+		<Textarea
+		id="review-input"
+		name="review"
+		label="Write your review"
 		maxLength={500}
-		required></textarea>
+		value={reviewHandler.value}
+		setValue={reviewHandler.setValue}/>
 
-		<div className={styles.starSelection}>
-		    { getStars() }
-		</div>
+		<SelectCalification calification={calification} setCalification={setCalification}/>
 
 		{errorMessage.length > 0 &&
 		    <p className={styles.error}>
-			<i className="fas fa-info-circle"></i>
 			{ errorMessage }
 		    </p>
 		}
 
-		<button className={`${styles.addReview} submit-button`}>Add Review</button>
+		{ loading ?
+		    <div className={styles.loaderContainer}>
+			<span className={`${styles.loader} loader`}></span>
+		    </div>
+		:
+		    <button className={`${styles.addReview} submit-button`}>Add Review</button>
+		}
 	    </form>
 	</div>
     );

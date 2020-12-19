@@ -6,6 +6,8 @@ import Category from "../../models/Category";
 
 import Product from "../../models/Product";
 
+import checkIfProductExist from "../../utils/middlewares/checkIfProductExist";
+
 const PAGINATE_CUSTOM_LABELS = {
     totalDocs: "totalProducts",
     docs: "products"
@@ -15,7 +17,7 @@ const PRODUCTS_PER_PAGE = 6;
 
 const router = Router();
 
-router.use("/:productId/reviews/", reviewsRoute);
+router.use("/:productId/reviews/", checkIfProductExist, reviewsRoute);
 
 router.get("/", async (req, res) => {
     const { search, category, discountsOnly } = req.query;

@@ -15,6 +15,7 @@
     & .textarea {
 	width: 100%;
 	color: var(--light);
+	resize: vertical;
 	background: transparent;
 	border: none;
 	font-size: 16px;
@@ -44,6 +45,7 @@
     }
 
     & .label {
+	color: var(--light);
 	font-size: 16px;
 	position: absolute;
 	padding: 0 10px;

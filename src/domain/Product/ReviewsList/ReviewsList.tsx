@@ -13,9 +13,16 @@ export interface Review {
     calification: number
 }
 
-interface APIResponse {
-    data: {
-	reviews: Review[]
+interface APIResponses {
+    getReviews: {
+	data: {
+	    reviews: Review[]
+	}
+    },
+    userStatus: {
+	data: {
+	    canWriteAReview: boolean
+	}
     }
 }
 
@@ -27,31 +34,54 @@ function ReviewsList({ productId }: { productId: string }) {
     const [loading, setLoading] = useState(false);
     const [canLoadMoreReviews, setCanLoadMoreReviews] = useState(true);
 
+    const [canWriteAReview, setCanWriteAReview] = useState(false);
+
     useEffect(() => {
-	setLoading(true);
+    	const getUserStatus = async () => {
+	    const res = await ApiController.get<APIResponses["userStatus"]>(
+		`products/${productId}/reviews/userStatus`
+	    );
 
-	const apiURL = `products/${productId}/reviews?limit=${REVIEWS_PER_PAGE}&offset=${offset}`;
+	    if(!res.data) return;
 
-	ApiController.get<APIResponse>(apiURL)
-	.then(res => {
+	    setCanWriteAReview(res.data.canWriteAReview);
+    	}
+
+	getUserStatus();
+    }, []);
+
+    useEffect(() => {
+	const getReviews = async () => {
+	    setLoading(true);
+
+	    const res = await ApiController.get<APIResponses["getReviews"]>(
+		`products/${productId}/reviews?limit=${REVIEWS_PER_PAGE}&offset=${offset}`
+	    );
+
 	    if(res.data) {
 		const newReviews = res.data.reviews;
 
 		if(newReviews.length < REVIEWS_PER_PAGE) {
 		    setCanLoadMoreReviews(false);
 		}
-		
+
 		setReviews(prevReviews => [...prevReviews, ...newReviews]);
 	    }
 
 	    setLoading(false);
-	});
+	}
+
+	getReviews();
     }, [offset]);
 
     return (
 	<div className={styles.reviewsList}>
 	    <div className={styles.addReview}>
-		<AddReview setReviews={setReviews} productId={productId}/>
+		<AddReview
+		setReviews={setReviews}
+		productId={productId}
+		isActive={canWriteAReview}
+		setIsActive={setCanWriteAReview}/>
 	    </div>
 
 	    <div className={styles.reviews}>
