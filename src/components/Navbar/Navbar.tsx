@@ -1,17 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
 import { useRouter } from "next/router";
 
 import Link from "next/link";
 
+import UserContext from "@/contexts/UserContext";
+
 import CartController from "@/services/ShoppingCartController";
+import ApiController from "@/services/ApiController";
 
 import styles from "./Navbar.module.scss";
+
+interface APIResponse {
+    data: {}
+}
 
 function Navbar() {
     const [isActive, setIsActive] = useState(false);
     const [cartItemsCount, setCartItemCount] = useState(0);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const userData = useContext(UserContext);
 
     useEffect(() => {
+	const getUserData = async () => {
+	    const apiResponse = await ApiController.get<APIResponse>("account/getUserData");
+
+	    if(!apiResponse.data) return;
+
+	    setIsLoggedIn(true);
+	}
+
+	if(userData) {
+	    setIsLoggedIn(true);
+	} else {
+	    getUserData();
+	}
+
 	setCartItemCount(CartController.getItems().length);
     }, []);
 
@@ -59,17 +84,21 @@ function Navbar() {
 
             <div className={styles.menu}>
                 <ul className={styles.items}>
-                    <li>
-                        <Link href="/login/">
-                            <a className={styles.item}>Login</a>
-                        </Link>
-                    </li>
+		    { !isLoggedIn &&
+			<li>
+			    <Link href="/login/">
+				<a className={styles.item}>Login</a>
+			    </Link>
+			</li>
+		    }
 
-                    <li>
-                        <Link href="/register/">
-                            <a className={styles.item}>Register</a>
-                        </Link>
-                    </li>
+		    { !isLoggedIn &&
+			<li>
+			    <Link href="/register/">
+				<a className={styles.item}>Register</a>
+			    </Link>
+			</li>
+		    }
 
                     <li>
                         <Link href="/cart/">
@@ -79,6 +108,38 @@ function Navbar() {
                             </a>
                         </Link>
                     </li>
+
+		    { isLoggedIn &&
+			<li>
+			    <div className={styles.dropdown}>
+				<i className="fas fa-user-circle" aria-hidden="true"></i>
+				My Profile
+
+				<div className={styles.dropdownItems}>
+				    <Link href="/dashboard/profile/edit/">
+					<a className={styles.dropdownItem}>
+					    <i className="fas fa-user-circle" aria-hidden="true"></i>
+					    Edit Profile
+					</a>
+				    </Link>
+
+				    <Link href="/dashboard/notifications/">
+					<a className={styles.dropdownItem}>
+					    <i className="fas fa-bell" aria-hidden="true"></i>
+					    Notifications
+					</a>
+				    </Link>
+
+				    <Link href="/dashboard/orders/">
+					<a className={styles.dropdownItem}>
+					    <i className="fas fa-shopping-bag" aria-hidden="true"></i>
+					    Your Orders
+					</a>
+				    </Link>
+				</div>
+			    </div>
+			</li>
+		    }
                     
                     <li>
                         <a
@@ -112,17 +173,42 @@ function Navbar() {
                         </div>
                     </li>
 
-                    <li>
-                        <Link href="/login/">
-                            <a className={styles.item}>Login</a>
-                        </Link>
-                    </li>
+		    { !isLoggedIn &&
+			<li>
+			    <Link href="/login/">
+				<a className={styles.item}>Login</a>
+			    </Link>
+			</li>
+		    }
 
-                    <li>
-                        <Link href="/register/">
-                            <a className={styles.item}>Register</a>
-                        </Link>
-                    </li>
+		    { !isLoggedIn &&
+			<li>
+			    <Link href="/register/">
+				<a className={styles.item}>Register</a>
+			    </Link>
+			</li>
+		    }
+
+		    <Link href="/dashboard/profile/edit/">
+			<a className={styles.item}>
+			    <i className="fas fa-user-circle" aria-hidden="true"></i>
+			    Edit Profile
+			</a>
+		    </Link>
+
+		    <Link href="/dashboard/notifications/">
+			<a className={styles.item}>
+			    <i className="fas fa-bell" aria-hidden="true"></i>
+			    Notifications
+			</a>
+		    </Link>
+
+		    <Link href="/dashboard/orders/">
+			<a className={styles.item}>
+			    <i className="fas fa-shopping-bag" aria-hidden="true"></i>
+			    Your Orders
+			</a>
+		    </Link>
                 </ul>
             </div>
         </nav>
