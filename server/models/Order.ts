@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 import { IProduct } from "./Product";
 import { IShipping } from "./Shipping";
@@ -28,6 +29,10 @@ export interface IOrder extends Document {
     }[],
     total: number,
     status?: "PENDING" | "SHIPPING" | "COMPLETED"
+}
+
+interface IOrderModel extends Model<IOrder> {
+    paginate(query?: object, options?: object): Promise<Array<IOrder>>
 }
 
 const orderSchema = new Schema({
@@ -89,4 +94,15 @@ const orderSchema = new Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.model<IOrder>("orders", orderSchema);
+orderSchema.virtual("user", {
+    ref: "users",
+    localField: "userId",
+    foreignField: "_id",
+    justOne: true
+});
+
+orderSchema.plugin(mongoosePaginate);
+
+orderSchema.set("toJSON", { virtuals: true });
+
+export default mongoose.model<IOrder, IOrderModel>("orders", orderSchema);

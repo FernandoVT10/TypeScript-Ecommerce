@@ -9,6 +9,12 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 
 import UserContext, { IUserContextProps } from "@/contexts/UserContext";
 
+const PERMISSIONS = {
+    "USER": 1,
+    "ADMIN": 2,
+    "SUPERADMIN": 3
+}
+
 interface APIResponse {
     data: {
 	user: IUserContextProps
@@ -20,7 +26,7 @@ interface ComponentState {
     user: IUserContextProps
 }
 
-const withAuth = <T extends object>(Component: React.ComponentType<T>) => {
+const withAuth = <T extends object>(Component: React.ComponentType<T>, permissions = "USER") => {
     return class extends React.Component<T, ComponentState> {
 	state = {
 	    loading: true,
@@ -34,9 +40,16 @@ const withAuth = <T extends object>(Component: React.ComponentType<T>) => {
 		Router.replace("/login/");
 		return this.setState({ loading: false });
 	    }
+
+	    const { user } = apiResponse.data;
+
+	    if(PERMISSIONS[user.permits] < PERMISSIONS[permissions]) {
+		Router.push("/");
+		return;
+	    }
 	    
 	    this.setState({
-		user: apiResponse.data.user,
+		user,
 		loading: false
 	    });
 	}

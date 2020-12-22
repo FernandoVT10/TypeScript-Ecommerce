@@ -1,0 +1,27 @@
+.orders {
+    & .title {
+    	color: var(--light);
+	font-weight: bold;
+	font-size: 25px;
+    }
+
+    & .loaderContainer {
+	display: flex;
+	justify-content: center;
+	height: 100px;
+	align-items: center;
+    }
+
+    & .ordersContainer {
+    	& .pagination {
+    	    margin-top: 20px;
+    	}
+    }
+
+    & .noOrders {
+	text-align: center;
+    	color: var(--blue);
+	font-weight: bold;
+	font-size: 18px;
+    }
+}

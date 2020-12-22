@@ -12,7 +12,8 @@ export default async (req: Request, res: Response) => {
 		user: {
 		    username: user.username,
 		    name: user.name,
-		    email: user.email
+		    email: user.email,
+		    permits: user.permits
 		}
 	    }
 	});

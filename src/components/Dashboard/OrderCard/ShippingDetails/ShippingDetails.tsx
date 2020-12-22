@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 
 import moment from "moment";
 
 import Modal from "@/components/Modal";
 
+import AddShippingStatus from "./AddShippingStatus";
+
 import styles from "./ShippingDetails.module.scss";
 
 export interface ShippingDetailsProps {
+    orderId: string,
     address: {
 	fullName: string,
 	postalCode: string,
@@ -26,10 +29,22 @@ export interface ShippingDetailsProps {
 	}>
     },
     isActive: boolean,
-    setIsActive: React.Dispatch<boolean>
+    setIsActive: React.Dispatch<boolean>,
+    isManageCard: boolean
 }
 
-const ShippingDetails = ({ address, shipping, isActive, setIsActive }: ShippingDetailsProps) => {
+const ShippingDetails = ({
+    orderId,
+    address,
+    shipping,
+    isActive,
+    setIsActive,
+    isManageCard
+}: ShippingDetailsProps) => {
+    const [history, setHistory] = useState(shipping.history);
+
+    const reversedHistory = [ ...history ].reverse();
+
     return (
 	<Modal isActive={isActive} setIsActive={setIsActive}>
 	    <div className={styles.shippingDetails}>
@@ -62,8 +77,10 @@ const ShippingDetails = ({ address, shipping, isActive, setIsActive }: ShippingD
 		<div className={styles.shippingStatus}>
 		    <h3 className={styles.title}>Shipping Status</h3>
 
+		    { isManageCard && <AddShippingStatus orderId={orderId} setHistory={setHistory}/> }
+
 		    <div className={styles.history}>
-			{shipping.history.map((state, index) => {
+			{reversedHistory.map((state, index) => {
 			    const date = new Date(state.createdAt);
 
 			    return (

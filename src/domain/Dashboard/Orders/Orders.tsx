@@ -4,7 +4,7 @@ import Layout from "@/components/Dashboard/Layout";
 
 import ApiController from "@/services/ApiController";
 
-import OrderCard, { OrderCardProps } from "./OrderCard";
+import OrderCard, { OrderCardProps } from "@/components/Dashboard/OrderCard";
 
 import styles from "./Orders.module.scss";
 

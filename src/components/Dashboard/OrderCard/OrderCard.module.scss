@@ -2,10 +2,17 @@
     padding: 20px;
     margin-top: 20px;
     background: var(--black);
-    border: solid 2px var(--blue);
+    border: solid 2px var(--green);
 
-    &.shipping {
-	border-color: var(--green);
+    &.completed {
+	border-color: var(--blue);
+
+	& .shippingDetails .details {
+	    & .usernameContainer .username,
+	    & .shippingStatus .status {
+	    	color: var(--blue);
+	    }
+	}
     }
 
     & .total {
@@ -25,6 +32,7 @@
 		display: block;
 		color: var(--light);
 		font-weight: bold;
+		margin-right: 20px;
 
 		& .date {
 		    color: var(--green);
@@ -32,9 +40,20 @@
 		}
 	    }
 
+	    & .usernameContainer {
+	    	margin-right: 20px;
+		color: var(--light);
+		font-weight: bold;
+		margin-right: 20px;
+
+		& .username {
+		    color: var(--green);
+		    margin-left: 5px;
+		}
+	    }
+
 	    & .shippingStatus {
 		display: block;
-		margin-left: 20px;
 		color: var(--light);
 		font-weight: bold;
 

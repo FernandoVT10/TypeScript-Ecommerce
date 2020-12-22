@@ -7,6 +7,7 @@ export interface IUser extends Document {
     username: string,
     email: string,
     password: string,
+    permits?: "USER" | "ADMIN" | "SUPERADMIN",
     active?: boolean,
     activeToken: string
 }
@@ -35,6 +36,11 @@ const userSchema = new Schema({
     password: {
 	type: String,
 	required: true
+    },
+    permits: {
+    	type: String,
+	enum: ["USER", "ADMIN", "SUPERADMIN"],
+	default: "USER"
     },
     active: {
 	type: Boolean,

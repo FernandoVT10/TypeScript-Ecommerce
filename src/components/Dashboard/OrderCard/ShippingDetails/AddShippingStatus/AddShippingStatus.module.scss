@@ -1,0 +1,44 @@
+.addShippingStatus {
+    margin-bottom: 20px;
+
+    & .loaderContainer {
+    	display: flex;
+	margin: 30px;
+	justify-content: center;
+	max-width: 120px;
+
+	& .loader {
+	    width: 25px;
+	    height: 25px;
+	}
+    }
+
+    & .activateButton {
+	cursor: pointer;
+    	background: transparent;
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 16px;
+	border: none;
+	margin-top: 20px;
+	padding: 0;
+	transition: .3s;
+
+	&:hover {
+	    color: var(--light);
+	}
+    }
+
+    & .form {
+    	& .input {
+    	    max-width: 400px;
+	    margin-bottom: 20px;
+    	}
+
+	& .addStatusButton {
+	    width: 100px;
+	    font-size: 12px;
+	    height: 35px;
+	}
+    }
+}
