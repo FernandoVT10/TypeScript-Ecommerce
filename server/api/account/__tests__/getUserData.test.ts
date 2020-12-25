@@ -13,7 +13,8 @@ describe("api/account/getUserData", () => {
 	expect(res.body.data.user).toEqual({
 	    name: "test",
 	    username: "test777",
-	    email: "test@gmail.com"
+	    email: "test@gmail.com",
+	    permits: "USER"
 	});
     });
 });

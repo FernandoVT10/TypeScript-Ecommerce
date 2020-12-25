@@ -15,7 +15,7 @@ const PRODUCT_MOCK = {
     }
 }
 
-describe("@/domain/Dashboard/Orders/OrderCard/ProductCard", () => {
+describe("@/components/Dashboard/OrderCard/ProductCard", () => {
     it("should render correctly", () => {
 	const { queryByText, getByAltText } = render(<ProductCard product={PRODUCT_MOCK}/>);
 

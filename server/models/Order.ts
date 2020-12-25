@@ -28,7 +28,8 @@ export interface IOrder extends Document {
 	quantity: number
     }[],
     total: number,
-    status?: "PENDING" | "SHIPPING" | "COMPLETED"
+    status?: "PENDING" | "SHIPPING" | "COMPLETED",
+    user?: IUser
 }
 
 interface IOrderModel extends Model<IOrder> {

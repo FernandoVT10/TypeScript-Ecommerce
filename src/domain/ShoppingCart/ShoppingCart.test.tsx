@@ -8,6 +8,7 @@ import ShoppingCartController from "@/services/ShoppingCartController";
 
 import ShoppingCart from "./ShoppingCart";
 
+jest.mock("@/components/Navbar", () => () => null);
 jest.mock("@/services/ShoppingCartController");
 
 const PRODUCTS_MOCK = [

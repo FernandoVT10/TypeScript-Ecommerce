@@ -4,6 +4,8 @@ import { render } from "@testing-library/react";
 
 import Home from "./Home";
 
+jest.mock("@/components/Navbar", () => () => null);
+
 const HOME_PROPS_MOCK = {
     carouselItems: [
         {

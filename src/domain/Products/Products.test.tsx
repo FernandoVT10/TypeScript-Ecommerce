@@ -4,6 +4,8 @@ import { render } from "@testing-library/react";
 
 import Products from "./Products";
 
+jest.mock("@/components/Navbar", () => () => null);
+
 const PRODUCTS_PROPS_MOCK = {
     products: [
         {

@@ -40,7 +40,8 @@ const COMPONENT_MOCK = ({ text }: { text: string }) => {
 const USER_DATA_MOCK = {
     name: "Test",
     username: "test777",
-    email: "test@example.com"
+    email: "test@example.com",
+    permits: "USER"
 }
 
 const renderComponent = async () => {
@@ -84,6 +85,15 @@ describe("@/hoc/withAuth", () => {
     it("should call Router.replace when the user isn't logged in", async () => {
 	mockedAPIGet.mockImplementation(() => Promise.resolve({}))
 	await renderComponent();
+
+	expect(Router.replace).toHaveBeenCalledWith("/login/")
+    });
+
+    it("should redirect when the user doesn't have enough permissions", async () => {
+	mockedAPIGet.mockImplementation(() => Promise.resolve({}))
+
+	const Component = withAuth(COMPONENT_MOCK, "SUPERADMIN");
+	await act(async () => render(<Component text="random text"/>));
 
 	expect(Router.replace).toHaveBeenCalledWith("/login/")
     });

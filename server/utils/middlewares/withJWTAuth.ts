@@ -11,8 +11,8 @@ export default async (req: express.Request, res: express.Response, next: express
     if(!bearer) {
 	return res.json({
 	    status: 401,
-	    error: "No authorization cookie",
-	    message: "The authorization header is required",
+	    error: "No authorization token",
+	    message: "The authorization token is required",
 	    path: req.originalUrl
 	});
     }

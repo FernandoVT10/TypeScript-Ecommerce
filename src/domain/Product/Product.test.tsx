@@ -4,6 +4,8 @@ import { render, act, screen } from "@testing-library/react";
 
 import Product from "./Product";
 
+jest.mock("@/components/Navbar", () => () => null);
+
 const REVIEWS_COUNT_MOCK = {
     oneStar: 1,
     twoStars: 5,

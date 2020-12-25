@@ -1,6 +1,6 @@
 import React from "react";
 
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, queryByAltText, render } from "@testing-library/react";
 
 import OrderCard from "./OrderCard";
 
@@ -22,12 +22,16 @@ const ORDER_MOCK = {
 	phoneNumber: "123-456-7890",
 	additionalInformation: "test additional information"
     },
+    user: {
+	_id: "userid",
+	username: "Test123"
+    },
     shipping: {
 	arrivesIn: "5 days",
 	history: [
 	    {
 		content: "history #1",
-		createdAt: new Date("16 dec 2020").toString()
+		createdAt: "16 dec 2020"
 	    },
 	    {
 		content: "history #2",
@@ -59,39 +63,51 @@ const ORDER_MOCK = {
     ]
 }
 
-describe("@/domain/Dashboard/Orders/OrderCard", () => {
+describe("@/components/Dashboard/OrderCard", () => {
     it("should render correctly", () => {
-	const { queryByText } = render(<OrderCard order={ORDER_MOCK}/>);
+	const { queryByText, getByText } = render(<OrderCard order={ORDER_MOCK} isManageCard={true}/>);
 
 	expect(queryByText("$ 5 000.40")).toBeInTheDocument();
-	expect(queryByText("5 days")).toBeInTheDocument();
+	expect(queryByText("5 days")).not.toBeInTheDocument();
+	expect(queryByText("Test123")).toBeInTheDocument();
+
 	expect(queryByText("history #2")).toBeInTheDocument();
+
 	expect(queryByText("Order Id: testid")).toBeInTheDocument();
 
 	expect(queryByText("test title 1")).toBeInTheDocument();
 	expect(queryByText("test title 2")).toBeInTheDocument();
+
+	expect(queryByText("See more shipping details")).toBeInTheDocument();
     });
 
-    it("should render correctly when the order.status is equal to 'COMPLETED'", () => {
+    it("should render when the order.status is equal to 'COMPLETED' and isManageCard be false", () => {
 	const order = {
 	    ...ORDER_MOCK,
 	    status: "COMPLETED" as Status
 	}
-	const { queryByText } = render(<OrderCard order={order}/>);
+	const { queryByText } = render(<OrderCard order={order} isManageCard={false}/>);
 
 	expect(queryByText("See more shipping details")).not.toBeInTheDocument();
+	expect(queryByText("Send a message")).not.toBeInTheDocument();
+
 	expect(queryByText("5 days")).not.toBeInTheDocument();
-	expect(queryByText("history #2")).not.toBeInTheDocument();
+	expect(queryByText("Test123")).not.toBeInTheDocument();
     });
 
     it("should activate the modal when we click on 'See more shipping details' button", () => {
-	const { queryByText, getByText } = render(<OrderCard order={ORDER_MOCK}/>);
+	const { queryByText, getByText, queryAllByText } = render(<OrderCard order={ORDER_MOCK}/>);
 
 	expect(queryByText("Test Man")).not.toBeInTheDocument();
 
-	const button = getByText("See more shipping details");
-	fireEvent.click(button);
+	fireEvent.click(getByText("See more shipping details"));
 
 	expect(queryByText("Test Man")).toBeInTheDocument();
+
+	expect(queryByText("history #1")).toBeInTheDocument();
+	expect(queryByText("16 Dec")).toBeInTheDocument();
+
+	expect(queryAllByText("history #2")).toHaveLength(2);
+	expect(queryByText("25 Oct")).toBeInTheDocument();
     });
 });

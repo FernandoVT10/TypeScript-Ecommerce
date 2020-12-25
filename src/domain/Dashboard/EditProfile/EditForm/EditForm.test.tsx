@@ -16,7 +16,8 @@ jest.mock("@/services/ApiController");
 const USER_DATA_MOCK = {
     name: "Test",
     username: "test777",
-    email: "test@example.com"
+    email: "test@example.com",
+    permits: "USER" as any
 }
 
 const changeInputValue = (labelName: string, value: string) => {

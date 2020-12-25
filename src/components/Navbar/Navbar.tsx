@@ -189,26 +189,30 @@ function Navbar() {
 			</li>
 		    }
 
-		    <Link href="/dashboard/profile/edit/">
-			<a className={styles.item}>
-			    <i className="fas fa-user-circle" aria-hidden="true"></i>
-			    Edit Profile
-			</a>
-		    </Link>
+		    { isLoggedIn && 
+			<li>
+			    <Link href="/dashboard/profile/edit/">
+				<a className={styles.item}>
+				    <i className="fas fa-user-circle" aria-hidden="true"></i>
+				    Edit Profile
+				</a>
+			    </Link>
 
-		    <Link href="/dashboard/notifications/">
-			<a className={styles.item}>
-			    <i className="fas fa-bell" aria-hidden="true"></i>
-			    Notifications
-			</a>
-		    </Link>
+			    <Link href="/dashboard/notifications/">
+				<a className={styles.item}>
+				    <i className="fas fa-bell" aria-hidden="true"></i>
+				    Notifications
+				</a>
+			    </Link>
 
-		    <Link href="/dashboard/orders/">
-			<a className={styles.item}>
-			    <i className="fas fa-shopping-bag" aria-hidden="true"></i>
-			    Your Orders
-			</a>
-		    </Link>
+			    <Link href="/dashboard/orders/">
+				<a className={styles.item}>
+				    <i className="fas fa-shopping-bag" aria-hidden="true"></i>
+				    Your Orders
+				</a>
+			    </Link>
+			</li>
+		    }
                 </ul>
             </div>
         </nav>

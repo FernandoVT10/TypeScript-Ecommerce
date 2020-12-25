@@ -67,8 +67,8 @@ describe("With JWT Auth Middleware", () => {
 
 	expect(resMock.json).toHaveBeenCalledWith({
 	    status: 401,
-	    error: "No authorization cookie",
-	    message: "The authorization header is required",
+	    error: "No authorization token",
+	    message: "The authorization token is required",
 	    path: "/test/url/"
 	});
     });
