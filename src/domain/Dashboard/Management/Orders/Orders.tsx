@@ -8,18 +8,19 @@ import ApiController from "@/services/ApiController";
 
 import Pagination, { PaginationProps } from "@/components/Pagination";
 
+import SortBy from "./SortBy";
+
 import styles from "./Orders.module.scss";
 
-interface OrdersResponse extends PaginationProps {
-    orders: Array<OrderCardProps["order"]>
-}
+type Orders = Array<OrderCardProps["order"]>;
 
 interface ApiResponse {
-    data: OrdersResponse
+    data: { orders: Orders } & PaginationProps
 }
 
 const Orders = () => {
-    const [ordersResponse, setOrdersResponse] = useState<OrdersResponse>(null);
+    const [orders, setOrders] = useState<Orders>([]);
+    const [pagination, setPagination] = useState<PaginationProps>(null);
     const [loading, setLoading] = useState(false);
 
     const router = useRouter();
@@ -32,9 +33,14 @@ const Orders = () => {
 
 	    setLoading(false);
 
-	    if(!res.data) return setOrdersResponse(null);
+	    if(!res.data) {
+		setPagination(null);
+		setOrders([]);
+		return;
+	    }
 
-	    setOrdersResponse(res.data);
+	    setOrders(res.data.orders);
+	    setPagination(res.data);
     	}
 
 	getOrders();
@@ -43,7 +49,11 @@ const Orders = () => {
     return (
 	<Layout>
 	    <div className={styles.orders}>
-		<h3 className={styles.title}>Orders</h3>
+		<div className={styles.header}>
+		    <h3 className={styles.title}>Orders</h3>
+
+		    <SortBy/>
+		</div>
 
 		{ loading && 
 		    <div className={styles.loaderContainer}>
@@ -51,19 +61,21 @@ const Orders = () => {
 		    </div>
 		}
 
-		{ ordersResponse && !loading &&
+		{ orders.length > 0 && !loading &&
 		    <div className={styles.ordersContainer}>
-			{ordersResponse.orders.map((order, index) => {
+			{orders.map((order, index) => {
 			    return <OrderCard order={order} isManageCard={true} key={index}/>;
 			})}
 
 			<div className={styles.pagination}>
-			    <Pagination pagination={ordersResponse}/>
+			    { pagination &&
+				<Pagination pagination={pagination}/>
+			    }
 			</div>
 		    </div>
 		}
 
-		{ !ordersResponse && !loading &&
+		{ orders.length === 0 && !loading &&
 		    <div className={styles.noOrders}>
 		    	There are no orders to show
 		    </div>

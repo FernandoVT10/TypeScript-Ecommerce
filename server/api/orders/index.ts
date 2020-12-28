@@ -18,25 +18,47 @@ router.use("/:orderId/shipping/", shipping);
 router.get("/", async (req, res) => {
     const limit = parseInt(req.query.limit as string) || ORDERS_PER_PAGE;
     const page = parseInt(req.query.page as string) || 1;
+    const { orderId, only } = req.query;
+
+    let filter: Array<object> = [
+	{
+	    status: { $ne: "PENDING" }
+	}
+    ];
+
+    if(orderId) {
+    	filter.push({
+    	    _id: orderId
+	});
+    }
+
+    if(only) {
+    	filter.push({
+    	    status: only
+    	});
+    }
 
     try {
-        const orders = await Order.paginate({ status: { $ne: "PENDING" } }, {
-            page,
-	    limit,
-	    sort: { updatedAt: "desc" },
-	    populate: [
-		{
-		    path: "user",
-		    select: "username"
-		},
-		{
-		    path: "products.originalProduct",
-		    select: "title images"
-		},
-		"shipping"
-	    ],
-	    customLabels: PAGINATE_CUSTOM_LABELS
-        });
+        const orders = await Order.paginate(
+	    { $and: filter },
+	    {
+		page,
+		limit,
+		sort: { updatedAt: "desc" },
+		populate: [
+		    {
+			path: "user",
+			select: "username"
+		    },
+		    {
+			path: "products.originalProduct",
+			select: "title images"
+		    },
+		    "shipping"
+		],
+		customLabels: PAGINATE_CUSTOM_LABELS
+	    }
+	);
 
 	res.json({ data: orders });
     } catch (err) {

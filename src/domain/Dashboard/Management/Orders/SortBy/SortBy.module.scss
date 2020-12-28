@@ -1,0 +1,83 @@
+.sortBy {
+    position: relative;
+
+    &.active {
+    	& .toggleButton {
+    	    color: var(--blue) !important;
+    	}
+
+	& .filters {
+	    display: block;
+	}
+    }
+
+    & .toggleButton {
+	cursor: pointer;
+	background: transparent;
+	padding: 0;
+	border: none;
+	color: var(--light);
+	font-weight: bold;
+	font-size: 14px;
+	transition: .3s;
+
+	&:hover {
+	    color: var(--blue);
+	}
+
+	& i {
+	    margin-left: 5px;
+	}
+    }
+
+    & .filters {
+	display: none;
+	position: absolute;
+	width: 250px;
+	right: 0;
+	background: var(--black);
+	border: solid 1px rgba(var(--blue-rgb), .5);
+
+	& .input {
+	    padding: 15px;
+	    width: 100%;
+	    background: var(--black);
+	    color: var(--light);
+	    border: none;
+	    font-weight: bold;
+	    font-size: 14px;
+	}
+
+	& .statusFilter {
+	    padding: 0 15px;
+
+	    & .filterLabel {
+		font-size: 14px;
+		font-weight: bold;
+		color: var(--light);
+	    }
+
+	    & .checkboxText {
+		font-size: 12px;
+		font-weight: bold;
+	    }
+	}
+    }
+
+    & .submitButton {
+	cursor: pointer;
+	border: none;
+	height: 30px;
+	width: 100%;
+    	color: var(--blue);
+	background: rgba(var(--blue-rgb), 0);
+	font-weight: bold;
+	margin-top: 15px;
+	transition: .3s;
+
+	&:hover {
+	    background: rgba(var(--blue-rgb), 1);
+	    color: var(--black);
+	}
+    }
+}

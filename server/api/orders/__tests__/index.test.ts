@@ -163,5 +163,32 @@ describe("api/orders/index", () => {
 	    expect(orders[0].shipping.history[0].content).toBe("test content");
 	    expect(orders[0].products[0].price).toBe(50);
 	});
+
+	it("should get one order by orderId", async () => {
+	    const { _id } = await Order.findOne({ status: "COMPLETED" });
+	    const res = await request.get(`/api/orders?orderId=${_id}`).set("Authorization", "Bearer token");
+
+	    const { data } = res.body;
+
+	    expect(data.totalOrders).toBe(1);
+
+	    const order = data.orders[0] as IOrder;
+
+	    expect(order.paypalOrderId).toBe("testpaypalid");
+	    expect(order.status).toBe("COMPLETED");
+	    expect(order.shipping.history[0].content).toBe("test content");
+	    expect(order.products[0].price).toBe(50);
+	});
+
+	it("should get the orders with 'SHIPPING' status only", async () => {
+	    const res = await request.get("/api/orders?only=SHIPPING").set("Authorization", "Bearer token");
+
+	    const { data } = res.body;
+	    expect(data.totalOrders).toBe(1);
+
+	    const order = data.orders[0] as IOrder;
+	    expect(order.paypalOrderId).toBe("testpaypalid 2");
+	    expect(order.status).toBe("SHIPPING");
+	});
     });
 });

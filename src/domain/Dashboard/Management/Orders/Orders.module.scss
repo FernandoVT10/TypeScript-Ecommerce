@@ -1,8 +1,15 @@
 .orders {
-    & .title {
-    	color: var(--light);
-	font-weight: bold;
-	font-size: 25px;
+    & .header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	& .title {
+	    color: var(--light);
+	    font-weight: bold;
+	    font-size: 25px;
+	    margin: 0;
+	}
     }
 
     & .loaderContainer {
