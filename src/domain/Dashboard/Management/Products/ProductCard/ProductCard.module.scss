@@ -1,0 +1,96 @@
+.productCard {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    font-size: 16px;
+
+    & .detailsContainer {
+	display: flex;
+	align-items: center;
+
+	& .image {
+	    margin-right: 20px;
+	    width: 100px;
+	    height: 100px;
+	    object-fit: center;
+	}
+
+	& .details {
+	    & .inStock {
+	    	color: var(--gray);
+		font-size: 14px;
+		margin: 0;
+	    }
+
+	    & .title {
+		color: var(--light);
+		font-weight: bold;
+		font-size: 1.25em;
+		text-decoration: none;
+		transition: .3s;
+
+		&:hover {
+		    color: var(--blue);
+		}
+	    }
+
+	    & .options {
+	    	& .option {
+		    cursor: pointer;
+	    	    padding: 0;
+		    margin-right: 10px;
+		    background: transparent;
+		    border: none;
+		    color: var(--blue);
+		    font-size: 16px;
+		    transition: .3s;
+
+		    &:hover {
+		    	color: var(--light);
+		    }
+	    	}
+	    }
+	}
+    }
+
+    & .priceContainer {
+	display: flex;
+	align-items: center;
+
+	& .price {
+	    display: flex;
+	    flex-direction: column;
+	    align-items: flex-end;
+
+	    & .discountedPrice {
+		margin: 0;
+		color: var(--light);
+		font-size: 1.56em;
+	    }
+
+	    & .notDicountedPrice {
+		color: var(--gray);
+		font-weight: bold;
+		font-size: 16px;
+	    }
+	}
+
+
+	& .discount {
+	    font-size: 1.25em;
+	    font-weight: bold;
+	    color: var(--green);
+	    margin-right: 10px;
+	}
+    }
+
+    @media screen and (max-width: 768px) {
+	font-size: 14px;
+	justify-content: start;
+	flex-direction: column;
+
+	& .priceContainer {
+	    justify-content: flex-end;
+	}
+    }
+}
