@@ -1,0 +1,72 @@
+@mixin trackStyle($decoration) {
+    &::#{$decoration} {
+	height: 10px;
+	cursor: pointer;
+	background: var(--blue);
+	background: linear-gradient(95deg, var(--blue), var(--green));
+	background-repeat: no-repeat;
+	border: none;
+	border-radius: 5px;
+    }
+}
+
+@mixin thumbStyle($decoration) {
+    &::#{$decoration} {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	background: var(--black);
+	border: solid 2px var(--blue);
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -10px;
+    }
+}
+.rangeInput {
+    & .input {
+	width: 100%;
+	border-radius: 5px;
+	-webkit-appearance: none;
+	outline: none;
+	background: transparent;
+
+	@include trackStyle(-webkit-slider-runnable-track);
+
+	&::-moz-range-track {
+	    height: 10px;
+	    cursor: pointer;
+	    background: transparent;
+	}
+
+	@include trackStyle(-moz-range-progress);
+
+	&::-ms-track {
+	    height: 10px;
+	    cursor: pointer;
+	    background: transparent;
+	}
+
+	&::-ms-fill-lower {
+	    background: var(--blue);
+	}
+
+	&::-ms-tooltip {
+	    display: none;
+	}
+
+	@include thumbStyle(-webkit-slider-thumb);
+	@include thumbStyle(-moz-range-thumb);
+	@include thumbStyle(-ms-thumb);
+    }
+
+    & .rangeValue {
+	display: block;
+	color: var(--blue);
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	background: linear-gradient(95deg, var(--blue), var(--green));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+    }
+}

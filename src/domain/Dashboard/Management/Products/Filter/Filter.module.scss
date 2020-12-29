@@ -1,0 +1,64 @@
+.filterContainer {
+    & .totalProducts {
+	font-size: 14px;
+    }
+
+    & .filterButton {
+	cursor: pointer;
+	background: transparent;
+	float: right;
+	color: var(--light);
+	font-weight: bold;
+	font-size: 14px;
+	border: none;
+	padding: 0;
+	transition: .3s;
+
+	&:hover {
+	    color: var(--blue);
+	}
+
+	& i {
+	    margin-left: 5px;
+	}
+    }
+
+    & .subtitle {
+	font-weight: bold;
+    }
+
+    & .selectCard {
+	cursor: pointer;
+	display: block;
+	background: transparent;
+	border: none;
+	color: var(--light);
+	padding: 15px;
+	font-size: 16px;
+	transition: .3s;
+
+	&:hover,
+	&.active {
+	    background: var(--blue);
+	    color: var(--black);
+	}
+    }
+
+    & .categoriesFilter {
+	& .categories {
+	    display: flex;
+	    flex-wrap: wrap;
+	}
+    }
+
+    & .sortBy {
+	& .sortButtons {
+	    display: flex;
+	    flex-wrap: wrap;
+	}
+    }
+
+    & .applyFilters {
+	width: 250px;
+    }
+}
