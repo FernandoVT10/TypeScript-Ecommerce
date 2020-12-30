@@ -42,9 +42,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 		    	    Delete
 		    	</button>
 
-		    	<button className={styles.option}>
-		    	    Edit
-		    	</button>
+			<Link href={`/dashboard/management/products/${product._id}/edit`}>
+			    <button className={styles.option}>
+				Edit
+			    </button>
+			</Link>
 		    </div>
 		</div>
 	    </div>

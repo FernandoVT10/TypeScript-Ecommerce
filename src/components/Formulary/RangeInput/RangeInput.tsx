@@ -35,6 +35,7 @@ const RangeInput = ({ min, max, value, setValue }: RangeInputProps) => {
 	    <input
 	    type="range"
 	    className={styles.input}
+	    data-testid="range-input"
 	    min={min}
 	    max={max}
 	    value={value}

@@ -22,12 +22,12 @@ const SORT_BY_OPTIONS = {
     createdAt: "Creation Date",
     discount: "Discount",
     price: "Price",
-    name: "Name"
+    title: "Title"
 }
 
 const PRODUCTS_PER_PAGE = 6;
 
-const Filter = () => {
+const Filter = ({ totalProducts }: { totalProducts: number }) => {
     const [isActive, setIsActive] = useState(false);
 
     const [categories, setCategories] = useState<Array<Category>>([]);
@@ -39,7 +39,7 @@ const Filter = () => {
     const router = useRouter();
 
     useEffect(() => {
-    	const { search, limit, category } = router.query;
+    	const { search, limit, category, sortBy } = router.query;
 
 	if(search) {
 	    setSearch(search.toString());
@@ -51,6 +51,10 @@ const Filter = () => {
 
 	if(category) {
 	    setSelectedCategory(category.toString());
+	}
+
+	if(sortBy) {
+	    setSortBy(sortBy.toString());
 	}
     }, [router.query]);
 
@@ -127,7 +131,7 @@ const Filter = () => {
 			<i className="fas fa-search" aria-hidden="true"></i>
 		    </button>
 		</div>
-		<span className={styles.totalProducts}>97 products</span>
+		<span className={styles.totalProducts}>{ totalProducts } products</span>
 
 		<button
 		    type="button"

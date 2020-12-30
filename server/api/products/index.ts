@@ -20,7 +20,7 @@ const router = Router();
 router.use("/:productId/reviews/", checkIfProductExist, reviewsRoute);
 
 router.get("/", async (req, res) => {
-    const { search, category, discountsOnly } = req.query;
+    const { search, category, discountsOnly, sortBy } = req.query;
 
     const limit = parseInt(req.query.limit as string) || PRODUCTS_PER_PAGE;
     const page = parseInt(req.query.page as string) || 1;
@@ -32,7 +32,22 @@ router.get("/", async (req, res) => {
             limit,
             sort: { createdAt: "desc" },
             customLabels: PAGINATE_CUSTOM_LABELS
-        };
+        }
+
+	switch(sortBy) {
+	    case "stock":
+		Object.assign(options, { sort: { inStock: "desc" } });
+		break;
+	    case "discount":
+		Object.assign(options, { sort: { discount: "desc" } });
+		break;
+	    case "price":
+		Object.assign(options, { sort: { price: "desc" } });
+		break;
+	    case "title":
+		Object.assign(options, { sort: { title: "asc" } });
+		break;
+	}
 
         if(search) {
             Object.assign(query, { title: { $regex: `.*(?i)${search}.*` } });

@@ -12,7 +12,7 @@ const PRODUCTS_MOCK = [
         title: "test title",
         images: ["test-1.jpg"],
         price: 25,
-        inStock: 2,
+        inStock: 1,
         arrivesIn: "1 day",
         warranty: "6 months",
         description: "test description",
@@ -23,7 +23,7 @@ const PRODUCTS_MOCK = [
         title: "test title 2",
         images: ["test-2.jpg"],
         price: 50,
-        inStock: 3,
+        inStock: 2,
         arrivesIn: "3 day",
         warranty: "3 years",
         description: "test description 2",
@@ -33,9 +33,9 @@ const PRODUCTS_MOCK = [
     {
         title: "product with discount",
         images: ["discount-1.jpg"],
-        price: 25,
+        price: 75,
         discount: 10,
-        inStock: 2,
+        inStock: 3,
         arrivesIn: "2 day",
         warranty: "3 months",
         description: "test description",
@@ -45,9 +45,9 @@ const PRODUCTS_MOCK = [
     {
         title: "product with discount 2",
         images: ["discount-2.jpg"],
-        price: 50,
+        price: 100,
         discount: 25,
-        inStock: 3,
+        inStock: 4,
         arrivesIn: "3 day",
         warranty: "3 years",
         description: "test description 2",
@@ -141,6 +141,50 @@ describe("Products API", () => {
 
             expect(products[0].title).toBe("product with discount");
         });
+
+	it("should get all products sorted by stock", async () => {
+            const res = await request.get("/api/products?sortBy=stock");
+
+            const products: IProduct[] = res.body.data.products;
+
+            expect(products[0].title).toBe("product with discount 2");
+            expect(products[1].title).toBe("product with discount");
+            expect(products[2].title).toBe("test title 2");
+            expect(products[3].title).toBe("test title");
+	});
+
+	it("should get all products sorted by discount", async () => {
+            const res = await request.get("/api/products?sortBy=discount");
+
+            const products: IProduct[] = res.body.data.products;
+
+            expect(products[0].title).toBe("product with discount 2");
+            expect(products[1].title).toBe("product with discount");
+            expect(products[2].title).toBe("test title");
+            expect(products[3].title).toBe("test title 2");
+	});
+
+	it("should get all products sorted by price", async () => {
+            const res = await request.get("/api/products?sortBy=price");
+
+            const products: IProduct[] = res.body.data.products;
+
+            expect(products[0].title).toBe("product with discount 2");
+            expect(products[1].title).toBe("product with discount");
+            expect(products[2].title).toBe("test title 2");
+            expect(products[3].title).toBe("test title");
+	});
+
+	it("should get all products sorted by title", async () => {
+            const res = await request.get("/api/products?sortBy=title");
+
+            const products: IProduct[] = res.body.data.products;
+
+            expect(products[0].title).toBe("product with discount");
+            expect(products[1].title).toBe("product with discount 2");
+            expect(products[2].title).toBe("test title");
+            expect(products[3].title).toBe("test title 2");
+	});
     });
 
     describe("Get by product id", () => {
@@ -157,7 +201,7 @@ describe("Products API", () => {
 	    const product: IProduct = res.body.data.product;
 
 	    expect(product.title).toBe("product with discount 2");
-	    expect(product.price).toBe(50);
+	    expect(product.price).toBe(100);
 	    expect(product.discount).toBe(25);
 	});
 

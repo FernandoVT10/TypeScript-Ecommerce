@@ -12,7 +12,27 @@
     	background: var(--black);
     }
 
+    & .notFound {
+	color: var(--blue);
+	font-weight: bold;
+	font-size: 20px;
+    }
+
+    & .loaderContainer,
+    & .notFound {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 250px;
+    	background: var(--black);
+    }
+
     & .products {
     	background: var(--black);
+    }
+
+    & .pagination {
+	width: 100%;
+	background: var(--black);
     }
 }
