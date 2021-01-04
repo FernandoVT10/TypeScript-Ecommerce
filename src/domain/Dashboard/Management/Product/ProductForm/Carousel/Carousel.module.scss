@@ -1,0 +1,140 @@
+.carousel {
+    width: 100%;
+
+    & .dropArea {
+	& .selectedImageContainer {
+	    position: relative;
+
+	    &:before {
+	    	content: "Drag and drop to upload images";
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(var(--black-rgb), .9);
+		border: dashed 2px var(--blue);
+		color: var(--blue);
+		font-weight: bold;
+		opacity: 0;
+		transition: .3s;
+	    }
+
+	    & .selectedImage {
+		width: 100%;
+		height: 400px;
+		object-fit: cover;
+	    }
+	}
+
+	& .dropLabel {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    height: 400px;
+	    border: dashed 2px var(--light);
+	    color: var(--light);
+	    font-size: 16px;
+	    font-weight: bold;
+	    transition: .3s;
+	}
+
+	&.highlight {
+	    & .dropLabel {
+	    	color: var(--blue);
+		border-color: var(--blue);
+	    }
+
+	    & .selectedImageContainer:before {
+		opacity: 1;
+	    }
+	}
+    }
+
+    & .images {
+	width: 100%;
+	margin-top: 10px;
+	padding-bottom: 5px;
+	display: flex;
+	overflow: hidden;
+	overflow-x: auto;
+
+	&::-webkit-scrollbar {
+	    height: 5px;
+	}
+
+	&::-webkit-scrollbar-track {
+	    background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+	    background: var(--blue);
+	}
+
+	& .imageContainer {
+	    position: relative;
+
+	    &.active,
+	    &:hover {
+		& .image {
+		    border: solid 2px var(--blue);
+		    transform: scale(.9);
+		}
+	    }
+
+	    &:hover {
+	    	& .removeImage {
+		    opacity: 1;
+	    	}
+	    }
+
+	    & .image {
+		cursor: pointer;
+		width: 80px;
+		height: 80px;
+		object-fit: cover;
+		margin-right: 10px;
+		transition: .3s;
+	    }
+
+	    & .removeImage {
+		cursor: pointer;
+	    	position: absolute;
+		border: none;
+		top: 0px;
+		right: 5px;
+		color: var(--light);
+		background: var(--black);
+		opacity: 0;
+		transition: .3s;
+	    }
+	}
+
+	& .addImageInput {
+	    display: none;
+	}
+
+	& .addImage {
+	    cursor: pointer;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    font-size: 20px;
+	    min-width: 60px;
+	    height: 60px;
+	    border: solid 2px var(--blue);
+	    color: var(--blue);
+	    margin-top: 10px;
+	    margin-right: 20px;
+	    transition: .3s;
+
+	    &:hover {
+		color: var(--black);
+		background: var(--blue);
+	    }
+	}
+    }
+}
