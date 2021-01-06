@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
+import { join } from "path";
 
 dotenv.config();
+
+export const IMAGES_DIRECTORY = join(__dirname, "../public/img/");
 
 export const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY;
 
