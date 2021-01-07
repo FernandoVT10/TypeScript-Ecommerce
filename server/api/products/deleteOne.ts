@@ -4,7 +4,9 @@ import Product from "../../models/Product";
 
 import { deleteImages } from "../../utils/services/ImageController";
 
-const LABELS = ["large", "medium", "thumb"];
+import { PRODUCTS_IMAGE_SIZES } from "../../utils/imagesSizes";
+
+const LABELS = PRODUCTS_IMAGE_SIZES.map(size => size.label);
 
 export default async (req: Request, res: Response) => {
     const { productId } = req.params;
@@ -16,7 +18,7 @@ export default async (req: Request, res: Response) => {
 	    return res.json({
 	    	status: 404,
 		error: "Product not found",
-		message: `Tje product ${productId} doesn't exist`,
+		message: `Tje product '${productId}' doesn't exist`,
 		path: req.originalUrl
 	    });
 	}
@@ -25,7 +27,7 @@ export default async (req: Request, res: Response) => {
 
 	const deletedProduct = await product.delete();
 
-	res.json({ deletedProduct });
+	res.json({ data: { deletedProduct } });
     } catch (err) {
 	res.json({
 	    status: 500,

@@ -5,6 +5,8 @@ import getOne from "./getOne";
 
 import createOne from "./createOne";
 
+import updateOne from "./updateOne";
+
 import deleteOne from "./deleteOne";
 
 import reviewsRoute from "./reviews";
@@ -19,6 +21,8 @@ router.get("/", getAll);
 router.get("/:productId", getOne);
 
 router.post("/", withJWTAuth, withAdmin, createOne);
+
+router.put("/:productId", withJWTAuth, withAdmin, updateOne);
 
 router.delete("/:productId", withJWTAuth, withAdmin, deleteOne);
 
