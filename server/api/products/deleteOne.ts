@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
 	    return res.json({
 	    	status: 404,
 		error: "Product not found",
-		message: `Tje product '${productId}' doesn't exist`,
+		message: `The product '${productId}' doesn't exist`,
 		path: req.originalUrl
 	    });
 	}

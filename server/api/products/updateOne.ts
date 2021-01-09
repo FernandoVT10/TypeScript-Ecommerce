@@ -37,30 +37,36 @@ const updateObe = async (req: Request, res: Response) => {
 	    return res.json({
 	    	status: 404,
 		error: "Product not found",
-		message: `Tje product '${productId}' doesn't exist`,
+		message: `The product '${productId}' doesn't exist`,
 		path: req.originalUrl
 	    });
 	}
 
-	const categoriesDocument = await Category.find({
-	    name: { $in: productData.categories }
-	});
+	if(productData.categories) {
+	    const categoriesDocument = await Category.find({
+		name: { $in: productData.categories }
+	    });
+
+	    productData.categories = categoriesDocument.map(category => category._id);
+	}
 
 	const { deletedImages } = productData;
 
 	if(deletedImages) {
-	    const deletedImaggesArray = Array.isArray(deletedImages) ? deletedImages : [deletedImages];
+	    const deletedImagesArray = Array.isArray(deletedImages) ? deletedImages : [deletedImages];
 
-	    deleteImages(deletedImaggesArray, LABELS, "products/");
+	    deleteImages(deletedImagesArray, LABELS, "products/");
 
 	    // here we remove the images name from product documennt
 	    product.images = product.images.filter(image => {
-		return !deletedImaggesArray.find(deletedImage => deletedImage === image);
+		return !deletedImagesArray.find(deletedImage => deletedImage === image);
 	    });
 	}
 
+	const files = req.files || [];
+
 	const uploadedImages = await uploadImages(
-	    req.files as Express.Multer.File[], PRODUCTS_IMAGE_SIZES, "products/"
+	    files as Express.Multer.File[], PRODUCTS_IMAGE_SIZES, "products/"
 	);
 
 	const images = product.images.concat(uploadedImages);

@@ -46,11 +46,9 @@ export const deleteImage = (filename: string, labels: string[], filePath: string
 	const imagePath = path.join(IMAGES_DIRECTORY, filePath, `${label}-${filename}`);
 
 	if(fs.existsSync(imagePath)) {
-	    fs.rmSync(imagePath);
+	    fs.unlinkSync(imagePath);
 	}
     });
-
-    return true;
 }
 
 export const deleteImages = (filesname: string[], labels: string[], filePath: string) => {
