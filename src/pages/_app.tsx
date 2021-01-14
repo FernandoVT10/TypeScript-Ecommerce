@@ -2,6 +2,8 @@ import type { AppProps } from "next/app";
 
 import Head from "next/head";
 
+import withAlerts from "@/hoc/withAlerts";
+
 import "@/styles/global.scss";
 
 function App({ Component, pageProps }: AppProps) {
@@ -18,4 +20,4 @@ function App({ Component, pageProps }: AppProps) {
     );
 }
 
-export default App;
+export default withAlerts(App);

@@ -1,0 +1,42 @@
+@mixin alertType($type, $color) {
+    &.#{$type} {
+        border-color: #{$color};
+
+        & .closeButton {
+            color: #{$color};
+        }
+    }
+}
+
+.alerts {
+    z-index: 999;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    & .alert {
+        display: flex;
+        justify-content: space-between;
+        width: 250px;
+        background: var(--black);
+        color: var(--light);
+        border: solid 1px var(--blue);
+        font-weight: bold;
+        font-size: 14px;
+        border-radius: 5px;
+        padding: 15px;
+        margin-top: 20px;
+
+        @include alertType(danger, var(--red));
+        @include alertType(success, var(--green));
+        @include alertType(info, var(--blue));
+
+        & .closeButton {
+            cursor: pointer;
+            padding: 0;
+            background: transparent;
+            border: none;
+            color: var(--blue);
+        }
+    }
+}

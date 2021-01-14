@@ -6,7 +6,7 @@ export default async (req: Request, res: Response) => {
     const { productId } = req.params;
     
     try {
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate("categories");
 
         if(product) {
             res.json({ data: { product } });

@@ -15,7 +15,30 @@ export async function fetchCall<T>(url: string, options = {}): Promise<T> {
 }
 
 interface postOptions {
-    body: object
+    body?: object,
+    formData?: FormData
+}
+
+const sendData = <T>(url: string, method: string, options: postOptions) => {
+    const authToken = window.localStorage.getItem("token");
+
+    const body = options.formData ? options.formData : options.body;
+
+    const headers = {
+        "Authorization": `Bearer ${authToken}`
+    }
+
+    if(options.body) {
+        Object.assign(headers, { "Content-Type": "application/json" });
+    }
+
+    const newOptions = {
+        body,
+        method,
+        headers
+    }
+
+    return fetchCall<T>(API_URL + url, newOptions);
 }
 
 export default {
@@ -31,32 +54,10 @@ export default {
         return fetchCall<T>(API_URL + url, options);
     },
     post<T>(url: string, options: postOptions) {
-	const authToken = process.browser ? window.localStorage.getItem("token") : "";
-
-	const newOptions = {
-	    body: JSON.stringify(options.body),
-	    method: "POST",
-	    headers: {
-		"Content-Type": "application/json",
-		"Authorization": `Bearer ${authToken}`
-	    }
-	}
-
-	return fetchCall<T>(API_URL + url, newOptions);
+        return sendData<T>(url, "POST", options);
     },
     put<T>(url: string, options: postOptions) {
-	const authToken = window.localStorage.getItem("token");
-
-	const newOptions = {
-	    body: JSON.stringify(options.body),
-	    method: "PUT",
-	    headers: {
-		"Content-Type": "application/json",
-		"Authorization": `Bearer ${authToken}`
-	    }
-	}
-
-	return fetchCall<T>(API_URL + url, newOptions);
+        return sendData<T>(url, "PUT", options);
     },
     delete<T>(url: string) {
 	const authToken = window.localStorage.getItem("token");
