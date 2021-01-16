@@ -76,6 +76,30 @@ describe("Services Api Controller", () => {
 		Authorization: "Bearer testtoken"
 	    });
 	});
+
+        it("should send a formData correctly", async () => {
+            fetchMock.mockResponseOnce(
+                JSON.stringify({ message: "Post test message" })
+            );
+
+            const formData = new FormData;
+            formData.append("test", "test value");
+
+            await ApiController.post<{ message: string }>("postTest", {
+		formData
+	    });
+
+	    const fetchCall = fetchMock.mock.calls[0];
+	    expect(fetchCall[0]).toMatch("/api/postTest");
+
+            const body = fetchCall[1].body as FormData;
+	    expect(body.get("test")).toBe("test value");
+
+	    expect(fetchCall[1].method).toBe("POST");
+	    expect(fetchCall[1].headers).toEqual({
+		Authorization: "Bearer testtoken"
+	    });
+        });
     });
 
     describe("PUT method", () => {
@@ -105,6 +129,30 @@ describe("Services Api Controller", () => {
 		Authorization: "Bearer testtoken"
 	    });
 	});
+
+        it("should send a formData correctly", async () => {
+            fetchMock.mockResponseOnce(
+                JSON.stringify({ message: "Post test message" })
+            );
+
+            const formData = new FormData;
+            formData.append("test", "test value");
+
+            await ApiController.put<{ message: string }>("putTest", {
+		formData
+	    });
+
+	    const fetchCall = fetchMock.mock.calls[0];
+	    expect(fetchCall[0]).toMatch("/api/putTest");
+
+            const body = fetchCall[1].body as FormData;
+	    expect(body.get("test")).toBe("test value");
+
+	    expect(fetchCall[1].method).toBe("PUT");
+	    expect(fetchCall[1].headers).toEqual({
+		Authorization: "Bearer testtoken"
+	    });
+        });
     });
 
     describe("DELETE method", () => {
