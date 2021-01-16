@@ -22,6 +22,7 @@ const Alerts = ({ alerts, closeAlert }: AlertsProps) => {
                         <button
                             className={styles.closeButton}
                             onClick={() => closeAlert(alert.id)}
+                            data-testid="alert-close-button"
                         >
                             <i className="fas fa-times"></i>
                         </button>

@@ -12,6 +12,8 @@ interface ComponentState {
     }[]
 }
 
+const MILISECONDS_TO_CLOSE = 5000;
+
 const withAlerts = <T extends object>(Component: React.ComponentType<T>) => {
     return class extends React.Component<T, ComponentState> {
         alertOptions = {
@@ -33,7 +35,7 @@ const withAlerts = <T extends object>(Component: React.ComponentType<T>) => {
                 }]
             });
 
-            setTimeout(() => this.closeAlert(id), 5000);
+            setTimeout(() => this.closeAlert(id), MILISECONDS_TO_CLOSE);
         }
 
         closeAlert(alertId: string) {
