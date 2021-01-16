@@ -47,7 +47,7 @@ const ProductForm = ({
     const [isActiveDiscountInput, setIsActiveDiscountInput] = useState(false);
 
     const handleDiscount = (value: string) => {
-	const discount = parseInt(value);
+	const discount = parseInt(value) || 0;
 
 	if(discount <= 0) {
 	    return discountHandler.setValue(0);
@@ -57,7 +57,7 @@ const ProductForm = ({
 	    return discountHandler.setValue(100);
 	}
 
-	discountHandler.setValue(discount || null);
+	discountHandler.setValue(discount);
     }
 
     const handleOnClick = () => {
@@ -86,7 +86,7 @@ const ProductForm = ({
         }
 
         if(!descriptionHandler.value) {
-            warrantyHandler.setError("The description is required");
+            descriptionHandler.setError("The description is required");
             error = true;
         }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Layout from "@/components/Dashboard/Layout";
@@ -55,6 +56,13 @@ const Products = () => {
 		    <div className={styles.filterOptions}>
 			<Filter totalProducts={totalProducts} />
 		    </div>
+
+                    <Link href="/dashboard/management/products/create">
+                        <button className={styles.addProduct}>
+                            <i className="fas fa-plus"></i>
+                            Add New Product
+                        </button>
+                    </Link>
 
 		    { loading && 
 			<div className={styles.loaderContainer}>

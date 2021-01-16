@@ -7,6 +7,25 @@
 	margin: 0;
     }
 
+    & .addProduct {
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        background: var(--black);
+        color: var(--blue);
+        font-weight: bold;
+        font-size: 14px;
+        transition: .3s;
+
+        &:hover {
+            color: var(--light);
+        }
+
+        & i {
+            margin-right: 5px;
+        }
+    }
+
     & .filterOptions {
     	padding: 20px;
     	background: var(--black);

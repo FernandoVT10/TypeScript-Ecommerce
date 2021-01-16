@@ -22,7 +22,7 @@ interface postOptions {
 const sendData = <T>(url: string, method: string, options: postOptions) => {
     const authToken = window.localStorage.getItem("token");
 
-    const body = options.formData ? options.formData : options.body;
+    const body = options.formData ? options.formData : JSON.stringify(options.body);
 
     const headers = {
         "Authorization": `Bearer ${authToken}`

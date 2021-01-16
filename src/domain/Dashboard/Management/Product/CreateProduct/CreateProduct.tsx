@@ -11,43 +11,38 @@ import ApiController from "@/services/ApiController";
 
 import ProductForm from "../ProductForm";
 
-export interface EditProductProps {
-    product: {
-        _id: string,
-	images: Array<string>,
-	title: string,
-	price: number,
-	discount: number,
-	inStock: number,
-	warranty: string,
-	description: string,
-	categories: {
-	    name: string
-	}[]
-    }
+interface Product {
+    _id: string,
+    images: Array<string>,
+    title: string,
+    price: number,
+    discount: number,
+    inStock: number,
+    warranty: string,
+    description: string,
+    categories: {
+        name: string
+    }[]
 }
 
 interface ApiResponse {
     error: string,
     message: string,
     data: {
-        updatedProduct: EditProductProps["product"]
+        createdProduct: Product
     }
 }
 
-const EditProduct = ({ product }: EditProductProps) => {
-    const titleHandler = useInputHandling(product.title);
-    const priceHandler = useInputHandling(product.price.toString());
-    const discountHandler = useInputHandling(product.discount);
-    const inStockHandler = useInputHandling(product.inStock.toString());
-    const warrantyHandler = useInputHandling(product.warranty);
-    const descriptionHandler = useInputHandling(product.description);
+const CreateProduct = () => {
+    const titleHandler = useInputHandling("");
+    const priceHandler = useInputHandling("");
+    const discountHandler = useInputHandling(0);
+    const inStockHandler = useInputHandling("");
+    const warrantyHandler = useInputHandling("");
+    const descriptionHandler = useInputHandling("");
 
     const [newImages, setNewImages] = useState<File[]>([]);
-    const [deletedImages, setDeletedImages] = useState<string[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState(
-	product.categories.map(caategory => caategory.name)
-    );
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
 
     const alertOptions = useContext(AlertsContext);
@@ -63,13 +58,14 @@ const EditProduct = ({ product }: EditProductProps) => {
         formData.append("warranty", warrantyHandler.value);
         formData.append("description", descriptionHandler.value);
 
-        deletedImages.forEach(deletedImage => formData.append("deletedImages", deletedImage));
-        newImages.forEach(newImage => formData.append("newImages", newImage));
+        newImages.forEach(newImage => formData.append("images", newImage));
         selectedCategories.forEach(selectedCategory => formData.append("categories", selectedCategory));
+
+        if(!newImages.length) return alertOptions.createAlert("danger", "An image is required");
 
         setLoading(true);
         
-        const res = await ApiController.put<ApiResponse>(`products/${product._id}`, {
+        const res = await ApiController.post<ApiResponse>(`products`, {
             formData
         });
 
@@ -83,9 +79,9 @@ const EditProduct = ({ product }: EditProductProps) => {
     return (
 	<Layout>
             <ProductForm
-                images={product.images}
+                images={[]}
                 setNewImages={setNewImages}
-                setDeletedImages={setDeletedImages}
+                setDeletedImages={null}
                 titleHandler={titleHandler}
                 priceHandler={priceHandler}
                 discountHandler={discountHandler}
@@ -101,4 +97,4 @@ const EditProduct = ({ product }: EditProductProps) => {
     );
 }
 
-export default EditProduct;
+export default CreateProduct;
