@@ -35,8 +35,9 @@
 	flex-direction: column-reverse;
 
 	& .imageList {
-	    justify-content: center;
-	    width: 100%;
+            margin: auto;
+            width: 100%;
+            max-width: fit-content;
 	    flex-direction: row;
 	    overflow: auto;
 
