@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import validate from "@/services/validate";
+import readFileAsDataURL from "@/services/readFileAsDataURL";
 
 import styles from "./Carousel.module.scss";
 
@@ -29,23 +30,19 @@ const Carousel = ({ images, setNewImages, setDeletedImages }: CarouselProps) => 
 
     const [highlightDropArea, setHighlightDropArea] = useState(false);
 
-    const previewImage = (image: File) => {
-        const reader = new FileReader();
+    const previewImage = async (image: File) => {
+        const imageURL = await readFileAsDataURL(image);
 
-        reader.onload = () => {
-            const imageURL = reader.result;
-            setCurrentImages(currentImages => [
-                ...currentImages,
-                {
-                    isNewImage: true, 
-                    data: imageURL.toString(),
-                    name: image.name
-                }
-            ]);
-            setSelectedImage(currentImages.length);
-        }
+        setCurrentImages(currentImages => [
+            ...currentImages,
+            {
+                isNewImage: true, 
+                data: imageURL,
+                name: image.name
+            }
+        ]);
 
-        reader.readAsDataURL(image);
+        setSelectedImage(currentImages.length);
     }
 
     const addImages = (files: FileList) => {
@@ -119,6 +116,7 @@ const Carousel = ({ images, setNewImages, setDeletedImages }: CarouselProps) => 
                 onDragEnter={() => setHighlightDropArea(true)}
                 onDragLeave={() => setHighlightDropArea(false)}
                 onDragOver={e => e.preventDefault()}
+                data-testid="carousel-drop-area"
             >
                 { getSelectedImage() !== undefined ?
                     <div className={styles.selectedImageContainer}>
@@ -153,6 +151,7 @@ const Carousel = ({ images, setNewImages, setDeletedImages }: CarouselProps) => 
                             <button
                                 className={styles.removeImage}
                                 onClick={() => removeImage(image)}
+                                data-testid="carousel-remove-image-button"
                             >
                                 <i className="fas fa-times"></i>
                             </button>
@@ -166,6 +165,7 @@ const Carousel = ({ images, setNewImages, setDeletedImages }: CarouselProps) => 
                     id="add-image"
                     accept="image/*"
                     onChange={handleInputFile}
+                    data-testid="carousel-file-input"
                     multiple
                 />
 

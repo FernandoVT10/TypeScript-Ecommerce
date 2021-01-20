@@ -10,4 +10,14 @@ describe("Validate Service", () => {
 	    expect(validate.email("test@examole.io")).toBeTruthy();
 	});
     });
+
+    describe("Image", () => {
+        it("should return false when it's not an image", () => {
+            expect(validate.image("file/text")).toBeFalsy();
+        });
+
+        it("should return true when it's an image", () => {
+            expect(validate.image("image/webp")).toBeTruthy();
+        });
+    });
 });

@@ -136,6 +136,7 @@ const Categories = ({ selectedCategories, setSelectedCategories }: CategoriesPro
 			    type="text"
 			    className={styles.categoryNameInput}
 			    value={categoryName}
+                            data-testid="add-category-input"
 			    onChange={({ target: { value } }) => setCategoryName(value)}
 			    autoFocus
 			/>

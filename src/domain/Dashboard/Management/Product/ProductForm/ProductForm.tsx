@@ -155,6 +155,7 @@ const ProductForm = ({
 				value={discountHandler.value}
 				onChange={({ target: { value } }) => handleDiscount(value)}
 				onBlur={() => setIsActiveDiscountInput(false)}
+                                data-testid="product-form-discount-input"
 				autoFocus
 			    />
 			}
