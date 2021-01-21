@@ -34,6 +34,8 @@ describe("@/hoc/withAlerts", () => {
         fireEvent.click(getByText("Create Alert"));
 
         expect(queryByText("dangerous message")).toBeInTheDocument();
+
+        jest.runAllTimers();
     });
 
     it("should close an alert correctly", () => {
@@ -43,6 +45,8 @@ describe("@/hoc/withAlerts", () => {
         expect(queryByText("dangerous message")).toBeInTheDocument();
         fireEvent.click(getByTestId("alert-close-button"));
         expect(queryByText("dangerous message")).not.toBeInTheDocument();
+
+        jest.runAllTimers();
     });
 
     it("should close the alert after 5 seconds", () => {
