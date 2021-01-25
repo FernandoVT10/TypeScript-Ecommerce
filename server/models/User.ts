@@ -1,4 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
+
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const EMAIL_VALIDATION_REGEX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -10,6 +12,10 @@ export interface IUser extends Document {
     permits?: "USER" | "ADMIN" | "SUPERADMIN",
     active?: boolean,
     activeToken: string
+}
+
+interface IUserModel extends Model<IUser> {
+    paginate(query?: object, options?: object): Promise<any>;
 }
 
 const userSchema = new Schema({
@@ -49,4 +55,6 @@ const userSchema = new Schema({
     activeToken: String
 }, { timestamps: true });
 
-export default mongoose.model<IUser>("users", userSchema);
+userSchema.plugin(mongoosePaginate);
+
+export default mongoose.model<IUser, IUserModel>("users", userSchema);

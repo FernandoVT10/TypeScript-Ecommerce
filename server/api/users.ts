@@ -8,11 +8,25 @@ import withSuperAdmin from "../utils/middlewares/withSuperAdmin";
 
 const router = Router();
 
+const PAGINATE_CUSTOM_LABELS = {
+    totalDocs: "totalUsers",
+    docs: "users"
+}
+
+const USERS_PER_PAGE = 10;
+
 router.get("/", withJWTAuth, withSuperAdmin, async (req, res) => {
-    const { search } = req.body;
+    const search = req.query.search || "";
+    const limit = parseInt(req.query.limit as string) || USERS_PER_PAGE;
+    const page = parseInt(req.query.page as string) || 1;
     
     try {
         const query = {}
+        const options = {
+            page,
+            limit,
+            customLabels: PAGINATE_CUSTOM_LABELS
+        }
 
         if(search) {
             const regex = new RegExp(`^${search}`, "i");
@@ -25,9 +39,9 @@ router.get("/", withJWTAuth, withSuperAdmin, async (req, res) => {
             });
         }
 
-        const users = await User.find(query);
+        const users = await User.paginate(query, options);
 
-        res.json({ data: { users } });
+        res.json({ data: users });
     } catch (err) {
         res.json({
             status: 500,
