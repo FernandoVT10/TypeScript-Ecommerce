@@ -97,6 +97,7 @@ const Users = () => {
 
                                     <button
                                         className={styles.editButton}
+                                        data-testid="users-edit-button"
                                         onClick={() => handleEditUser(user)}
                                     >
                                         <i className="fas fa-pencil-alt"></i>

@@ -53,4 +53,25 @@
             }
         }
     }
+
+    @media screen and (max-width: 768px) {
+        & .userCardList {
+            & .userCard {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+
+                & .username,
+                & .permits {
+                    margin: 0;
+                }
+
+                & .editButton {
+                    position: absolute;
+                    right: 0;
+                }
+            }
+        }
+    }
 }
