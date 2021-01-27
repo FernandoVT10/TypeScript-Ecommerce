@@ -46,7 +46,7 @@ function Login({ activationStatus }: { activationStatus: string }) {
 
 	    window.localStorage.setItem("token", res.data.token);
 
-	    router.push("/dashboard/");
+	    router.push("/");
 	});
     }
 

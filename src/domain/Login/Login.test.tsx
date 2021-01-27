@@ -74,6 +74,6 @@ describe("Domain Login Component", () => {
 	await act(async () => fireEvent.click(submitButton));
 
 	expect(window.localStorage.getItem("token")).toBe("test token");
-	expect(routerPushMock).toHaveBeenCalledWith("/dashboard/");
+	expect(routerPushMock).toHaveBeenCalledWith("/");
     });
 });
