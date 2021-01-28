@@ -61,14 +61,14 @@ describe("Domain BuyNow Component", () => {
 	mockedSCGetProductsFromServer.mockImplementation(() => Promise.resolve(PRODUCTS_MOCK));
 
 	mockedAPIGet.mockReset();
-	mockedAPIGet.mockImplementation(() => Promise.resolve({
+	mockedAPIGet.mockResolvedValueOnce({
 	    data: {
 		addresses: ADDRESSES_MOCK
 	    }
-	}));
+	});
     });
 
-    it("should renders correctly", async () => {
+    it("should render correctly", async () => {
 	await act(async () => render(<BuyNow paypalClientId="" />));
 
 	expect(screen.queryByText("test title 1")).toBeInTheDocument();
@@ -77,6 +77,28 @@ describe("Domain BuyNow Component", () => {
 	expect(screen.queryByText("$ 1 300")).toBeInTheDocument();
 
 	expect(screen.queryByText("test state 1(11111), test municipality 1")).toBeInTheDocument();
+    });
+
+    it("should get only a product when the product query parameter exists", async () => {
+        changeRouterProperties({
+            query: {
+                product: "testid"
+            }
+        });
+
+        mockedAPIGet.mockResolvedValueOnce({
+            data: {
+                product: PRODUCTS_MOCK[1]
+            }
+        });
+        
+	await act(async () => render(<BuyNow paypalClientId="" />));
+
+	expect(screen.queryByText("test title 1")).not.toBeInTheDocument();
+	expect(screen.queryByText("test title 2")).toBeInTheDocument();
+
+	expect(screen.queryAllByText("$ 100")).toHaveLength(2);
+        expect(mockedAPIGet).toHaveBeenCalledWith("products/testid");
     });
 
     it("should redirect to cart page if the shopping cart is empty", async () => {

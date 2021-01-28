@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Link from "next/link";
+
 import { useRouter } from "next/router";
 
 import SelectQuantity, { SelectQuantityProps } from "./SelectQuantity";
@@ -64,7 +66,9 @@ function ProductDetails({ product, totalReviews }: ProductDetailsProps) {
 		<div>
 		    <SelectQuantity quantity={quantity} setQuantity={setQuantity} inStock={product.inStock}/>
 
-		    <button className="submit-button">Buy Now</button>
+                    <Link href={`/buyNow?product=${product._id}`}>
+                        <button className="submit-button">Buy Now</button>
+                    </Link>
 
 		    <button
 			className="submit-button secondary"

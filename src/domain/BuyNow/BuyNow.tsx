@@ -9,6 +9,15 @@ import ShippingOptions from "./ShippingOptions";
 import BuyButton from "./BuyButton";
 
 import styles from "./BuyNow.module.scss";
+import ApiController from "@/services/ApiController";
+
+type Product = ProductCardProps["product"];
+
+interface APIResponse {
+    data: {
+        product: Product
+    }
+}
 
 function BuyNow ({ paypalClientId }: { paypalClientId: string }) {
     const [products, setProducts] = useState<ProductCardProps["product"][]>([]);
@@ -20,7 +29,18 @@ function BuyNow ({ paypalClientId }: { paypalClientId: string }) {
 
     useEffect(() => {
 	async function getProducts () {
-	    const products = await ShoppingCartController.getProductsFromServer<ProductCardProps["product"]>();
+            if(router.query.product) {
+                const res = await ApiController.get<APIResponse>(`products/${router.query.product}`);
+
+                if(res.data) {
+                    const { product } = res.data;
+                    product.quantity = 1;
+
+                    return setProducts([ product ]);
+                }
+            }
+
+	    const products = await ShoppingCartController.getProductsFromServer<Product>();
 
 	    if(!products.length) {
 		router.push("/cart/");
