@@ -44,9 +44,6 @@ function ProductCard({ product }: { product: ProductCardProps }) {
                     </div>
 
                     <div className={styles.footer}>
-                        <span className={styles.title}>
-                            { product.title.slice(0, 12) }
-                        </span>
                         <span className={styles.price}>
                             $ { AddSpacesToNumber(productPrice) }
                         </span>

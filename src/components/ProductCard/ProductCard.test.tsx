@@ -22,7 +22,6 @@ describe("ProductCard Component", () => {
         );
         expect(queryByText("50%")).toBeInTheDocument();
         expect(queryByText("test title 12")).toBeInTheDocument();
-        expect(queryByText("test title 1")).toBeInTheDocument();
         expect(queryByText("test description")).toBeInTheDocument();
         expect(queryByText("$ 90.25")).toBeInTheDocument();
     });
