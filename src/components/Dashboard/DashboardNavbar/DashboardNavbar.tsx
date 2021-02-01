@@ -114,6 +114,12 @@ const DashboardNavbar = ({ name }: { name: string }) => {
 			    <Link href="/dashboard/management/users/">
 				<a className={styles.link}>Users</a>
 			    </Link>
+			    <Link href="/dashboard/management/carousel/">
+				<a className={styles.link}>Carousel</a>
+			    </Link>
+			    <Link href="/dashboard/management/carousel/">
+				<a className={styles.link}>Promotions</a>
+			    </Link>
 			</div>
 		    </li>
 		</ul>

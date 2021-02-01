@@ -1,0 +1,69 @@
+.carouselForm {
+    & .loaderContainer {
+        z-index: 100;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .6);
+    }
+
+    & .imageContainer {
+        margin-top: 20px;
+
+        & .label {
+            display: block;
+            cursor: pointer;
+            position: relative;
+
+            &:hover,
+            &.withoutImage {
+                & .imageIcon {
+                    opacity: 1;
+                }
+            }
+
+            &.withoutImage {
+                height: 400px;
+            }
+
+            & .previewImage {
+                width: 100%;
+                height: 400px;
+                object-fit: cover;
+            }
+
+             & .imageIcon {
+                 position: absolute;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+                 top: 0;
+                 left: 0;
+                 width: 100%;
+                 height: 100%;
+                 background: rgba(var(--black-rgb), .6);
+                 color: var(--light);
+                 font-size: 30px;
+                 opacity: 0;
+                 transition: .3s;
+             }
+        }
+
+        & input { display: none; }
+    }
+
+    & .buttons {
+        display: flex;
+
+        & .button {
+            &:nth-child(1) {
+                margin-right: 20px;
+            }
+        }
+    }
+}

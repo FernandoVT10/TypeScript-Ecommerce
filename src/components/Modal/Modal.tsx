@@ -9,12 +9,21 @@ interface ModalProps {
 }
 
 const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if(e.key === "Escape") {
+            setIsActive(false);
+        }
+    }
+
     useEffect(() => {
     	if(isActive) {
 	    document.body.style.overflow = "hidden";
 	} else {
 	    document.body.style.overflow = "auto";
 	}
+
+
+        document.addEventListener("keydown", handleKeyDown);
     }, [isActive]);
     
     if(!isActive) return null;
