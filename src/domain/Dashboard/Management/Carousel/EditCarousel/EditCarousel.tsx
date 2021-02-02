@@ -58,8 +58,6 @@ const EditCarousel = ({ isEditing, setIsEditing, carouselItem, setCarouselItems 
         const { updatedCarouselItem } = res.data;
 
         setCarouselItems(prevItems => prevItems.map(item => {
-            console.log(item._id === updatedCarouselItem._id);
-
             if(item._id === updatedCarouselItem._id) return updatedCarouselItem;
             return item;
         }));

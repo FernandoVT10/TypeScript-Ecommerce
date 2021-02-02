@@ -18,7 +18,6 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     const { productId } = ctx.query;
 
     const res = await ApiController.get<ApiResponse>(`products/${productId}`);
-    console.log(res);
 
     if(!res.data) {
 	return { notFound: true }

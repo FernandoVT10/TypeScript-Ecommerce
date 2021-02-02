@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import styles from "./Modal.module.scss";
 
@@ -9,9 +9,22 @@ interface ModalProps {
 }
 
 const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
+    const modalContainer = useRef<HTMLDivElement>();
+    const modal = useRef<HTMLDivElement>();
+
     const handleKeyDown = (e: KeyboardEvent) => {
         if(e.key === "Escape") {
             setIsActive(false);
+        }
+    }
+
+    const onResize = () => {
+        if(!modal.current) return;
+
+        if(window.innerHeight < modal.current.clientHeight) {
+            modalContainer.current.style.alignItems = "start";
+        } else {
+            modalContainer.current.style.alignItems = "center";
         }
     }
 
@@ -22,6 +35,8 @@ const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
 	    document.body.style.overflow = "auto";
 	}
 
+        onResize();
+        window.addEventListener("resize", onResize);
 
         document.addEventListener("keydown", handleKeyDown);
     }, [isActive]);
@@ -29,8 +44,8 @@ const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
     if(!isActive) return null;
 
     return (
-	<div className={styles.modalContainer}>
-	    <div className={styles.modal}>
+	<div className={styles.modalContainer} ref={modalContainer}>
+	    <div className={styles.modal} ref={modal}>
 		{ children }
 
 		<button

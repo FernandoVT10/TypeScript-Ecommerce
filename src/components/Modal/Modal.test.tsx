@@ -44,6 +44,20 @@ describe("@/compoments/Modal", () => {
 	expect(setIsActiveMock).toHaveBeenCalledWith(false);
     });
 
+    it("should call setIsActive with false when we press the key Escape", () => {
+	const setIsActiveMock = jest.fn();
+
+	render(
+	    <Modal isActive={true} setIsActive={setIsActiveMock}>
+	    	<span>test children</span>
+	    </Modal>
+	);
+
+        fireEvent.keyDown(document, { key: "Escape" });
+
+	expect(setIsActiveMock).toHaveBeenCalledWith(false);
+    });
+
     it("should add the style hidden to body overflow when isActive will be true", () => {
 	render(
 	    <Modal isActive={true} setIsActive={jest.fn()}>

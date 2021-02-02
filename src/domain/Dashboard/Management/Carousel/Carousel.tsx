@@ -100,7 +100,7 @@ const Carousel = ({ carouselItems }: CarouselProps) => {
                         return (
                             <div className={styles.carouselItem} key={index}>
                                 <img
-                                    src={`/img/carousel/small-${item.image}`}
+                                    src={`/img/carousel/medium-${item.image}`}
                                     className={styles.image}
                                     alt="Carousel Item Image"
                                 />
@@ -109,6 +109,7 @@ const Carousel = ({ carouselItems }: CarouselProps) => {
                                     <button
                                         className={styles.button}
                                         onClick={() => handleEditButton(item)}
+                                        data-testid="edit-carousel-item"
                                     >
                                         <i className="fas fa-pencil-alt"></i>
                                     </button>
@@ -116,6 +117,7 @@ const Carousel = ({ carouselItems }: CarouselProps) => {
                                     <button
                                         className={styles.button}
                                         onClick={() => handleDeleteButton(item._id)}
+                                        data-testid="delete-carousel-item"
                                     >
                                         <i className="fas fa-trash"></i>
                                     </button>

@@ -8,6 +8,7 @@ import Carousel from "../models/Carousel";
 import withJWTAuth from "../utils/middlewares/withJWTAuth";
 import withAdmin from "../utils/middlewares/withAdmin";
 
+import { CAROUSEL_IMAGE_SIZES } from "../utils/imagesSizes";
 import { uploadImage, deleteImage, fileFilter } from "../utils/services/ImageController";
 
 const router = Router();
@@ -16,25 +17,7 @@ const storage = multer.memoryStorage();
 
 const upload = multer({ storage, fileFilter });
 
-const IMAGE_SIZES = [
-    {
-        label: "large",
-        width: 1920,
-        height: 1080
-    },
-    {
-        label: "medium",
-        width: 1024,
-        height: 575
-    },
-    {
-        label: "small",
-        width: 500,
-        height: 280
-    }
-];
-
-const LABELS = IMAGE_SIZES.map(size => size.label);
+const LABELS = CAROUSEL_IMAGE_SIZES.map(size => size.label);
 
 router.get("/getAllItems/", async (_req, res) => {
     try {
@@ -64,7 +47,7 @@ router.post("/", withJWTAuth, withAdmin, upload.single("image"), async (req, res
     }
 
     try {
-        const imageName = await uploadImage(image, IMAGE_SIZES, "/carousel/");
+        const imageName = await uploadImage(image, CAROUSEL_IMAGE_SIZES, "/carousel/");
 
         const createdCarouselItem = await Carousel.create({
             link,
@@ -105,7 +88,7 @@ router.put("/:carouselItemId", withJWTAuth, withAdmin, upload.single("newImage")
             return res.json({
                 status: 404,
                 error: "Carousel Item not found",
-                message: `The carousel item ${carouselItemId} doesn't exist`,
+                message: `The carousel item '${carouselItemId}' doesn't exist`,
                 path: req.originalUrl
             });
         }
@@ -113,7 +96,7 @@ router.put("/:carouselItemId", withJWTAuth, withAdmin, upload.single("newImage")
         if(newImage) {
             deleteImage(carouselItem.image, LABELS, "/carousel/");
 
-            const imageName = await uploadImage(newImage, IMAGE_SIZES, "/carousel/");
+            const imageName = await uploadImage(newImage, CAROUSEL_IMAGE_SIZES, "/carousel/");
             
             carouselItem.image = imageName;
         }
@@ -154,7 +137,7 @@ router.delete("/:carouselItemId", withJWTAuth, withAdmin, async (req, res) => {
             return res.json({
                 status: 404,
                 error: "Carousel Item not found",
-                message: `The carousel item ${carouselItemId} doesn't exist`,
+                message: `The carousel item '${carouselItemId}' doesn't exist`,
                 path: req.originalUrl
             });
         }

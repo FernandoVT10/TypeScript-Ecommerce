@@ -54,7 +54,7 @@ const AddCarousel = ({ isActive, setIsActive, setCarouselItems }: AddCarouselPro
         setIsActive(false);
 
         setImage(null);
-        setLink(null);
+        setLink("");
     }
 
     return (

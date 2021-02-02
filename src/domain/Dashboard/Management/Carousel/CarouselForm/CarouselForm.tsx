@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import Modal from "@/components/Modal";
 import Input from "@/components/Formulary/Input";
@@ -30,14 +30,20 @@ const CarouselForm = ({
     prefix,
     loading
 }: CarouselFormProps) => {
-    const [previewImage, setPreviewIma] = useState("");
+    const [previewImage, setPreviewImage] = useState("");
+
+    useEffect(() => {
+        if(!isEditing) {
+            setPreviewImage("");
+        }
+    }, [isEditing]);
 
     const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files[0];
 
         if(validate.image(file.type)) {
             setImage(file);
-            setPreviewIma(URL.createObjectURL(file));
+            setPreviewImage(URL.createObjectURL(file));
         }
     }
 
@@ -78,7 +84,7 @@ const CarouselForm = ({
                                 <i className="fas fa-image"></i>
                             </div>
 
-                            { (previewImage || image ) && 
+                            { (previewImage || image) && 
                                 <img
                                     src={previewImageSRC}
                                     className={styles.previewImage}
@@ -93,6 +99,7 @@ const CarouselForm = ({
                             id={`${prefix}-file-input`}
                             className={styles.input}
                             onChange={handleInputFile}
+                            data-testid="carousel-form-input-file"
                         />
                     </div>
 
@@ -102,6 +109,7 @@ const CarouselForm = ({
                         <button
                             type="button"
                             className={`${styles.button} submit-button secondary`}
+                            onClick={() => setIsEditing(false)}
                         >
                             Cancel
                         </button>
