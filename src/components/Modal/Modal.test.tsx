@@ -77,4 +77,22 @@ describe("@/compoments/Modal", () => {
 
 	expect(document.body.style.overflow).toBe("auto");
     });
+
+    it("should change the alingItems styles when we resize the window", () => {
+	const { getByTestId } = render(
+	    <Modal isActive={true} setIsActive={jest.fn()}>
+	    	<span>test children</span>
+	    </Modal>
+	);
+
+        const modalContainer = getByTestId("modal-container");
+
+        Object.defineProperty(window, "innerHeight", { value: -1 });
+        window.dispatchEvent(new Event("resize"));
+        expect(modalContainer.style.alignItems).toBe("start");
+
+        Object.defineProperty(window, "innerHeight", { value: 5000 });
+        window.dispatchEvent(new Event("resize"));
+        expect(modalContainer.style.alignItems).toBe("center");
+    });
 });

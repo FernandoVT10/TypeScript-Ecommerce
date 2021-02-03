@@ -44,7 +44,7 @@ const Modal = ({ children, isActive, setIsActive }: ModalProps) => {
     if(!isActive) return null;
 
     return (
-	<div className={styles.modalContainer} ref={modalContainer}>
+	<div className={styles.modalContainer} ref={modalContainer}  data-testid="modal-container">
 	    <div className={styles.modal} ref={modal}>
 		{ children }
 
