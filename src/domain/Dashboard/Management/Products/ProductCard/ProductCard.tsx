@@ -1,27 +1,62 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import Link from "next/link";
 
+import AlertsContext from "@/contexts/AlertsContext";
+
+import ConfimationModal from "@/components/ConfirmationModal";
+
+import ApiController from "@/services/ApiController";
 import { AddSpacesToNumber, getDiscountedPrice } from "@/services/FormatsForNumber";
 
 import styles from "./ProductCard.module.scss";
 
-export interface ProductCardProps {
-    product: {
-	_id: string,
-	title: string,
-	images: Array<string>,
-	price: number,
-	discount: number,
-	inStock: number
-    }
+interface Product {
+    _id: string,
+    title: string,
+    images: Array<string>,
+    price: number,
+    discount: number,
+    inStock: number
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+export interface ProductCardProps {
+    product: Product,
+    setProducts: React.Dispatch<React.SetStateAction<Product[]>>
+}
+
+interface APIResponse {
+    error: string,
+    message: string
+}
+
+const ProductCard = ({ product, setProducts }: ProductCardProps) => {
+    const [isActiveConfirmModal, setIsActiveConfirmModal] = useState(false);
+
+    const alertsController = useContext(AlertsContext);
+
+    const deleteProduct = async () => {
+        const res = await ApiController.delete<APIResponse>(`products/${product._id}`);
+
+        if(res.error) return alertsController.createAlert("danger", res.message);
+
+        alertsController.createAlert("success", "The product has been deleted successfully");
+        setProducts(products => products.filter(
+            localProduct => localProduct._id !== product._id
+        ));
+    }
+
     const discountedPrice = getDiscountedPrice(product.price, product.discount);
 
     return (
 	<div className={styles.productCard}>
+            <ConfimationModal
+                isActive={isActiveConfirmModal}
+                setIsActive={setIsActiveConfirmModal}
+                message={`Are you sure to delete ${product.title}?`}
+                onConfirm={deleteProduct}
+            />
+
 	    <div className={styles.detailsContainer}>
 		<img
 		src={`/img/products/thumb-${product.images[0]}`}
@@ -38,7 +73,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 		    </Link>
 
 		    <div className={styles.options}>
-		    	<button className={styles.option}>
+                        <button className={styles.option} onClick={() => setIsActiveConfirmModal(true)}>
 		    	    Delete
 		    	</button>
 

@@ -66,6 +66,10 @@ describe("Domain BuyNow Component", () => {
 		addresses: ADDRESSES_MOCK
 	    }
 	});
+
+        changeRouterProperties({
+            query: {}
+        });
     });
 
     it("should render correctly", async () => {
@@ -102,15 +106,16 @@ describe("Domain BuyNow Component", () => {
     });
 
     it("should redirect to cart page if the shopping cart is empty", async () => {
-	mockedSCGetProductsFromServer.mockImplementation(() => Promise.resolve([]));
+        mockedSCGetProductsFromServer.mockReset();
+        mockedSCGetProductsFromServer.mockImplementation(() => Promise.resolve([]));
 
-	const routerPushMock = jest.fn();
-	changeRouterProperties({
-	    push: routerPushMock
-	});
+        const routerPushMock = jest.fn();
+        changeRouterProperties({
+            push: routerPushMock
+        });
 
-	await act(async () => render(<BuyNow paypalClientId="" />));
-	expect(routerPushMock).toHaveBeenCalledWith("/cart/");
+        await act(async () => render(<BuyNow paypalClientId="" />));
+        expect(routerPushMock).toHaveBeenCalledWith("/cart/");
     });
 
     it("should display the buy button when we select an address", async () => {

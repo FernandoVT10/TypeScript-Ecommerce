@@ -79,7 +79,7 @@ const Products = () => {
 		    { !loading && 
 			<div className={styles.products}>
 			    {products.map((product, index) => {
-				return <ProductCard product={product} key={index}/>;
+				return <ProductCard product={product} setProducts={setProducts} key={index}/>;
 			    })}
 			</div>
 		    }
