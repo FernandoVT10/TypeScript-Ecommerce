@@ -9,3 +9,8 @@ export const CAROUSEL_IMAGE_SIZES = [
     { label: "medium", width: 1024, height: 575 },
     { label: "small", width: 500, height: 280 }
 ];
+
+export const PROMOTION_IMAGE_SIZES = [
+    { label: "medium", width: 1024, height: 575 },
+    { label: "thumb", width: 250, height: 250 },
+];

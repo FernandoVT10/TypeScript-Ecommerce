@@ -1,10 +1,8 @@
-import { Router } from "express";
+import { Request, Response } from "express";
 
-import Promotion from "../models/Promotion";
+import Promotion from "../../models/Promotion";
 
-const router = Router();
-
-router.get("/", async (_, res) => {
+export default async (_: Request, res: Response) => {
     try {
         const promotions = await Promotion.find();
 
@@ -14,6 +12,4 @@ router.get("/", async (_, res) => {
             data: { promotions: [] }
         });
     }
-});
-
-export default router;
+}
