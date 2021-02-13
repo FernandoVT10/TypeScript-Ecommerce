@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Modal from "@/components/Modal";
+import ImageSelector from "@/components/ImageSelector";
 import Input from "@/components/Formulary/Input";
 
 import validate from "@/services/validate";
@@ -30,22 +31,11 @@ const CarouselForm = ({
     prefix,
     loading
 }: CarouselFormProps) => {
-    const [previewImage, setPreviewImage] = useState("");
-
     useEffect(() => {
         if(!isEditing) {
-            setPreviewImage("");
+            // setPreviewImage("");
         }
     }, [isEditing]);
-
-    const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files[0];
-
-        if(validate.image(file.type)) {
-            setImage(file);
-            setPreviewImage(URL.createObjectURL(file));
-        }
-    }
 
     const handleForm = (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,8 +43,7 @@ const CarouselForm = ({
         onSubmit();
     }
 
-    const previewImageSRC = previewImage ? previewImage : `/img/carousel/medium-${image}`;
-    const labelClassName = !previewImage && !image ? styles.withoutImage : "";
+    const imageUrl = image ? `/img/carousel/medium-${image}` : "";
 
     return (
         <Modal isActive={isEditing} setIsActive={setIsEditing}>
@@ -76,31 +65,7 @@ const CarouselForm = ({
                     />
 
                     <div className={styles.imageContainer}>
-                        <label
-                            htmlFor={`${prefix}-file-input`}
-                            className={`${styles.label} ${labelClassName}`}
-                        >
-                            <div className={styles.imageIcon}>
-                                <i className="fas fa-image"></i>
-                            </div>
-
-                            { (previewImage || image) && 
-                                <img
-                                    src={previewImageSRC}
-                                    className={styles.previewImage}
-                                    alt="Preview Image"
-                                />
-                            }
-                        </label>
-
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id={`${prefix}-file-input`}
-                            className={styles.input}
-                            onChange={handleInputFile}
-                            data-testid="carousel-form-input-file"
-                        />
+                        <ImageSelector prefix={prefix} imageUrl={imageUrl} setNewImage={setImage}/>
                     </div>
 
                     <div className={styles.buttons}>

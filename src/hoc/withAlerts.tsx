@@ -1,6 +1,6 @@
 import React from "react";
 
-import Alerts from "@/components/Alerts/Alerts";
+import Alerts from "@/components/Alerts";
 
 import AlertsContext from "@/contexts/AlertsContext";
 

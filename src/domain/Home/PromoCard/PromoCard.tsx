@@ -13,7 +13,7 @@ function PromoCard({ promotionDetails }: { promotionDetails: PromoCardProps }) {
     return (
         <div className={styles.promoCard}>
             <div className={styles.imageContainer}>
-                <img src={`/img/promotions/${promotionDetails.image}`} alt="Promo Image"/>
+                <img src={`/img/promotions/thumb-${promotionDetails.image}`} alt="Promo Image"/>
             </div>
             <div className={styles.detailsContainer}>
                 <p className={styles.title}>

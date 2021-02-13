@@ -117,7 +117,7 @@ const DashboardNavbar = ({ name }: { name: string }) => {
 			    <Link href="/dashboard/management/carousel/">
 				<a className={styles.link}>Carousel</a>
 			    </Link>
-			    <Link href="/dashboard/management/carousel/">
+			    <Link href="/dashboard/management/promotions/">
 				<a className={styles.link}>Promotions</a>
 			    </Link>
 			</div>

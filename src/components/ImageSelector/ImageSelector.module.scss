@@ -1,0 +1,56 @@
+.imageSelector {
+    & .label {
+        display: block;
+        cursor: pointer;
+        position: relative;
+
+        &:hover,
+        &.withoutImage {
+            & .imageIcon {
+                opacity: 1;
+            }
+        }
+
+        &.highlight {
+            & .imageIcon {
+                opacity: 1;
+                border-color: var(--blue);
+                color: var(--blue);
+            }
+        }
+
+        &.withoutImage {
+            height: 400px;
+
+            & .imageIcon:hover {
+                border-color: var(--blue);
+                color: var(--blue);
+            }
+        }
+
+        & .previewImage {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        & .imageIcon {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(var(--black-rgb), .6);
+            border: 2px var(--light) dashed;
+            color: var(--light);
+            font-size: 30px;
+            opacity: 0;
+            transition: .3s;
+        }
+    }
+
+    & input { display: none; }
+}
