@@ -126,6 +126,12 @@ const Carousel = ({ carouselItems }: CarouselProps) => {
                         );
                     })}
                 </div>
+
+                { items.length === 0 &&
+                    <div className={styles.withoutItems}>
+                        There are no items to display.
+                    </div>
+                }
             </div>
         </Layout>
     );

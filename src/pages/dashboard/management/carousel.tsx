@@ -8,18 +8,18 @@ import ApiController from "@/services/ApiController";
 
 interface APIResponse {
     data: {
-        carousel: CarouselProps["carouselItems"]
+        carouselItems: CarouselProps["carouselItems"]
     }
 }
 
 export const getServerSideProps = async () => {
     try {
-        const res = await ApiController.get<APIResponse>("carousel/getAllItems");
+        const res = await ApiController.get<APIResponse>("carousel");
 
         if(res.data) {
             return {
                 props: {
-                    carouselItems: res.data.carousel
+                    carouselItems: res.data.carouselItems
                 }
             }
         }

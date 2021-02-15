@@ -9,7 +9,7 @@ import Home, { HomeProps } from "@/domain/Home";
 interface APIResponses {
     carousel: {
 	data: {
-            carousel: HomeProps["carouselItems"]
+            carouselItems: HomeProps["carouselItems"]
 	}
     },
     promotions: {
@@ -33,7 +33,7 @@ export async function getServerSideProps() {
     try {
 	const carouselResponse = await ApiController.get<
 	    APIResponses["carousel"]
-	>("carousel/getAllItems");
+	>("carousel");
 
 	const promotionsResponse = await ApiController.get<
 	    APIResponses["promotions"]
@@ -49,7 +49,7 @@ export async function getServerSideProps() {
 
         return {
             props: {
-                carouselItems: carouselResponse.data.carousel,
+                carouselItems: carouselResponse.data.carouselItems,
                 promotions: promotionsResponse.data.promotions,
                 recentProducts: recentProductsResponse.data.products,
                 discountProducts: discountProductsResponse.data.products

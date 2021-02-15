@@ -135,6 +135,12 @@ const Promotions = (props: PromotionsProps) => {
                         );
                     })}
                 </div>
+
+                { promotions.length === 0 &&
+                    <div className={styles.withoutItems}>
+                        There are no prommotions to display.
+                    </div>
+                }
             </div>
         </Layout>
     );

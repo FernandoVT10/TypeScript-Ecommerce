@@ -45,6 +45,11 @@ describe("@/domain/Dashboard/Management/Carousel", () => {
         });
     });
 
+    it("should display a messsage when there are not promotions", async () => {
+        const { getByText } = render(<Carousel carouselItems={[]}/>);
+        expect(getByText("There are no items to display."));
+    });
+
     it("should delete a carousel item", async () => {
         const { getAllByTestId, getByText, getAllByAltText } = render(<Carousel carouselItems={CAROUSEL_ITEMS_MOCK}/>);
 
