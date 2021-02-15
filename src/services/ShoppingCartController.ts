@@ -21,17 +21,19 @@ async function getProductsFromServer<T>() {
     const products: T[] = [];
 
     for(const item of items) {
-	const productResponse = await ApiController.get<{
-	    data: {
-		product: T & { quantity: number }
-	    } 
-	}>(`products/${item.productId}`);
+        try {
+            const productResponse = await ApiController.get<{
+                data: {
+                    product: T & { quantity: number }
+                } 
+            }>(`products/${item.productId}`);
 
-	const { product } = productResponse.data;
+            const { product } = productResponse.data;
 
-	product.quantity = item.quantity;
+            product.quantity = item.quantity;
 
-	products.push(product);
+            products.push(product);   
+        } catch {}
     }
 
     return products;
