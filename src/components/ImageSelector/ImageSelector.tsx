@@ -43,7 +43,6 @@ const ImageSelector = ({ prefix, imageUrl, setNewImage }: ImageSelectorProps) =>
 
     return (
         <div className={styles.imageSelector}>
-
             <label
                 htmlFor={`${prefix}-file-input`}
                 className={`${styles.label} ${labelClassNames.join(" ")}`}
@@ -51,6 +50,7 @@ const ImageSelector = ({ prefix, imageUrl, setNewImage }: ImageSelectorProps) =>
                 onDragEnter={() => setHighlightDropArea(true)}
                 onDragLeave={() => setHighlightDropArea(false)}
                 onDragOver={e => e.preventDefault()}
+                data-testid="image-selector-label"
             >
                 <div className={styles.imageIcon}>
                     <i className="fas fa-image"></i>
@@ -71,7 +71,7 @@ const ImageSelector = ({ prefix, imageUrl, setNewImage }: ImageSelectorProps) =>
                 id={`${prefix}-file-input`}
                 className={styles.input}
                 onChange={handleInputFile}
-                data-testid="carousel-form-input-file"
+                data-testid="image-selector-input-file"
             />
         </div>
     );
