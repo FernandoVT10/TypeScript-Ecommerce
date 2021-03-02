@@ -3,7 +3,6 @@ import { mocked } from "ts-jest/utils";
 import app from "../../../app";
 import supertest from "supertest";
 
-import { PROMOTION_IMAGE_SIZES } from "../../../utils/imagesSizes";
 import * as imageFunctions from "../";
 
 import User from "../../../models/User";
