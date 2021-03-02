@@ -95,6 +95,7 @@ const Promotions = (props: PromotionsProps) => {
                     <button
                         className={styles.addButton}
                         onClick={() => setIsCreating(true)}
+                        data-testid="promotions-add-button"
                     >
                         <i className="fas fa-plus"></i>
                     </button>
@@ -119,6 +120,7 @@ const Promotions = (props: PromotionsProps) => {
                                         <button
                                             className={styles.button}
                                             onClick={() => handleEditButton(promotion)}
+                                            data-testid="promotion-edit-button"
                                         >
                                             <i className="fas fa-pencil-alt"></i>
                                         </button>
@@ -126,6 +128,7 @@ const Promotions = (props: PromotionsProps) => {
                                         <button
                                             className={styles.button}
                                             onClick={() => handleDeleteButton(promotion._id)}
+                                            data-testid="promotion-delete-button"
                                         >
                                             <i className="fas fa-trash"></i>
                                         </button>
