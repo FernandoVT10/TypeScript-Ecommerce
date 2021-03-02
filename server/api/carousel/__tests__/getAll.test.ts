@@ -1,5 +1,3 @@
-import { mocked } from "ts-jest/utils";
-
 import app from "../../../app";
 import supertest from "supertest";
 
