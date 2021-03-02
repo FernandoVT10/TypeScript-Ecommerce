@@ -51,7 +51,7 @@ describe("@/domain/Dashboard/Management/Carousel/AddCarousel", () => {
         );
 
         fireEvent.change(getByLabelText("Link"), { target: { value: "https://example.com" } });
-        fireEvent.change(getByTestId("carousel-form-input-file"), {
+        fireEvent.change(getByTestId("image-selector-input-file"), {
             target: { files: [IMAGE_MOCK] }
         });
 
@@ -104,7 +104,7 @@ describe("@/domain/Dashboard/Management/Carousel/AddCarousel", () => {
         );
 
         fireEvent.change(getByLabelText("Link"), { target: { value: "https://example.com" } });
-        fireEvent.change(getByTestId("carousel-form-input-file"), {
+        fireEvent.change(getByTestId("image-selector-input-file"), {
             target: { files: [IMAGE_MOCK] }
         });
 

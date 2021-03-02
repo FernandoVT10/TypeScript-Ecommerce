@@ -77,7 +77,7 @@ describe("@/domain/Dashboard/Management/Carousel/EditCarousel", () => {
         );
 
         fireEvent.change(getByLabelText("Link"), { target: { value: "https://updated.com" } });
-        fireEvent.change(getByTestId("carousel-form-input-file"), {
+        fireEvent.change(getByTestId("image-selector-input-file"), {
             target: { files: [IMAGE_MOCK] }
         });
 

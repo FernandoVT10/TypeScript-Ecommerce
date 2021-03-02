@@ -32,33 +32,6 @@ describe("@/domain/Dashboard/Mannagement/Carousel/CarouselForm", () => {
         expect(queryByDisplayValue("https://example.com")).toBeInTheDocument();
     });
 
-    it("should call setImage and show the image preview", () => {
-        const setImageMock = jest.fn();
-
-        const { getByTestId, getByAltText } = render(
-            <CarouselForm
-                isEditing={true}
-                setIsEditing={jest.fn()}
-                image="test.jpg"
-                setImage={setImageMock}
-                link="https://example.com"
-                setLink={jest.fn()}
-                onSubmit={jest.fn()}
-                prefix="testing"
-                loading={false}
-            />
-        );
-
-        fireEvent.change(getByTestId("carousel-form-input-file"), {
-            target: { files: [IMAGE_MOCK] }
-        });
-
-        const previewImage = getByAltText("Preview Image") as HTMLImageElement;
-        expect(previewImage.src).toMatch("test-data-image");
-
-        expect(setImageMock).toHaveBeenCalledWith(IMAGE_MOCK);
-    });
-
     it("should call onSubmit", () => {
         const onSubmitMock = jest.fn();
 
