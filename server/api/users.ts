@@ -4,6 +4,7 @@ import Router from "express";
 import User, { IUser } from "../models/User";
 
 import withJWTAuth from "../utils/middlewares/withJWTAuth";
+import withAdmin from "../utils/middlewares/withAdmin";
 import withSuperAdmin from "../utils/middlewares/withSuperAdmin";
 
 const router = Router();
@@ -15,7 +16,7 @@ const PAGINATE_CUSTOM_LABELS = {
 
 const USERS_PER_PAGE = 10;
 
-router.get("/", withJWTAuth, withSuperAdmin, async (req, res) => {
+router.get("/", withJWTAuth, withAdmin, async (req, res) => {
     const search = req.query.search || "";
     const limit = parseInt(req.query.limit as string) || USERS_PER_PAGE;
     const page = parseInt(req.query.page as string) || 1;

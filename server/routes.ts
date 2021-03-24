@@ -7,6 +7,7 @@ import products from "./api/products";
 import categories from "./api/categories";
 import payment from "./api/payment";
 import orders from "./api/orders";
+import chats from "./api/chats";
 
 import users from "./api/users";
 
@@ -22,4 +23,5 @@ export default (app: Express) => {
     app.use("/api/payment/", withJWTAuth, payment);
     app.use("/api/orders/", withJWTAuth, withAdmin, orders);
     app.use("/api/users/", users);
+    app.use("/api/chats/", chats);
 }
